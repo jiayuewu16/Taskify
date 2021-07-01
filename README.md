@@ -1,6 +1,3 @@
-Original App Design Project
-===
-
 # Taskify - Chores Management for Parents and Kids
 
 ## Table of Contents
