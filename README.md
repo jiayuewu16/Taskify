@@ -48,10 +48,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * Parents can view details of rewards.
 * Parents can edit rewards.
 * User can upload pictures of rewards and chores.
-* Children can disable push notifications for specific chores.
-* Rewards screen for the child when a child reaches a points threshold.
-* Additional third type of account, "Personal," that allows a user to set and complete their own chores and points thresholds.
-* Integrate with Google Calendar.
+* Rewards splash screen for the child when a child reaches a points threshold.
 
 ### 2. Screen Archetypes
 
