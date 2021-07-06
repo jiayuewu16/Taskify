@@ -29,7 +29,6 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * User can see all their chore items.
 * User can mark that chore complete and earn a specified number of points.
 * User can set that chore to give a push notification at a specific time.
-* User can set recurring chores.
 * User can create a new account.
 * User can log into and out of accounts. Chores are tied to account.
 * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
@@ -41,6 +40,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 
 **Optional Nice-to-have Stories**
 
+* User can set recurring chores.
 * Parent accounts must be created. Parents then create a child account and give a key to their child to create a linked child account.
 * Parents can view details about specific children.
 * Parents can view details of chores.
