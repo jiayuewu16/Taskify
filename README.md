@@ -34,12 +34,12 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
 * User can see all their rewards.
 * Accounts are split between "parent" and "child" accounts, where parent accounts can assign chores/points thresholds, and children cannot assign chores or change points thresholds.
-* Parents can assign chores to specific children.
-* Parents can assign points thresholds to specific children.
 * Parent and children accounts on different devices can communicate via databases.
 
 **Optional Nice-to-have Stories**
-
+* Parent can be associated with multiple children
+   * Parents can assign chores to specific children.
+   * Parents can assign points thresholds to specific children.
 * User can set recurring chores.
 * Parent accounts must be created. Parents then create a child account and give a key to their child to create a linked child account.
 * Parents can view details about specific children.
