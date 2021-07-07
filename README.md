@@ -26,27 +26,26 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 **Required Must-have Stories**
 
 * User can create a new account.
-* User can log into and out of accounts. Chores are tied to account.
-* User can create a chore item with a title, description, and points (assigned to themselves by default)
-* User can see all their chore items.
-* User can mark that chore complete and earn a specified number of points.
-* User can set that chore to give a push notification at a specific time.
+* User can log into and out of accounts. Tasks are tied to account.
+* User can create a task item with a title, description, and points (assigned to themselves by default)
+* User can see all their task items.
+* User can mark that task complete and earn a specified number of points.
+* User can set that task to give a push notification at a specific time.
 * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
 * User can see all their rewards.
-* User can upload images of rewards and chores.
-* Accounts are split between "parent" and "child" accounts, where parent accounts can assign chores/points thresholds, and children cannot assign chores or change points thresholds.
+* User can upload images of rewards and fasks.
+* Accounts are split between "parent" and "child" accounts, where parent accounts can assign tasks/points thresholds, and children cannot assign tasks or change points thresholds.
 * Parent can be associated with a specific child account.
 
 **Optional Nice-to-have Stories**
 * Parent can be associated with multiple children
-   * Parents can assign chores to specific children.
+   * Parents can assign tasks to specific children.
    * Parents can assign points thresholds to specific children.
-   * Parents have different Tasks and Rewards screens that reflect multiple children.
 * Parent accounts can be created. Parents then create a child account and give a key to their child to create a linked child account.
 * Parents can view details about specific children.
-* Parents can view details of chores.
-* Parents can edit chores.
-* User can set recurring chores.
+* Parents can view details of tasks.
+* Parents can edit tasks.
+* User can set recurring tasks.
 * Parents can view details of rewards.
 * Parents can edit rewards.
 * Rewards splash screen for the child when a child reaches a points threshold.
@@ -57,16 +56,15 @@ Features: allows the user to log in as a designated "parent" or "child" account 
     * User can log into accounts.
 * Registration Screen
     * User can create a new account.
-    * Accounts are split between "parent" and "child" accounts, where parent accounts can assign chores/points thresholds, and children cannot assign chores or change points thresholds.
+    * Accounts are split between "parent" and "child" accounts, where parent accounts can assign tasks/points thresholds, and children cannot assign tasks or change points thresholds.
 * Tasks (Stream)
-    * User can see all their chore items.
-    * User can mark a chore complete and earn a specified number of points.
+    * User can see all their task items.
+    * User can mark a task complete and earn a specified number of points.
 * Rewards (Stream)
     * User can see all their rewards.
-* Chore creation
-    * User can create a chore item with a title, description, and points (assigned to themselves by default)
-    * User can set that chore to give a push notification at a specific time.
-    * User can upload images of chores.
+* Task creation
+    * User can create a task item with a title, description, and points (assigned to themselves by default)
+    * User can set that task to give a push notification at a specific time.
 * Rewards creation
     * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
     * User can upload images of rewards.
@@ -89,12 +87,12 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * Registration Screen
     -> Tasks
 * Tasks
-    -> Chore Creation [Parents only]
-    -> [Future: Details screen for each chore]
+    -> Task Creation [Parents only]
+    -> [Future: Details screen for each task]
 * Rewards
     -> Rewards Creation [Parents only]
     -> [Future: Details screen for each reward]
-* Chore Creation
+* Task Creation
     -> Tasks
 * Rewards Creation
     -> Rewards
@@ -104,7 +102,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="https://github.com/jiayuewu16/Taskify/blob/main/Wireframe.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
