@@ -33,7 +33,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * User can set that task to give a push notification at a specific time.
 * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
 * User can see all their rewards.
-* User can upload images of rewards and fasks.
+* User can upload images of rewards and tasks.
 * Accounts are split between "parent" and "child" accounts, where parent accounts can assign tasks/points thresholds, and children cannot assign tasks or change points thresholds.
 * Parent can be associated with a specific child account.
 
@@ -43,10 +43,11 @@ Features: allows the user to log in as a designated "parent" or "child" account 
    * Parents can assign points thresholds to specific children.
 * Parent accounts can be created. Parents then create a child account and give a key to their child to create a linked child account.
 * Parents can view details about specific children.
-* Parents can view details of tasks.
+* Tasks can have a description.
+* User can view details of tasks.
 * Parents can edit tasks.
 * User can set recurring tasks.
-* Parents can view details of rewards.
+* User can view details of rewards.
 * Parents can edit rewards.
 * Rewards splash screen for the child when a child reaches a points threshold.
 
@@ -109,9 +110,43 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
-### Models
-[Add table of models]
+[TBD]
+
+## Models
+
+Task
+|      Property            |      Type                                               |      Description                                                                                                                                                                                                                                                                                |
+|--------------------------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     objectId             |     String                                              |     Unique id for the task (default field)                                                                                                                                                                                                                                                      |
+|     taskName             |     String                                              |     The user-set name for the task, such as “wash   dishes.”                                                                                                                                                                                                                                    |
+|     alarmTime            |     DateTime                                            |     The time a push notification goes out,   alerting the child to start the task.     Note: there is no “due time” because that   would disincentivize doing the chore after the due time has passed. If a due   time is necessary, the parent could put it in the title/description field.    |
+|     pointsValue          |     int                                                 |     The number of points the task is worth once   completed.                                                                                                                                                                                                                                    |
+|     associatedUser(s)    |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this   task.                                                                                                                                                                                                                                             |
+|     isComplete           |     Boolean                                             |     Stores whether the task has been marked   complete.                                                                                                                                                                                                                                         |
+
+Reward
+|      Property            |      Type                                               |      Description                                                                      |
+|--------------------------|---------------------------------------------------------|---------------------------------------------------------------------------------------|
+|     objectId             |     String                                              |     Unique id for the reward (default field)                                          |
+|     rewardName           |     String                                              |     The user-set name for the reward, such as “ice   cream cone.”                     |
+|     rewardImage          |     File                                                |     The user-set image of the reward.                                                 |
+|     pointsThreshold      |     int                                                 |     The points threshold that must be reached to   award this reward.                 |
+|     associatedUser(s)    |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this reward.                                   |
+|     isComplete           |     Boolean                                             |     Stores whether the points threshold has been   reached by the associated User.    |
+
+
+User
+|      Property            |      Type                                                          |      Description                                                                                                            |
+|--------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+|     userId               |     String                                                         |     The unique user id, such as “MZHjOacmrx”   (default field)                                                              |
+|     username             |     String                                                         |     The user-set unique username.                                                                                           |
+|     isParent             |     Boolean                                                        |     Notes whether the account is a parent   account or not.                                                                 |
+|     associatedUser(s)    |     Pointer to User     (array of Pointer to User for optional)    |     If parent account, pointer to its associated   child(ren).     If child account, pointer to its associated   parent.    |
+|     profileImage         |     File                                                           |     The user-set profile image.                                                                                             |
+|     pointsTotal          |     int                                                            |     The number of points the user has   accumulated.                                                                        |
+|     tasks                |     Array of Pointer to Task                                       |     The tasks that have been assigned to this user.                                                                         |
+|     rewards              |     Array of Pointer to Reward                                     |     The rewards that have been assigned to this   user.                                                                     |
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
