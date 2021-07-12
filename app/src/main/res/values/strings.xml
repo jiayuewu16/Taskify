@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Taskify</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+
 </resources>
