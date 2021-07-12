@@ -10,7 +10,7 @@
 
     <string name="bottom_navigation_bar_tasks">Tasks</string>
     <string name="bottom_navigation_bar_rewards">Rewards</string>
-    <string name="bottom_navigation_bar_proifle">Profile</string>
+    <string name="bottom_navigation_bar_profile">Profile</string>
 
 
 </resources>

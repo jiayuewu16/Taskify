@@ -26,6 +26,6 @@
         app:itemTextColor="@color/white"
         android:enabled="true"
         android:icon="@drawable/ic_profile"
-        android:title="@string/bottom_navigation_bar_proifle"
+        android:title="@string/bottom_navigation_bar_profile"
         app:showAsAction="ifRoom" />
 </menu>
