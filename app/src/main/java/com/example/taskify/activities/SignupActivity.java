@@ -1,8 +1,10 @@
-package com.example.taskify;
+package com.example.taskify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.taskify.R;
 
 public class SignupActivity extends AppCompatActivity {
 

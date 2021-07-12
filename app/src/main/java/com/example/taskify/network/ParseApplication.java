@@ -1,7 +1,9 @@
-package com.example.taskify;
+package com.example.taskify.network;
 
 import android.app.Application;
 
+import com.example.taskify.BuildConfig;
+import com.example.taskify.R;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
