@@ -2,6 +2,11 @@
     <string name="app_name">Taskify</string>
 
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <string name="login_screen_dividing_line_text">OR</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="log_in_button">Log In</string>
+    <string name="login_error">Invalid username and/or password.</string>
+    <string name="signup_error">That username is taken.</string>
 
 
 </resources>
