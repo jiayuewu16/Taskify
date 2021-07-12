@@ -1,5 +1,6 @@
 package com.example.taskify.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.LoginActivity;
 import com.example.taskify.databinding.FragmentProfileBinding;
+import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
 
@@ -38,6 +41,15 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonSignout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
     }
 }
