@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:itemBackground="?attr/colorPrimary"
+    app:itemIconTint="@color/white"
+    app:itemTextColor="@color/white" >
+    <item
+        android:id="@+id/action_tasks"
+        android:enabled="true"
+        android:icon="@drawable/ic_tasks"
+        android:title="@string/bottom_navigation_bar_tasks"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_rewards"
+        android:enabled="true"
+        android:icon="@drawable/ic_rewards"
+        android:title="@string/bottom_navigation_bar_rewards"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/bottom_navigation_bar_proifle"
+        app:showAsAction="ifRoom" />
+</menu>
