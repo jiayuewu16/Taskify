@@ -11,15 +11,26 @@
     <string name="bottom_navigation_bar_tasks">Tasks</string>
     <string name="bottom_navigation_bar_rewards">Rewards</string>
     <string name="bottom_navigation_bar_profile">Profile</string>
+
     <string name="username_hint_text">Username</string>
     <string name="last_name_hint_text">Last Name</string>
     <string name="first_name_hint_text">First Name</string>
     <string name="password_hint_text">Password</string>
+
     <string name="task_name_hint_text">Task Name</string>
     <string name="points_value_hint_text">0</string>
     <string name="points_value_suffix_text">Point(s)</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="confirm_button_text">Confirm</string>
+    <string name="schedule_alarm_text">Schedule Alarm</string>
+    <string name="recurring_alarm_text">Recurring Alarm</string>
+    <string name="weekday_tuesday_label_short">Tue</string>
+    <string name="weekday_monday_label_short">Mon</string>
+    <string name="weekday_wednesday_label_short">Wed</string>
+    <string name="weekday_thursday_label_short">Thu</string>
+    <string name="weekday_friday_label_short">Fri</string>
+    <string name="weekday_saturday_label_short">Sat</string>
+    <string name="weekday_sunday_label_short">Sun</string>
 
 
 </resources>

@@ -30,7 +30,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textSize="18sp"
-            android:text="Schedule Alarm" />
+            android:text="@string/schedule_alarm_text" />
 
         <TimePicker
             android:id="@+id/timePicker"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:layout_below="@id/timePicker"
-            android:text="Recurring Alarm"/>
+            android:text="@string/recurring_alarm_text"/>
 
         <LinearLayout
             android:id="@+id/checkBoxSetRecurringWeekdays"
@@ -59,43 +59,43 @@
                 android:id="@+id/checkBoxSetRecurringMon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mon" />
+                android:text="@string/weekday_monday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringTue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tue" />
+                android:text="@string/weekday_tuesday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringWed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wed" />
+                android:text="@string/weekday_wednesday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringThu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thu" />
+                android:text="@string/weekday_thursday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringFri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fri" />
+                android:text="@string/weekday_friday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringSat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sat" />
+                android:text="@string/weekday_saturday_label_short" />
 
             <CheckBox
                 android:id="@+id/checkBoxSetRecurringSun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sun" />
+                android:text="@string/weekday_sunday_label_short" />
         </LinearLayout>
     </RelativeLayout>
 
