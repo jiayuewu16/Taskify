@@ -1,6 +1,7 @@
 package com.example.taskify.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(findViewById(R.id.toolbar_main));
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -52,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 });
         // Set default selection
         binding.bottomNavigationBar.setSelectedItemId(R.id.action_tasks);
+    }
 
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

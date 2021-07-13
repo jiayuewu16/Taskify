@@ -31,6 +31,8 @@
     <string name="weekday_friday_label_short">Fri</string>
     <string name="weekday_saturday_label_short">Sat</string>
     <string name="weekday_sunday_label_short">Sun</string>
+    <string name="menu_create_title">Create</string>
+    <string name="loading_text">Loading...</string>
 
 
 </resources>

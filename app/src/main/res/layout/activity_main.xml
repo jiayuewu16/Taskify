@@ -4,12 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    android:fitsSystemWindows="true">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:id="@+id/frameLayoutDisplayFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_main"
         android:layout_above="@id/bottomNavigationBar"
         android:padding="10dp"/>
 
