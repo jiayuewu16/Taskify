@@ -15,6 +15,11 @@
     <string name="last_name_hint_text">Last Name</string>
     <string name="first_name_hint_text">First Name</string>
     <string name="password_hint_text">Password</string>
+    <string name="task_name_hint_text">Task Name</string>
+    <string name="points_value_hint_text">0</string>
+    <string name="points_value_suffix_text">Point(s)</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="confirm_button_text">Confirm</string>
 
 
 </resources>
