@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textViewTaskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        tools:text="Wash Dishes" />
+
+    <ImageView
+        android:id="@+id/imageViewClock"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_below="@+id/textViewTaskName"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+
+    <TextClock
+        android:id="@+id/textClockAlarmTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTaskName"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/imageViewClock"
+        android:format12Hour="hh:mm a"
+        android:format24Hour="hh:mm a"
+        android:textSize="22sp"
+        tools:text="00:00 PM" />
+
+    <TextView
+        android:id="@+id/textViewPointsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTaskName"
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:textSize="22sp"
+        tools:text="5 Point(s)" />
+
+</RelativeLayout>
