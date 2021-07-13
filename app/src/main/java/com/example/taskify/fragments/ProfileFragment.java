@@ -2,23 +2,19 @@ package com.example.taskify.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.taskify.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import com.example.taskify.activities.LoginActivity;
 import com.example.taskify.databinding.FragmentProfileBinding;
 import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
 
-    FragmentProfileBinding binding;
+    private FragmentProfileBinding binding;
 
     // Required empty public constructor
     public ProfileFragment() {}

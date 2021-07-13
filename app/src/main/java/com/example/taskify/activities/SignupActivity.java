@@ -1,12 +1,9 @@
 package com.example.taskify.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import com.example.taskify.R;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.taskify.TaskifyUtilities;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.parse.ParseException;
@@ -15,7 +12,7 @@ import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity {
 
-    ActivitySignupBinding binding;
+    private ActivitySignupBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
