@@ -2,6 +2,7 @@ package com.example.taskify.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import com.example.taskify.activities.TaskCreateActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import java.util.List;
 
 public class TasksFragment extends Fragment {
 
+    private final static String TAG = "TasksFragment";
     private FragmentTasksBinding binding;
     private TaskAdapter adapter;
     private List<Task> tasks;
@@ -52,11 +57,33 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewTasksStream.setAdapter(adapter);
         binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        queryTasks();
+
         binding.floatingActionButtonCreateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TaskCreateActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void queryTasks() {
+        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+        query = query.include(Task.KEY_USER);
+        query.findInBackground(new FindCallback<Task>() {
+            @Override
+            public void done(List<Task> queryTasks, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                }
+                else {
+                    for (Task task : queryTasks) {
+                        Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
+                    }
+                    tasks.addAll(queryTasks);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }
