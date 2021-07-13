@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.TaskCreateActivity"
-    android:layout_margin="10dp">
+    android:padding="10dp">
 
     <EditText
         android:id="@+id/editTextTaskName"
@@ -14,21 +14,97 @@
         android:ems="10"
         android:hint="@string/task_name_hint_text"
         android:inputType="textMultiLine"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:layout_marginBottom="20dp"/>
 
-    <View
-        android:id="@+id/placeholderView"
+    <RelativeLayout
+        android:id="@+id/layoutAlarmPicker"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/editTextTaskName"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextTaskName">
+
+        <TextView
+            android:id="@+id/textViewAlarmText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:text="Schedule Alarm" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewAlarmText"
+            android:timePickerMode="spinner" />
+
+        <CheckBox
+            android:id="@+id/checkBoxSetRecurringTrue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_below="@id/timePicker"
+            android:text="Recurring Alarm"/>
+
+        <LinearLayout
+            android:id="@+id/checkBoxSetRecurringWeekdays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_below="@id/checkBoxSetRecurringTrue">
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mon" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringTue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tue" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringWed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wed" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thu" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringFri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fri" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringSat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sat" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSetRecurringSun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sun" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layoutPoints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/placeholderView">
+        android:layout_below="@+id/layoutAlarmPicker"
+        android:layout_marginTop="20dp">
 
         <EditText
             android:id="@+id/editTextPoints"

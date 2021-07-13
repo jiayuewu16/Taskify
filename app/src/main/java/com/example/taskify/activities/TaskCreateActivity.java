@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.taskify.databinding.ActivityTaskCreateBinding;
@@ -24,6 +25,13 @@ public class TaskCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTaskCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                binding.checkBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE);
+            }
+        });
 
         binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,5 +79,9 @@ public class TaskCreateActivity extends AppCompatActivity {
                 binding.editTextPoints.setText("");
             }
         });
+    }
+
+    private void scheduleAlarm() {
+
     }
 }
