@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.taskify.TaskifyUtilities;
+import com.example.taskify.util.TaskifyUtilities;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;

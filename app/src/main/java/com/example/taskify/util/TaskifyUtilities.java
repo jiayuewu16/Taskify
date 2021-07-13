@@ -1,4 +1,4 @@
-package com.example.taskify;
+package com.example.taskify.util;
 
 import com.parse.ParseException;
 
