@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:context=".fragments.TaskCreateFragment">
+
+            <EditText
+                android:id="@+id/editTextTaskName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:hint="@string/task_name_hint_text"
+                android:inputType="textMultiLine"
+                android:maxLines="1" />
+
+            <RelativeLayout
+                android:id="@+id/layoutAlarmPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextTaskName">
+
+                <TextView
+                    android:id="@+id/textViewAlarmText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/schedule_alarm_text"
+                    android:textSize="18sp" />
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewAlarmText"
+                    android:timePickerMode="spinner" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxSetRecurringTrue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timePicker"
+                    android:checked="false"
+                    android:text="@string/recurring_alarm_text" />
+
+                <HorizontalScrollView
+                    android:id="@+id/layoutCheckBoxSetRecurringWeekdays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkBoxSetRecurringTrue"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringMon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_monday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringTue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_tuesday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringWed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_wednesday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringThu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_thursday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringFri"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_friday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringSat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_saturday_label_short" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxSetRecurringSun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weekday_sunday_label_short" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutAlarmPicker"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/editTextPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:ems="10"
+                    android:hint="@string/points_value_hint_text"
+                    android:inputType="number"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/textViewPointsSuffix"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/points_value_suffix_text"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutPoints"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"
+                android:text="@string/cancel_button_text" />
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutPoints"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp"
+                android:text="@string/confirm_button_text" />
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

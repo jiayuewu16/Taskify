@@ -1,5 +1,6 @@
 package com.example.taskify.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.taskify.activities.TaskCreateActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 public class TasksFragment extends Fragment {
 
     private final static String TAG = "TasksFragment";
+    private final static int KEY_TASK_CREATE_FRAGMENT = 1;
     private FragmentTasksBinding binding;
     private TaskAdapter adapter;
     private List<Task> tasks;
@@ -62,8 +64,9 @@ public class TasksFragment extends Fragment {
         binding.floatingActionButtonCreateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TaskCreateActivity.class);
-                startActivity(intent);
+                TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
+                taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
+                taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
             }
         });
     }
@@ -86,5 +89,16 @@ public class TasksFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
+            Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
+            tasks.add(task);
+            adapter.notifyDataSetChanged();
+            binding.recyclerViewTasksStream.smoothScrollToPosition(adapter.getItemCount()-1);
+        }
     }
 }
