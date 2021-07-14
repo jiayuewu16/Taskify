@@ -107,6 +107,7 @@ public class TasksFragment extends Fragment {
             calendar.set(Calendar.HOUR_OF_DAY, task.getAlarmTime().getHours());
             calendar.set(Calendar.MINUTE, task.getAlarmTime().getMinutes());
             Intent receiverIntent = new Intent(getActivity(), AlarmBroadcastReceiver.class);
+            receiverIntent.putExtra(Task.KEY_TASK_NAME, task.getTaskName());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
