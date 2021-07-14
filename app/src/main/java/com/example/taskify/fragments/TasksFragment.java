@@ -1,6 +1,9 @@
 package com.example.taskify.fragments;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
+import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -22,6 +26,7 @@ import com.parse.ParseQuery;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TasksFragment extends Fragment {
@@ -96,6 +101,15 @@ public class TasksFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
             Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
+
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, task.getAlarmTime().getHours());
+            calendar.set(Calendar.MINUTE, task.getAlarmTime().getMinutes());
+            Intent receiverIntent = new Intent(getActivity(), AlarmBroadcastReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
             tasks.add(task);
             adapter.notifyDataSetChanged();
             binding.recyclerViewTasksStream.smoothScrollToPosition(adapter.getItemCount()-1);
