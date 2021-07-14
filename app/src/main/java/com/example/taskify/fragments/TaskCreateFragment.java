@@ -25,6 +25,8 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.Date;
+
 public class TaskCreateFragment extends DialogFragment {
 
     public final static String TAG = "TaskCreateFragment";
@@ -88,8 +90,12 @@ public class TaskCreateFragment extends DialogFragment {
                     Toast.makeText(activity, "Points cannot be empty.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                Date date = new Date();
+                date.setHours(binding.timePicker.getHour());
+                date.setMinutes(binding.timePicker.getMinute());
+
                 ParseUser user = ParseUser.getCurrentUser();
-                Task task = new Task(taskName, pointsValue, user);
+                Task task = new Task(taskName, pointsValue, date, user);
                 saveTask(task);
                 //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
                 //listener.onFinishTaskCreateDialog(task);
