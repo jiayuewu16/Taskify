@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(findViewById(R.id.toolbar_main));
-
-        ParseUser user = ParseUser.getCurrentUser();
-        binding.textViewPointsTotal.setText(ParseUserUtil.getPointsTotal(user) + " " + getResources().getString(R.string.points_value_suffix_text));
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -68,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        invalidateOptionsMenu();
+
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
+        ParseUser user = ParseUser.getCurrentUser();
+        textViewPointsTotal.setText(String.format("%d %s", ParseUserUtil.getPointsTotal(user), getResources().getString(R.string.points_value_suffix_text)));
+
+        return super.onPrepareOptionsMenu(menu);
     }
 }
