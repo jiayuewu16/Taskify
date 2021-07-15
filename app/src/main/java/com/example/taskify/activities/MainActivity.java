@@ -14,7 +14,9 @@ import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.fragments.ProfileFragment;
 import com.example.taskify.fragments.RewardsFragment;
 import com.example.taskify.fragments.TasksFragment;
+import com.example.taskify.util.ParseUserUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(findViewById(R.id.toolbar_main));
+
+        ParseUser user = ParseUser.getCurrentUser();
+        binding.textViewPointsTotal.setText(ParseUserUtil.getPointsTotal(user) + " " + getResources().getString(R.string.points_value_suffix_text));
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
