@@ -1,13 +1,11 @@
 package com.example.taskify.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,7 +14,7 @@ import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.fragments.ProfileFragment;
 import com.example.taskify.fragments.RewardsFragment;
 import com.example.taskify.fragments.TasksFragment;
-import com.example.taskify.util.ParseUserUtil;
+import com.example.taskify.models.TaskifyUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -75,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
-        ParseUser user = ParseUser.getCurrentUser();
-        textViewPointsTotal.setText(String.format("%d %s", ParseUserUtil.getPointsTotal(user), getResources().getString(R.string.points_value_suffix_text)));
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        textViewPointsTotal.setText(String.format("%d %s", user.getPointsTotal(), getResources().getString(R.string.points_value_suffix_text)));
 
         return super.onPrepareOptionsMenu(menu);
     }

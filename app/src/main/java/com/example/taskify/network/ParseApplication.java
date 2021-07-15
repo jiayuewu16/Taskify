@@ -6,6 +6,7 @@ import com.example.taskify.BuildConfig;
 import com.example.taskify.R;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
+import com.example.taskify.models.TaskifyUser;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -31,6 +32,7 @@ public class ParseApplication extends Application {
 
         ParseObject.registerSubclass(Reward.class);
         ParseObject.registerSubclass(Task.class);
+        ParseUser.registerSubclass(TaskifyUser.class);
 
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax

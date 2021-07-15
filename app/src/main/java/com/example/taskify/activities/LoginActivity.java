@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.taskify.util.TaskifyUtilities;
+
+import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.example.taskify.databinding.ActivityLoginBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -20,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        TaskifyUser currentUser = (TaskifyUser) ParseUser.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -39,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             // Log in didn't succeed. Show returned error message to user.
-                            binding.textViewLoginError.setText(TaskifyUtilities.parseExceptionToErrorText(e));
+                            binding.textViewLoginError.setText(ParseUtil.parseExceptionToErrorText(e));
                         }
                     }
                 });

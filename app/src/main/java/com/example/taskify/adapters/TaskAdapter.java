@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.databinding.ItemTaskBinding;
 import com.example.taskify.models.Task;
-import com.example.taskify.util.ParseUserUtil;
+import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -97,14 +98,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     notifyDataSetChanged();
                     Log.i(TAG, "Task completion was successful!");
                     Toast.makeText(context, String.format("Task complete! You earned %d %s!", pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
-                    ParseUser user = ParseUser.getCurrentUser();
-                    ParseUserUtil.addPointsValue(user, pointsValue);
-                    try {
-                        ParseUserUtil.saveUser(user);
-                    }
-                    catch (ParseException pe) {
-                        Toast.makeText(context, "Error while saving user points.", Toast.LENGTH_SHORT).show();
-                    }
+
+                    TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+                    user.addPointsValue(pointsValue);
+                    ParseUtil.save(user, context, TAG, null, "Error while saving user points");
                 }
             });
             return true;

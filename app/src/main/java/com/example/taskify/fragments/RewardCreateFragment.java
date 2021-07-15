@@ -1,11 +1,9 @@
 package com.example.taskify.fragments;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,12 +18,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.taskify.R;
 import com.example.taskify.databinding.FragmentRewardCreateBinding;
 import com.example.taskify.models.Reward;
+import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -38,7 +37,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 
 public class RewardCreateFragment extends DialogFragment {
 
@@ -46,6 +44,7 @@ public class RewardCreateFragment extends DialogFragment {
     public final static int REQUEST_IMAGE_CAPTURE = 2;
     private FragmentRewardCreateBinding binding;
     protected FragmentActivity activity;
+    private Reward reward;
 
     public interface RewardCreateDialogListener {
         void onFinishRewardCreateDialog(Reward reward);
@@ -117,39 +116,35 @@ public class RewardCreateFragment extends DialogFragment {
                     return;
                 }
                 File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-                ParseUser user = ParseUser.getCurrentUser();
+                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
-                Reward reward = new Reward(rewardName, pointsValue, new ParseFile(photoFile), user);
-                saveReward(reward);
+                ParseFile parseFile = new ParseFile(photoFile);
+                parseFile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            reward = new Reward(rewardName, pointsValue, parseFile, user);
+                            ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
+                            if (photoFile.delete()) {
+                                Log.i(TAG, "Photo deletion successful.");
+                            }
+                            else {
+                                Log.e(TAG, "Photo deletion unsuccessful.");
+                            }
 
-                //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
-                //listener.onFinishRewardCreateDialog(reward);
-                Intent intent = new Intent();
-                intent.putExtra("reward", Parcels.wrap(reward));
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                dismiss();
-            }
-        });
-    }
-
-    private void saveReward(Reward reward) {
-        reward.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving reward", e);
-                    Toast.makeText(activity, "Error while saving reward!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Log.i(TAG, "Reward save was successful!");
-                Toast.makeText(activity, "Reward saved successfully!", Toast.LENGTH_SHORT).show();
-                File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-                if (photoFile.delete()) {
-                    Log.i(TAG, "Photo deletion successful.");
-                }
-                else {
-                    Log.e(TAG, "Photo deletion unsuccessful.");
-                }
+                            //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
+                            //listener.onFinishRewardCreateDialog(reward);
+                            Intent intent = new Intent();
+                            intent.putExtra("reward", Parcels.wrap(reward));
+                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                            dismiss();
+                        }
+                        else {
+                            Toast.makeText(activity, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Error creating parseFile from taken image", e);
+                        }
+                    }
+                });
             }
         });
     }

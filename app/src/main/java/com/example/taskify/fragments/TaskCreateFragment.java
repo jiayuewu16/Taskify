@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,9 @@ import android.widget.Toast;
 
 import com.example.taskify.databinding.FragmentTaskCreateBinding;
 import com.example.taskify.models.Task;
-import com.parse.ParseException;
+import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -94,30 +93,16 @@ public class TaskCreateFragment extends DialogFragment {
                 date.setHours(binding.timePicker.getHour());
                 date.setMinutes(binding.timePicker.getMinute());
 
-                ParseUser user = ParseUser.getCurrentUser();
+                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
                 Task task = new Task(taskName, pointsValue, date, user);
-                saveTask(task);
+                ParseUtil.save(task, activity, TAG, "Task saved successfully!", "Error while saving task.");
+
                 //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
                 //listener.onFinishTaskCreateDialog(task);
                 Intent intent = new Intent();
                 intent.putExtra("task", Parcels.wrap(task));
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 dismiss();
-            }
-        });
-    }
-
-    private void saveTask(Task task) {
-        task.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving task", e);
-                    Toast.makeText(activity, "Error while saving task!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Log.i(TAG, "Task save was successful!");
-                Toast.makeText(activity, "Task saved successfully!", Toast.LENGTH_SHORT).show();
             }
         });
     }

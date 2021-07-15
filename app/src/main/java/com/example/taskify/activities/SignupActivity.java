@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.taskify.util.TaskifyUtilities;
+
+import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.databinding.ActivitySignupBinding;
+import com.example.taskify.util.ParseUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -32,13 +34,13 @@ public class SignupActivity extends AppCompatActivity {
         binding.buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser user = new ParseUser();
+                TaskifyUser user = new TaskifyUser();
                 // Set core properties
                 if (!binding.editTextFirstName.getText().toString().isEmpty()) {
-                    user.put("firstName", binding.editTextFirstName.getText().toString());
+                    user.setFirstName(binding.editTextFirstName.getText().toString());
                 }
                 if (!binding.editTextLastName.getText().toString().isEmpty()) {
-                    user.put("lastName", binding.editTextLastName.getText().toString());
+                    user.setLastName(binding.editTextLastName.getText().toString());
                 }
                 user.setUsername(binding.editTextUsername.getText().toString());
                 user.setPassword(binding.editTextPassword.getText().toString());
@@ -51,7 +53,7 @@ public class SignupActivity extends AppCompatActivity {
                             finish();
                         } else {
                             // Sign up didn't succeed. Returns error message to user.
-                            binding.textViewLoginError.setText(TaskifyUtilities.parseExceptionToErrorText(e));
+                            binding.textViewLoginError.setText(ParseUtil.parseExceptionToErrorText(e));
                         }
                     }
                 });

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.models.Reward;
-import com.example.taskify.util.ParseUserUtil;
+import com.example.taskify.models.TaskifyUser;
 import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -68,8 +68,8 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             binding.textViewRewardName.setText(reward.getRewardName());
             String pointsValueString = String.valueOf(reward.getPointsValue()) + " " + context.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
-            ParseUser user = ParseUser.getCurrentUser();
-            if (ParseUserUtil.getPointsTotal(user) >= reward.getPointsValue()) {
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            if (user.getPointsTotal() >= reward.getPointsValue()) {
                 binding.checkBoxEarnedReward.setChecked(true);
             }
             else {

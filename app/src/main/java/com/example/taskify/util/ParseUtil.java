@@ -1,9 +1,15 @@
 package com.example.taskify.util;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 // Contains utility variables and methods used in the app.
-public class TaskifyUtilities {
+public class ParseUtil {
 
     // Returns the user-friendly error message that accompanies a ParseException.
     public static String parseExceptionToErrorText(ParseException e) {
@@ -16,5 +22,25 @@ public class TaskifyUtilities {
         String errorReasonText = fullErrorMessage.substring(indexOfColon+2, indexOfColon+3).toUpperCase()
                 .concat(fullErrorMessage.substring(indexOfColon + 3));
         return errorReasonText;
+    }
+
+    public static void save(ParseObject object, Context context, String TAG, String successMessage, String errorMessage) {
+        object.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    if (errorMessage != null) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, errorMessage, e);
+                    }
+                }
+                else {
+                    if (successMessage != null) {
+                        Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, successMessage);
+                    }
+                }
+            }
+        });
     }
 }
