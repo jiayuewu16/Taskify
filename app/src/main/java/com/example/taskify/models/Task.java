@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @ParseClassName("Task")
-public class Task extends ParseObject{
+public class Task extends ParseObject implements Comparable<Task> {
 
     public static final String KEY_TASK_NAME = "taskName";
     public static final String KEY_POINTS_VALUE = "pointsValue";
@@ -65,5 +65,10 @@ public class Task extends ParseObject{
         newSimpleDateFormat.setLenient(true);
 
         return newSimpleDateFormat.format(getAlarmTime());
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        return this.getAlarmTime().compareTo(o.getAlarmTime());
     }
 }

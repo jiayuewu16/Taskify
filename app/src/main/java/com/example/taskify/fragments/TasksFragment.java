@@ -27,6 +27,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class TasksFragment extends Fragment {
@@ -109,6 +110,7 @@ public class TasksFragment extends Fragment {
             alarmManager.set(AlarmManager.RTC_WAKEUP, task.getAlarmTime().getTime(), pendingIntent);
 
             tasks.add(task);
+            Collections.sort(tasks);
             adapter.notifyDataSetChanged();
             binding.recyclerViewTasksStream.smoothScrollToPosition(adapter.getItemCount()-1);
         }

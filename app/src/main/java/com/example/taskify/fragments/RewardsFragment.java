@@ -27,6 +27,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class RewardsFragment extends Fragment {
@@ -104,6 +105,7 @@ public class RewardsFragment extends Fragment {
             Reward reward = Parcels.unwrap(data.getExtras().getParcelable("reward"));
 
             rewards.add(reward);
+            Collections.sort(rewards);
             adapter.notifyDataSetChanged();
             binding.recyclerViewRewardsStream.smoothScrollToPosition(adapter.getItemCount()-1);
         }

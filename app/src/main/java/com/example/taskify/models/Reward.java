@@ -6,7 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 @ParseClassName("Reward")
-public class Reward extends ParseObject {
+public class Reward extends ParseObject implements Comparable<Reward> {
     public final static String KEY_REWARD_NAME = "rewardName";
     public final static String KEY_REWARD_PHOTO = "rewardPhoto";
     public final static String KEY_POINTS_VALUE = "rewardPoints";
@@ -58,5 +58,10 @@ public class Reward extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    @Override
+    public int compareTo(Reward o) {
+        return this.getPointsValue() - o.getPointsValue();
     }
 }
