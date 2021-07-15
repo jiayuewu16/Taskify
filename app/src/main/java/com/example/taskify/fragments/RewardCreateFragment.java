@@ -119,16 +119,7 @@ public class RewardCreateFragment extends DialogFragment {
                 File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
                 ParseUser user = ParseUser.getCurrentUser();
 
-                Reward reward;
-                System.out.println(activity.getResources().getDrawable(R.drawable.ic_baseline_add_a_photo_24));
-                System.out.println(binding.imageViewCamera.getDrawable());
-                if (photoFile == null || binding.imageViewCamera.getDrawable() == getResources().getDrawable(R.drawable.ic_baseline_add_a_photo_24)) {
-                    // No photo. Not required.
-                    reward = new Reward(rewardName, pointsValue, user);
-                }
-                else {
-                    reward = new Reward(rewardName, pointsValue, new ParseFile(photoFile), user);
-                }
+                Reward reward = new Reward(rewardName, pointsValue, new ParseFile(photoFile), user);
                 saveReward(reward);
 
                 //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
@@ -152,6 +143,13 @@ public class RewardCreateFragment extends DialogFragment {
                 }
                 Log.i(TAG, "Reward save was successful!");
                 Toast.makeText(activity, "Reward saved successfully!", Toast.LENGTH_SHORT).show();
+                File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+                if (photoFile.delete()) {
+                    Log.i(TAG, "Photo deletion successful.");
+                }
+                else {
+                    Log.e(TAG, "Photo deletion unsuccessful.");
+                }
             }
         });
     }

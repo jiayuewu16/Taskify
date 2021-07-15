@@ -15,12 +15,6 @@ public class Reward extends ParseObject implements Comparable<Reward> {
     // Required default constructor.
     public Reward() {}
 
-    public Reward(String rewardName, int rewardPoints, ParseUser user) {
-        setRewardName(rewardName);
-        setPointsValue(rewardPoints);
-        setUser(user);
-    }
-
     public Reward(String rewardName, int rewardPoints, ParseFile rewardPhoto, ParseUser user) {
         setRewardName(rewardName);
         setRewardPhoto(rewardPhoto);
