@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/ic_taskify_logo" />
+        app:srcCompat="@drawable/ic_taskify_logo_transparent" />
 
     <EditText
         android:id="@+id/editTextUsername"

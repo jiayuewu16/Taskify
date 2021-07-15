@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/ic_taskify_logo" />
+        app:srcCompat="@drawable/ic_taskify_logo_transparent" />
 
     <LinearLayout
         android:id="@+id/layoutFullName"
