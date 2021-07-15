@@ -4,9 +4,11 @@ import android.app.Application;
 
 import com.example.taskify.BuildConfig;
 import com.example.taskify.R;
+import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,6 +29,7 @@ public class ParseApplication extends Application {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
+        ParseObject.registerSubclass(Reward.class);
         ParseObject.registerSubclass(Task.class);
 
         // set applicationId, and server server based on the values in the back4app settings.
@@ -35,6 +38,7 @@ public class ParseApplication extends Application {
                 .applicationId(BuildConfig.BACK4APP_APP_ID) // should correspond to Application Id env variable
                 .clientKey(BuildConfig.BACK4APP_CLIENT_KEY)  // should correspond to Client key env variable
                 .server(getResources().getString(R.string.back4app_server_url)).build());
+        ParseUser.enableRevocableSessionInBackground();
     }
 }
 

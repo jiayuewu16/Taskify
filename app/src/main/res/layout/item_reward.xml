@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textViewRewardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/imageViewRewardPhoto"
+        android:textSize="22sp"
+        tools:text="McDonalds ice cream cone"
+        android:maxLines="2"/>
+
+    <TextView
+        android:id="@+id/textViewPointsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRewardName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:gravity="end"
+        android:textSize="22sp"
+        tools:text="5 Point(s)" />
+
+    <ImageView
+        android:id="@+id/imageViewRewardPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/checkBoxEarnedReward"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <CheckBox
+        android:id="@+id/checkBoxEarnedReward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:enabled="false" />
+
+</RelativeLayout>

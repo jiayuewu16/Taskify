@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Taskify</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <string name="uri_fileprovider_authority">com.taskify.fileprovider</string>
 
     <string name="login_screen_dividing_line_text">OR</string>
     <string name="sign_up_button">Sign Up</string>
@@ -33,6 +34,7 @@
     <string name="weekday_sunday_label_short">Sun</string>
     <string name="menu_create_title">Create</string>
     <string name="loading_text">Loading...</string>
+    <string name="reward_name_hint_text">Reward Name</string>
 
 
 </resources>

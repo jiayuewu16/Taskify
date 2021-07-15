@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:context=".fragments.RewardCreateFragment">
+
+            <EditText
+                android:id="@+id/editTextRewardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/reward_name_hint_text"
+                android:inputType="textMultiLine"
+                android:maxLines="1" />
+
+            <ImageView
+                android:id="@+id/imageViewCamera"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_below="@+id/editTextRewardName"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="false"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_add_a_photo_24" />
+
+            <LinearLayout
+                android:id="@+id/layoutPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/imageViewCamera"
+                android:layout_above="@id/buttonConfirm"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp">
+
+                <EditText
+                    android:id="@+id/editTextPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/points_value_hint_text"
+                    android:inputType="number"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/textViewPointsSuffix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="@string/points_value_suffix_text"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageViewCamera"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/cancel_button_text" />
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageViewCamera"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/confirm_button_text" />
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
