@@ -2,6 +2,9 @@ package com.example.taskify.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskify.models.TaskifyUser;
@@ -11,6 +14,7 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
 
     @Override
@@ -36,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     // Log in didn't succeed. Show returned error message to user.
-                                    binding.textViewLoginError.setText(ParseUtil.parseExceptionToErrorText(e));
+                                    Toast.makeText(this, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, ParseUtil.parseExceptionToErrorText(e), e);
                                 }
                             }));
 

@@ -1,6 +1,7 @@
 package com.example.taskify.network;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.taskify.BuildConfig;
 import com.example.taskify.R;
@@ -15,9 +16,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ParseApplication extends Application {
+
+    private static Context appContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        appContext = this;
 
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
@@ -41,6 +47,10 @@ public class ParseApplication extends Application {
                 .clientKey(BuildConfig.BACK4APP_CLIENT_KEY)  // should correspond to Client key env variable
                 .server(getResources().getString(R.string.back4app_server_url)).build());
         ParseUser.enableRevocableSessionInBackground();
+    }
+
+    public static Context getContext() {
+        return appContext;
     }
 }
 

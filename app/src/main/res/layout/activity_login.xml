@@ -97,16 +97,4 @@
         android:layout_marginTop="30dp"
         android:text="@string/sign_up_button" />
 
-    <TextView
-        android:id="@+id/textViewLoginError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSignup"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/red"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
-
-
 </RelativeLayout>

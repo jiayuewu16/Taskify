@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
+import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.AlarmBroadcastReceiver;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -66,11 +66,17 @@ public class TasksFragment extends Fragment {
 
         queryTasks();
 
-        binding.floatingActionButtonCreateTask.setOnClickListener(v -> {
-            TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
-            taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
-            taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
-        });
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        if (!user.isParent()) {
+            binding.floatingActionButtonCreateTask.setVisibility(View.GONE);
+        }
+        else {
+            binding.floatingActionButtonCreateTask.setOnClickListener(v -> {
+                TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
+                taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
+                taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
+            });
+        }
     }
 
     private void queryTasks() {

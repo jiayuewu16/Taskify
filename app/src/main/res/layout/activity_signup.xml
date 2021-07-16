@@ -77,11 +77,66 @@
         android:inputType="textMultiLine|textPassword"
         android:maxLines="1" />
 
+    <LinearLayout
+        android:id="@+id/layoutIsParentChecks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/checkBoxIsParent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="I am a Parent"
+                android:checked="true"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxIsChild"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="I am a Child"
+                android:checked="false"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutChildEnterParentUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/textViewChildEnterParentUsernamePrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parent's username: "
+                android:textSize="18sp"/>
+            <EditText
+                android:id="@+id/editTextChildEnterParentUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextPassword"
+        android:layout_below="@id/layoutIsParentChecks"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
@@ -128,17 +183,5 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="30dp"
         android:text="@string/log_in_button" />
-
-    <TextView
-        android:id="@+id/textViewLoginError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonLogin"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/red"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
-
 
 </RelativeLayout>

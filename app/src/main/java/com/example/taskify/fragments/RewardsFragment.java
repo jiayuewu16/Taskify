@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentRewardsBinding;
 import com.example.taskify.models.Reward;
+import com.example.taskify.models.TaskifyUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -62,11 +64,17 @@ public class RewardsFragment extends Fragment {
 
         queryRewards();
 
-        binding.floatingActionButtonCreateReward.setOnClickListener(v -> {
-            RewardCreateFragment rewardCreateFragment = RewardCreateFragment.newInstance();
-            rewardCreateFragment.setTargetFragment(RewardsFragment.this, KEY_REWARD_CREATE_FRAGMENT);
-            rewardCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
-        });
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        if (!user.isParent()) {
+            binding.floatingActionButtonCreateReward.setVisibility(View.GONE);
+        }
+        else {
+            binding.floatingActionButtonCreateReward.setOnClickListener(v -> {
+                RewardCreateFragment rewardCreateFragment = RewardCreateFragment.newInstance();
+                rewardCreateFragment.setTargetFragment(RewardsFragment.this, KEY_REWARD_CREATE_FRAGMENT);
+                rewardCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
+            });
+        }
     }
 
     private void queryRewards() {
