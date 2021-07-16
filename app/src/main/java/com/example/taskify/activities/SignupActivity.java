@@ -9,7 +9,6 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity {

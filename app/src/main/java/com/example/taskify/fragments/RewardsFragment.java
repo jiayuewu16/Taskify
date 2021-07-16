@@ -1,9 +1,6 @@
 package com.example.taskify.fragments;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentRewardsBinding;
 import com.example.taskify.models.Reward;
-import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,7 +22,6 @@ import com.parse.ParseQuery;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +36,7 @@ public class RewardsFragment extends Fragment {
     // Required empty public constructor
     public RewardsFragment() {}
 
-    public static RewardsFragment newInstance(String param1, String param2) {
+    public static RewardsFragment newInstance() {
         RewardsFragment fragment = new RewardsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

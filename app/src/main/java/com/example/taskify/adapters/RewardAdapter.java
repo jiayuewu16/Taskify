@@ -28,8 +28,8 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
     private final static String TAG = "RewardAdapter";
 
-    private Context context;
-    private List<Reward> rewards;
+    private final Context context;
+    private final List<Reward> rewards;
 
     public RewardAdapter(Context context, List<Reward> rewards) {
         this.context = context;
@@ -66,15 +66,10 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         public void bind(Reward reward) {
             binding.textViewRewardName.setText(reward.getRewardName());
-            String pointsValueString = String.valueOf(reward.getPointsValue()) + " " + context.getResources().getString(R.string.points_value_suffix_text);
+            String pointsValueString = reward.getPointsValue() + " " + context.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-            if (user.getPointsTotal() >= reward.getPointsValue()) {
-                binding.checkBoxEarnedReward.setChecked(true);
-            }
-            else {
-                binding.checkBoxEarnedReward.setChecked(false);
-            }
+            binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
             ParseFile rewardPhoto = reward.getRewardPhoto();
             if (rewardPhoto == null) {
                 binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
@@ -121,7 +116,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                     rewards.remove(position);
                     notifyDataSetChanged();
                     Log.i(TAG, "Reward removed successfully.");
-                    Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_reward_message)), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
                 }
             });
             return true;

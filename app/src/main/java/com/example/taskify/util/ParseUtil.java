@@ -19,9 +19,8 @@ public class ParseUtil {
         // which always begins 2 characters after the last colon.
         String fullErrorMessage = e.toString();
         int indexOfColon = fullErrorMessage.lastIndexOf(":");
-        String errorReasonText = fullErrorMessage.substring(indexOfColon+2, indexOfColon+3).toUpperCase()
+        return fullErrorMessage.substring(indexOfColon+2, indexOfColon+3).toUpperCase()
                 .concat(fullErrorMessage.substring(indexOfColon + 3));
-        return errorReasonText;
     }
 
     public static void save(ParseObject object, Context context, String TAG, String successMessage, String errorMessage) {

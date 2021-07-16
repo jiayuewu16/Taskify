@@ -26,8 +26,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final static String TAG = "TaskAdapter";
 
-    private Context context;
-    private List<Task> tasks;
+    private final Context context;
+    private final List<Task> tasks;
 
     public TaskAdapter(Context context, List<Task> tasks) {
         this.context = context;
@@ -64,9 +64,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         public void bind(Task task) {
             binding.textViewTaskName.setText(task.getTaskName());
-            String pointsValueString = String.valueOf(task.getPointsValue()) + " " + context.getResources().getString(R.string.points_value_suffix_text);
+            String pointsValueString = task.getPointsValue() + " " + context.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
-            task.getAlarmTime().toString();
             binding.textViewAlarmTime.setText(task.getAlarmTimeString());
         }
 

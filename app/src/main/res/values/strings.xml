@@ -63,5 +63,5 @@
     <string name="content_description_launch_task_reward">Launch task creation screen</string>
     <string name="content_description_alarm_clock_icon">Alarm clock icon</string>
 
-
+    <string name="display_points_format">%d %s</string>
 </resources>

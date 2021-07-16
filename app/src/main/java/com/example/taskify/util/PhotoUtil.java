@@ -29,9 +29,7 @@ public class PhotoUtil {
         }
 
         // Return the file target for the photo based on filename
-        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
-        return file;
+        return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {
@@ -58,9 +56,7 @@ public class PhotoUtil {
         // Rotate Bitmap
         Matrix matrix = new Matrix();
         matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
-        // Return result
-        return rotatedBitmap;
+        return Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
     }
 
     public static Bitmap cropSquare(Bitmap bitmap) {
@@ -88,7 +84,7 @@ public class PhotoUtil {
         // CodePath
         float factorH = height / (float) b.getWidth();
         float factorW = width / (float) b.getWidth();
-        float factorToUse = (factorH > factorW) ? factorW : factorH;
+        float factorToUse = Math.min(factorH, factorW);
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorToUse),
                 (int) (b.getHeight() * factorToUse), true);
     }

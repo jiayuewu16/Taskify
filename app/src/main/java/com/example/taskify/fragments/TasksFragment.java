@@ -26,7 +26,6 @@ import com.parse.ParseQuery;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class TasksFragment extends Fragment {
     // Required empty public constructor
     public TasksFragment() {}
 
-    public static TasksFragment newInstance(String param1, String param2) {
+    public static TasksFragment newInstance() {
         TasksFragment fragment = new TasksFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

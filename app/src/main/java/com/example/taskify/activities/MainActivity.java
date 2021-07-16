@@ -32,26 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        final Fragment tasksFragment = new TasksFragment();
-        final Fragment rewardsFragment = new RewardsFragment();
-        final Fragment profileFragment = new ProfileFragment();
+        final Fragment tasksFragment = TasksFragment.newInstance();
+        final Fragment rewardsFragment = RewardsFragment.newInstance();
+        final Fragment profileFragment = ProfileFragment.newInstance();
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragment;
-                        switch (item.getItemId()) {
-                            case R.id.action_tasks:
-                                fragment = tasksFragment;
-                                break;
-                            case R.id.action_rewards:
-                                fragment = rewardsFragment;
-                                break;
-                            case R.id.action_profile:
-                            default:
-                                fragment = profileFragment;
-                                break;
+                        if (item.getItemId() == R.id.action_rewards) {
+                            fragment = rewardsFragment;
+                        }
+                        else if (item.getItemId() == R.id.action_profile) {
+                            fragment = profileFragment;
+                        }
+                        else {
+                            fragment = tasksFragment;
                         }
                         fragmentManager.beginTransaction().replace(binding.frameLayoutDisplayFragment.getId(), fragment).commit();
                         return true;
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         if (user != null) {
-            textViewPointsTotal.setText(String.format("%d %s", user.getPointsTotal(), getResources().getString(R.string.points_value_suffix_text)));
+            textViewPointsTotal.setText(String.format(getResources().getString(R.string.display_points_format), user.getPointsTotal(), getResources().getString(R.string.points_value_suffix_text)));
         }
 
         return super.onPrepareOptionsMenu(menu);
