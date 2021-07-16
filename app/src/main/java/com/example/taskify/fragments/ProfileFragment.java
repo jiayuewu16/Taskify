@@ -143,10 +143,12 @@ public class ProfileFragment extends Fragment {
                 // Load the resized image into a preview
                 binding.imageViewProfilePhoto.setImageBitmap(resizedBitmap);
                 user.setProfilePhoto(new ParseFile(photoFile));
-                ParseUtil.save(user, getActivity(), TAG, "Profile image save successful.", "Profile image save failed.");
+                ParseUtil.save(user, getActivity(), TAG,
+                        getContext().getResources().getString(R.string.success_save_profile_image),
+                        getContext().getResources().getString(R.string.error_save_profile_image));
 
             } else { // Result was a failure
-                Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getContext().getResources().getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
             }
         }
     }

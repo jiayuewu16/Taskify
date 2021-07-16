@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.example.taskify.R;
 import com.example.taskify.databinding.FragmentTaskCreateBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
@@ -77,7 +78,7 @@ public class TaskCreateFragment extends DialogFragment {
             public void onClick(View v) {
                 String taskName = binding.editTextTaskName.getText().toString();
                 if (taskName.isEmpty()) {
-                    Toast.makeText(activity, "Task name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_task_name_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int pointsValue;
@@ -86,7 +87,7 @@ public class TaskCreateFragment extends DialogFragment {
                     if (pointsValue < 0) throw new IllegalArgumentException();
                 }
                 catch (NumberFormatException ne) {
-                    Toast.makeText(activity, "Points cannot be empty.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Date date = new Date();
@@ -95,7 +96,9 @@ public class TaskCreateFragment extends DialogFragment {
 
                 TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
                 Task task = new Task(taskName, pointsValue, date, user);
-                ParseUtil.save(task, activity, TAG, "Task saved successfully!", "Error while saving task.");
+                ParseUtil.save(task, activity, TAG,
+                        activity.getResources().getString(R.string.success_save_task_message),
+                        activity.getResources().getString(R.string.error_save_task_message));
 
                 //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
                 //listener.onFinishTaskCreateDialog(task);

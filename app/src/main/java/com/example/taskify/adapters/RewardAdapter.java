@@ -114,14 +114,14 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Log.e(TAG, "Error while removing reward", e);
-                        Toast.makeText(context, "Error while removing reward.", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Error while removing reward.", e);
+                        Toast.makeText(context, context.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     rewards.remove(position);
                     notifyDataSetChanged();
-                    Log.i(TAG, "Reward removal was successful.");
-                    Toast.makeText(context, String.format("Reward removed."), Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "Reward removed successfully.");
+                    Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_reward_message)), Toast.LENGTH_SHORT).show();
                 }
             });
             return true;

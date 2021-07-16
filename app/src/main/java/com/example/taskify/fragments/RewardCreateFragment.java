@@ -105,7 +105,7 @@ public class RewardCreateFragment extends DialogFragment {
             public void onClick(View v) {
                 String rewardName = binding.editTextRewardName.getText().toString();
                 if (rewardName.isEmpty()) {
-                    Toast.makeText(activity, "Reward name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_reward_name_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int pointsValue;
@@ -114,14 +114,16 @@ public class RewardCreateFragment extends DialogFragment {
                     if (pointsValue < 0) throw new IllegalArgumentException();
                 }
                 catch (NumberFormatException ne) {
-                    Toast.makeText(activity, "Points cannot be empty.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
                 if (binding.imageViewPhoto.getDrawable() == null) {
                     // Does not require a photo to be uploaded.
                     reward = new Reward(rewardName, pointsValue, null, user);
-                    ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
+                    ParseUtil.save(reward, activity, TAG,
+                            activity.getResources().getString(R.string.success_save_reward_message),
+                            activity.getResources().getString(R.string.error_save_reward_message));
                     returnReward();
                 }
                 else {
@@ -132,8 +134,10 @@ public class RewardCreateFragment extends DialogFragment {
                         public void done(ParseException e) {
                             if (e == null) {
                                 reward = new Reward(rewardName, pointsValue, parseFile, user);
-                                ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
-                                if (photoFile != null && photoFile.delete()) {
+                                ParseUtil.save(reward, activity, TAG,
+                                        activity.getResources().getString(R.string.success_save_reward_message),
+                                        activity.getResources().getString(R.string.error_save_reward_message));
+                                if (photoFile.delete()) {
                                     Log.i(TAG, "Photo deletion successful.");
                                 }
                                 else {
@@ -196,7 +200,7 @@ public class RewardCreateFragment extends DialogFragment {
                 // Load the resized image into a preview
                 binding.imageViewPhoto.setImageBitmap(resizedBitmap);
             } else { // Result was a failure
-                Toast.makeText(activity, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getResources().getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
             }
         }
     }

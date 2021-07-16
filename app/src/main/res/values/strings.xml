@@ -38,5 +38,23 @@
     <string name="change_password_button_text">Change Password</string>
     <string name="sign_out_button">Sign Out</string>
 
+    <string name="error_remove_reward_message">Error while removing reward.</string>
+    <string name="success_remove_reward_message">Reward removed.</string>
+    <string name="error_remove_task_message">Error while marking task complete.</string>
+    <string name="success_remove_task_message">Task complete! You earned %d %s!</string>
+    <string name="error_save_user_points">Error while saving user points.</string>
+    <string name="success_save_profile_image">Profile image saved successfully.</string>
+    <string name="error_save_profile_image">Profile image save failed.</string>
+    <string name="error_take_camera_picture">Picture wasn\'t taken!</string>
+    <string name="success_save_reward_message">Reward saved successfully!</string>
+    <string name="error_save_reward_message">Error while saving reward.</string>
+    <string name="error_empty_reward_name_message">Reward name cannot be empty."</string>
+    <string name="error_empty_points_message">Points cannot be empty.</string>
+    <string name="error_empty_task_name_message">Task name cannot be empty.</string>
+    <string name="success_save_task_message">Task saved successfully!</string>
+    <string name="error_save_task_message">Error while saving text.</string>
+
+
+
 
 </resources>

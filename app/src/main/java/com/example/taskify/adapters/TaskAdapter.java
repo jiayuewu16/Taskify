@@ -91,17 +91,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 public void done(ParseException e) {
                     if (e != null) {
                         Log.e(TAG, "Error while marking task complete", e);
-                        Toast.makeText(context, "Error while marking task complete!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     tasks.remove(position);
                     notifyDataSetChanged();
                     Log.i(TAG, "Task completion was successful!");
-                    Toast.makeText(context, String.format("Task complete! You earned %d %s!", pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
 
                     TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
                     user.addPointsValue(pointsValue);
-                    ParseUtil.save(user, context, TAG, null, "Error while saving user points");
+                    ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
                 }
             });
             return true;
