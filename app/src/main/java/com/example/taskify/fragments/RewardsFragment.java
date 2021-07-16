@@ -62,13 +62,10 @@ public class RewardsFragment extends Fragment {
 
         queryRewards();
 
-        binding.floatingActionButtonCreateReward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RewardCreateFragment rewardCreateFragment = RewardCreateFragment.newInstance();
-                rewardCreateFragment.setTargetFragment(RewardsFragment.this, KEY_REWARD_CREATE_FRAGMENT);
-                rewardCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
-            }
+        binding.floatingActionButtonCreateReward.setOnClickListener(v -> {
+            RewardCreateFragment rewardCreateFragment = RewardCreateFragment.newInstance();
+            rewardCreateFragment.setTargetFragment(RewardsFragment.this, KEY_REWARD_CREATE_FRAGMENT);
+            rewardCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
         });
     }
 
@@ -76,19 +73,16 @@ public class RewardsFragment extends Fragment {
         ParseQuery<Reward> query = ParseQuery.getQuery(Reward.class);
         query = query.include(Reward.KEY_USER);
         query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
-        query.findInBackground(new FindCallback<Reward>() {
-            @Override
-            public void done(List<Reward> queryRewards, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+        query.findInBackground((queryRewards, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting posts", e);
+            }
+            else {
+                for (Reward reward : queryRewards) {
+                    Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUser().getUsername());
                 }
-                else {
-                    for (Reward reward : queryRewards) {
-                        Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUser().getUsername());
-                    }
-                    rewards.addAll(queryRewards);
-                    adapter.notifyDataSetChanged();
-                }
+                rewards.addAll(queryRewards);
+                adapter.notifyDataSetChanged();
             }
         });
     }

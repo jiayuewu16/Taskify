@@ -4,7 +4,6 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 public class TaskifyUser extends ParseUser {
-    private static final String TAG = "ParseUserUtil";
     private static final String KEY_IS_PARENT = "isParent";
     public static final String KEY_POINTS_TOTAL = "pointsTotal";
     public static final String KEY_FIRST_NAME = "firstName";

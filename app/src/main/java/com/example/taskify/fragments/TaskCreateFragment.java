@@ -59,54 +59,42 @@ public class TaskCreateFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                binding.layoutCheckBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE);
+        binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener((buttonView, isChecked) ->
+                binding.layoutCheckBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE));
+
+        binding.buttonCancel.setOnClickListener(v -> dismiss());
+
+        binding.buttonConfirm.setOnClickListener(v -> {
+            String taskName = binding.editTextTaskName.getText().toString();
+            if (taskName.isEmpty()) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_task_name_message), Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
+            int pointsValue;
+            try {
+                pointsValue = Integer.parseInt(binding.editTextPoints.getText().toString());
+                if (pointsValue < 0) throw new IllegalArgumentException();
             }
-        });
-
-        binding.buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String taskName = binding.editTextTaskName.getText().toString();
-                if (taskName.isEmpty()) {
-                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_task_name_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                int pointsValue;
-                try {
-                    pointsValue = Integer.parseInt(binding.editTextPoints.getText().toString());
-                    if (pointsValue < 0) throw new IllegalArgumentException();
-                }
-                catch (NumberFormatException ne) {
-                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Date date = new Date();
-                date.setHours(binding.timePicker.getHour());
-                date.setMinutes(binding.timePicker.getMinute());
-
-                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-                Task task = new Task(taskName, pointsValue, date, user);
-                ParseUtil.save(task, activity, TAG,
-                        activity.getResources().getString(R.string.success_save_task_message),
-                        activity.getResources().getString(R.string.error_save_task_message));
-
-                //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
-                //listener.onFinishTaskCreateDialog(task);
-                Intent intent = new Intent();
-                intent.putExtra("task", Parcels.wrap(task));
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                dismiss();
+            catch (NumberFormatException ne) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
+                return;
             }
+            Date date = new Date();
+            date.setHours(binding.timePicker.getHour());
+            date.setMinutes(binding.timePicker.getMinute());
+
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            Task task = new Task(taskName, pointsValue, date, user);
+            ParseUtil.save(task, activity, TAG,
+                    activity.getResources().getString(R.string.success_save_task_message),
+                    activity.getResources().getString(R.string.error_save_task_message));
+
+            //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
+            //listener.onFinishTaskCreateDialog(task);
+            Intent intent = new Intent();
+            intent.putExtra("task", Parcels.wrap(task));
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            dismiss();
         });
     }
 

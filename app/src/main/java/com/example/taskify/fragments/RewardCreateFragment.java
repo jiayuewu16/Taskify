@@ -26,7 +26,6 @@ import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -72,86 +71,72 @@ public class RewardCreateFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // CodePath tutorial
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-                Uri fileProvider = FileProvider.getUriForFile(activity, activity.getResources().getString(R.string.uri_fileprovider_authority), photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        View.OnClickListener onClickListener = v -> {
+            // CodePath tutorial
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+            Uri fileProvider = FileProvider.getUriForFile(activity, activity.getResources().getString(R.string.uri_fileprovider_authority), photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
-                if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-                    // Start the image capture intent to take photo
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+            // So as long as the result is not null, it's safe to use the intent.
+            if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+                // Start the image capture intent to take photo
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         };
 
         binding.imageViewPhoto.setOnClickListener(onClickListener);
         binding.floatingActionButtonCamera.setOnClickListener(onClickListener);
 
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        binding.buttonCancel.setOnClickListener(v -> dismiss());
 
-        binding.buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String rewardName = binding.editTextRewardName.getText().toString();
-                if (rewardName.isEmpty()) {
-                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_reward_name_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                int pointsValue;
-                try {
-                    pointsValue = Integer.parseInt(binding.editTextPoints.getText().toString());
-                    if (pointsValue < 0) throw new IllegalArgumentException();
-                }
-                catch (NumberFormatException ne) {
-                    Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-                if (binding.imageViewPhoto.getDrawable() == null) {
-                    // Does not require a photo to be uploaded.
-                    reward = new Reward(rewardName, pointsValue, null, user);
-                    ParseUtil.save(reward, activity, TAG,
-                            activity.getResources().getString(R.string.success_save_reward_message),
-                            activity.getResources().getString(R.string.error_save_reward_message));
-                    returnReward();
-                }
-                else {
-                    File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-                    ParseFile parseFile = new ParseFile(photoFile);
-                    parseFile.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                reward = new Reward(rewardName, pointsValue, parseFile, user);
-                                ParseUtil.save(reward, activity, TAG,
-                                        activity.getResources().getString(R.string.success_save_reward_message),
-                                        activity.getResources().getString(R.string.error_save_reward_message));
-                                if (photoFile.delete()) {
-                                    Log.i(TAG, "Photo deletion successful.");
-                                }
-                                else {
-                                    Log.e(TAG, "Photo deletion unsuccessful.");
-                                }
-                                returnReward();
-                            }
-                            else {
-                                Toast.makeText(activity, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "Error creating parseFile from taken image", e);
-                            }
+        binding.buttonConfirm.setOnClickListener(v -> {
+            String rewardName = binding.editTextRewardName.getText().toString();
+            if (rewardName.isEmpty()) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_reward_name_message), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int pointsValue;
+            try {
+                pointsValue = Integer.parseInt(binding.editTextPoints.getText().toString());
+                if (pointsValue < 0) throw new IllegalArgumentException();
+            }
+            catch (NumberFormatException ne) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            if (binding.imageViewPhoto.getDrawable() == null) {
+                // Does not require a photo to be uploaded.
+                reward = new Reward(rewardName, pointsValue, null, user);
+                ParseUtil.save(reward, activity, TAG,
+                        activity.getResources().getString(R.string.success_save_reward_message),
+                        activity.getResources().getString(R.string.error_save_reward_message));
+                returnReward();
+            }
+            else {
+                File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+                ParseFile parseFile = new ParseFile(photoFile);
+                parseFile.saveInBackground((SaveCallback) e -> {
+                    if (e == null) {
+                        reward = new Reward(rewardName, pointsValue, parseFile, user);
+                        ParseUtil.save(reward, activity, TAG,
+                                activity.getResources().getString(R.string.success_save_reward_message),
+                                activity.getResources().getString(R.string.error_save_reward_message));
+                        if (photoFile.delete()) {
+                            Log.i(TAG, "Photo deletion successful.");
                         }
-                    });
-                }
+                        else {
+                            Log.e(TAG, "Photo deletion unsuccessful.");
+                        }
+                        returnReward();
+                    }
+                    else {
+                        Toast.makeText(activity, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Error creating parseFile from taken image", e);
+                    }
+                });
             }
         });
     }

@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
 
 // Contains utility variables and methods used in the app.
 public class ParseUtil {
@@ -24,20 +23,17 @@ public class ParseUtil {
     }
 
     public static void save(ParseObject object, Context context, String TAG, String successMessage, String errorMessage) {
-        object.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    if (errorMessage != null) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, errorMessage, e);
-                    }
+        object.saveInBackground(e -> {
+            if (e != null) {
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, errorMessage, e);
                 }
-                else {
-                    if (successMessage != null) {
-                        Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, successMessage);
-                    }
+            }
+            else {
+                if (successMessage != null) {
+                    Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, successMessage);
                 }
             }
         });

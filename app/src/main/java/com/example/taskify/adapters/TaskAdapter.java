@@ -16,8 +16,6 @@ import com.example.taskify.databinding.ItemTaskBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
-import com.parse.DeleteCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -85,23 +83,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
             Task task = tasks.get(position);
             int pointsValue = task.getPointsValue();
-            task.deleteInBackground(new DeleteCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error while marking task complete", e);
-                        Toast.makeText(context, context.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    tasks.remove(position);
-                    notifyDataSetChanged();
-                    Log.i(TAG, "Task completion was successful!");
-                    Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
-
-                    TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-                    user.addPointsValue(pointsValue);
-                    ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
+            task.deleteInBackground(e -> {
+                if (e != null) {
+                    Log.e(TAG, "Error while marking task complete", e);
+                    Toast.makeText(context, context.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                tasks.remove(position);
+                notifyDataSetChanged();
+                Log.i(TAG, "Task completion was successful!");
+                Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
+
+                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+                user.addPointsValue(pointsValue);
+                ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
             });
             return true;
         }

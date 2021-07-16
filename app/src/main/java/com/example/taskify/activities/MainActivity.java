@@ -2,10 +2,8 @@ package com.example.taskify.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,7 +13,6 @@ import com.example.taskify.fragments.ProfileFragment;
 import com.example.taskify.fragments.RewardsFragment;
 import com.example.taskify.fragments.TasksFragment;
 import com.example.taskify.models.TaskifyUser;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,22 +34,19 @@ public class MainActivity extends AppCompatActivity {
         final Fragment profileFragment = ProfileFragment.newInstance();
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Fragment fragment;
-                        if (item.getItemId() == R.id.action_rewards) {
-                            fragment = rewardsFragment;
-                        }
-                        else if (item.getItemId() == R.id.action_profile) {
-                            fragment = profileFragment;
-                        }
-                        else {
-                            fragment = tasksFragment;
-                        }
-                        fragmentManager.beginTransaction().replace(binding.frameLayoutDisplayFragment.getId(), fragment).commit();
-                        return true;
+                item -> {
+                    Fragment fragment;
+                    if (item.getItemId() == R.id.action_rewards) {
+                        fragment = rewardsFragment;
                     }
+                    else if (item.getItemId() == R.id.action_profile) {
+                        fragment = profileFragment;
+                    }
+                    else {
+                        fragment = tasksFragment;
+                    }
+                    fragmentManager.beginTransaction().replace(binding.frameLayoutDisplayFragment.getId(), fragment).commit();
+                    return true;
                 });
         // Set default selection
         binding.bottomNavigationBar.setSelectedItemId(R.id.action_tasks);

@@ -24,8 +24,6 @@ import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -65,16 +63,13 @@ public class ProfileFragment extends Fragment {
         user = (TaskifyUser) ParseUser.getCurrentUser();
         ParseFile photoFile = user.getProfilePhoto();
         if (photoFile != null) {
-            photoFile.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error getting profile photo.");
-                        return;
-                    }
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    binding.imageViewProfilePhoto.setImageBitmap(bitmap);
+            photoFile.getDataInBackground((data, e) -> {
+                if (e != null) {
+                    Log.e(TAG, "Error getting profile photo.");
+                    return;
                 }
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                binding.imageViewProfilePhoto.setImageBitmap(bitmap);
             });
         }
         if (user.getFirstName() != null) {
@@ -85,32 +80,26 @@ public class ProfileFragment extends Fragment {
         }
         binding.textViewUsername.setText(String.format("@%s", user.getUsername()));
 
-        binding.floatingActionButtonCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // CodePath tutorial
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File photoFile = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-                Uri fileProvider = FileProvider.getUriForFile(getActivity(), getActivity().getResources().getString(R.string.uri_fileprovider_authority), photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        binding.floatingActionButtonCamera.setOnClickListener(v -> {
+            // CodePath tutorial
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File photoFile1 = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+            Uri fileProvider = FileProvider.getUriForFile(getActivity(), getActivity().getResources().getString(R.string.uri_fileprovider_authority), photoFile1);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
-                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    // Start the image capture intent to take photo
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+            // So as long as the result is not null, it's safe to use the intent.
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                // Start the image capture intent to take photo
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
 
-        binding.buttonSignout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
+        binding.buttonSignout.setOnClickListener(v -> {
+            ParseUser.logOut();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         });
 
     }

@@ -16,9 +16,6 @@ import com.example.taskify.R;
 import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
-import com.parse.DeleteCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -75,15 +72,13 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                 binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
             }
             else {
-                rewardPhoto.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Image load unsuccessful.", e);
-                        } else {
-                            Bitmap rewardImageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            binding.imageViewRewardPhoto.setImageBitmap(rewardImageBitmap);
-                        }
+                rewardPhoto.getDataInBackground((data, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Image load unsuccessful.", e);
+                        binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
+                    } else {
+                        Bitmap rewardImageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        binding.imageViewRewardPhoto.setImageBitmap(rewardImageBitmap);
                     }
                 });
 
@@ -105,19 +100,16 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                 return false;
             }
             Reward reward = rewards.get(position);
-            reward.deleteInBackground(new DeleteCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error while removing reward.", e);
-                        Toast.makeText(context, context.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    rewards.remove(position);
-                    notifyDataSetChanged();
-                    Log.i(TAG, "Reward removed successfully.");
-                    Toast.makeText(context, context.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
+            reward.deleteInBackground(e -> {
+                if (e != null) {
+                    Log.e(TAG, "Error while removing reward.", e);
+                    Toast.makeText(context, context.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                rewards.remove(position);
+                notifyDataSetChanged();
+                Log.i(TAG, "Reward removed successfully.");
+                Toast.makeText(context, context.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
             });
             return true;
         }

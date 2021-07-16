@@ -2,14 +2,11 @@ package com.example.taskify.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.databinding.ActivityLoginBinding;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,32 +26,24 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
-        binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logInInBackground(binding.editTextUsername.getText().toString(), binding.editTextPassword.getText().toString(), new LogInCallback() {
-                    public void done(ParseUser user, ParseException e) {
-                        if (user != null) {
-                            // The user is logged in.
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            // Log in didn't succeed. Show returned error message to user.
-                            binding.textViewLoginError.setText(ParseUtil.parseExceptionToErrorText(e));
-                        }
-                    }
-                });
-            }
-        });
+        binding.buttonLogin.setOnClickListener(
+                view -> ParseUser.logInInBackground(binding.editTextUsername.getText().toString(),
+                            binding.editTextPassword.getText().toString(), (user, e) -> {
+                                if (user != null) {
+                                    // The user is logged in.
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // Log in didn't succeed. Show returned error message to user.
+                                    binding.textViewLoginError.setText(ParseUtil.parseExceptionToErrorText(e));
+                                }
+                            }));
 
-        binding.buttonSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        binding.buttonSignup.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 }

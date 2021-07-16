@@ -66,32 +66,26 @@ public class TasksFragment extends Fragment {
 
         queryTasks();
 
-        binding.floatingActionButtonCreateTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
-                taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
-                taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
-            }
+        binding.floatingActionButtonCreateTask.setOnClickListener(v -> {
+            TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
+            taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
+            taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
         });
     }
 
     private void queryTasks() {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         query = query.include(Task.KEY_USER);
-        query.findInBackground(new FindCallback<Task>() {
-            @Override
-            public void done(List<Task> queryTasks, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+        query.findInBackground((queryTasks, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting posts", e);
+            }
+            else {
+                for (Task task : queryTasks) {
+                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
                 }
-                else {
-                    for (Task task : queryTasks) {
-                        Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
-                    }
-                    tasks.addAll(queryTasks);
-                    adapter.notifyDataSetChanged();
-                }
+                tasks.addAll(queryTasks);
+                adapter.notifyDataSetChanged();
             }
         });
     }
