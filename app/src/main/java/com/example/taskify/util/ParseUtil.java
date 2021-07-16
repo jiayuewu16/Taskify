@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.taskify.R;
+import com.example.taskify.network.ParseApplication;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
@@ -28,6 +30,10 @@ public class ParseUtil {
                 if (errorMessage != null) {
                     Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, errorMessage, e);
+                }
+                else {
+                    Toast.makeText(context, ParseApplication.getContext().getResources().getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, ParseApplication.getContext().getResources().getString(R.string.error_default_message), e);
                 }
             }
             else {

@@ -38,6 +38,7 @@
     <string name="change_password_button_text">Change Password</string>
     <string name="sign_out_button">Sign Out</string>
 
+    <string name="error_default_message">Error! Something went wrong.</string>
     <string name="error_remove_reward_message">Error while removing reward.</string>
     <string name="success_remove_reward_message">Reward removed.</string>
     <string name="error_remove_task_message">Error while marking task complete.</string>
