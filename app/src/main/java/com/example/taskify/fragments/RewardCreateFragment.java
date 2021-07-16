@@ -72,7 +72,7 @@ public class RewardCreateFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.imageViewCamera.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // CodePath tutorial
@@ -87,9 +87,11 @@ public class RewardCreateFragment extends DialogFragment {
                     // Start the image capture intent to take photo
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-
             }
-        });
+        };
+
+        binding.imageViewPhoto.setOnClickListener(onClickListener);
+        binding.floatingActionButtonCamera.setOnClickListener(onClickListener);
 
         binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,38 +117,48 @@ public class RewardCreateFragment extends DialogFragment {
                     Toast.makeText(activity, "Points cannot be empty.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
                 TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-
-                ParseFile parseFile = new ParseFile(photoFile);
-                parseFile.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            reward = new Reward(rewardName, pointsValue, parseFile, user);
-                            ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
-                            if (photoFile.delete()) {
-                                Log.i(TAG, "Photo deletion successful.");
+                if (binding.imageViewPhoto.getDrawable() == null) {
+                    // Does not require a photo to be uploaded.
+                    reward = new Reward(rewardName, pointsValue, null, user);
+                    ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
+                    returnReward();
+                }
+                else {
+                    File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+                    ParseFile parseFile = new ParseFile(photoFile);
+                    parseFile.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                reward = new Reward(rewardName, pointsValue, parseFile, user);
+                                ParseUtil.save(reward, activity, TAG, "Reward saved successfully!", "Error while saving reward.");
+                                if (photoFile != null && photoFile.delete()) {
+                                    Log.i(TAG, "Photo deletion successful.");
+                                }
+                                else {
+                                    Log.e(TAG, "Photo deletion unsuccessful.");
+                                }
+                                returnReward();
                             }
                             else {
-                                Log.e(TAG, "Photo deletion unsuccessful.");
+                                Toast.makeText(activity, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Error creating parseFile from taken image", e);
                             }
-
-                            //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
-                            //listener.onFinishRewardCreateDialog(reward);
-                            Intent intent = new Intent();
-                            intent.putExtra("reward", Parcels.wrap(reward));
-                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                            dismiss();
                         }
-                        else {
-                            Toast.makeText(activity, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Error creating parseFile from taken image", e);
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
+    }
+
+    private void returnReward() {
+        //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
+        //listener.onFinishRewardCreateDialog(reward);
+        Intent intent = new Intent();
+        intent.putExtra("reward", Parcels.wrap(reward));
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        dismiss();
     }
 
     @Override
@@ -182,7 +194,7 @@ public class RewardCreateFragment extends DialogFragment {
                 }
 
                 // Load the resized image into a preview
-                binding.imageViewCamera.setImageBitmap(resizedBitmap);
+                binding.imageViewPhoto.setImageBitmap(resizedBitmap);
             } else { // Result was a failure
                 Toast.makeText(activity, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }

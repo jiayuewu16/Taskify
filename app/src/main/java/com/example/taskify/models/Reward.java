@@ -17,7 +17,9 @@ public class Reward extends ParseObject implements Comparable<Reward> {
 
     public Reward(String rewardName, int rewardPoints, ParseFile rewardPhoto, ParseUser user) {
         setRewardName(rewardName);
-        setRewardPhoto(rewardPhoto);
+        if (rewardPhoto != null) {
+            setRewardPhoto(rewardPhoto);
+        }
         setPointsValue(rewardPoints);
         setUser(user);
     }
