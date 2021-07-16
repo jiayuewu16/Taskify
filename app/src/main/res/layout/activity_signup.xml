@@ -15,6 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
+        android:contentDescription="@string/content_description_taskify_logo"
         app:srcCompat="@drawable/ic_taskify_logo_transparent" />
 
     <LinearLayout
@@ -31,6 +32,7 @@
             android:layout_weight="1"
             android:gravity="start|top"
             android:hint="@string/first_name_hint_text"
+            android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN"
             android:inputType="textMultiLine"
             android:maxLines="1" />
 
@@ -42,6 +44,7 @@
             android:layout_weight="1"
             android:gravity="start|top"
             android:hint="@string/last_name_hint_text"
+            android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_FAMILY"
             android:inputType="textMultiLine"
             android:maxLines="1" />
     </LinearLayout>
@@ -56,6 +59,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/username_hint_text"
+        android:autofillHints=".AUTOFILL_HINT_NEW_USERNAME"
         android:inputType="textMultiLine"
         android:maxLines="1" />
 
@@ -69,6 +73,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/password_hint_text"
+        android:autofillHints=".AUTOFILL_HINT_NEW_PASSWORD"
         android:inputType="textMultiLine|textPassword"
         android:maxLines="1" />
 

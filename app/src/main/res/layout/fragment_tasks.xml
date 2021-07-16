@@ -15,6 +15,7 @@
         android:clickable="true"
         android:layout_margin="5dp"
         app:maxImageSize="50dp"
+        android:contentDescription="@string/content_description_launch_task_reward"
         android:src="@android:drawable/ic_menu_add" />
 
     <androidx.recyclerview.widget.RecyclerView

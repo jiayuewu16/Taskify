@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,7 +13,7 @@
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/imageViewRewardPhoto"
         android:textSize="22sp"
-        tools:text="McDonalds ice cream cone"
+        tools:text="Ice cream cone"
         android:maxLines="2"/>
 
     <TextView
@@ -33,8 +32,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/checkBoxEarnedReward"
+        android:contentDescription="@string/content_description_reward_photo"
         tools:srcCompat="@tools:sample/avatars" />
 
     <CheckBox

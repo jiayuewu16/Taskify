@@ -14,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/content_description_taskify_logo"
         app:srcCompat="@drawable/ic_taskify_logo_transparent" />
 
     <EditText
@@ -26,6 +27,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/username_hint_text"
+        android:autofillHints=".AUTOFILL_HINT_USERNAME"
         android:inputType="textMultiLine"
         android:maxLines="1" />
 
@@ -39,6 +41,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/password_hint_text"
+        android:autofillHints=".AUTOFILL_HINT_PASSWORD"
         android:inputType="textMultiLine|textPassword"
         android:maxLines="1" />
 

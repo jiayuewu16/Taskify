@@ -33,7 +33,7 @@
     <string name="weekday_saturday_label_short">Sat</string>
     <string name="weekday_sunday_label_short">Sun</string>
     <string name="menu_create_title">Create</string>
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
     <string name="reward_name_hint_text">Reward Name</string>
     <string name="change_password_button_text">Change Password</string>
     <string name="sign_out_button">Sign Out</string>
@@ -54,7 +54,14 @@
     <string name="success_save_task_message">Task saved successfully!</string>
     <string name="error_save_task_message">Error while saving text.</string>
 
-
+    <string name="content_description_taskify_logo">Taskify logo</string>
+    <string name="content_description_profile_photo">Profile photo</string>
+    <string name="content_description_add_profile_photo">Add a profile photo</string>
+    <string name="content_description_reward_photo">Reward photo</string>
+    <string name="content_description_add_reward_photo">Add a reward photo</string>
+    <string name="content_description_launch_create_reward">Launch reward creation screen</string>
+    <string name="content_description_launch_task_reward">Launch task creation screen</string>
+    <string name="content_description_alarm_clock_icon">Alarm clock icon</string>
 
 
 </resources>

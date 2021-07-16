@@ -20,6 +20,7 @@
         android:layout_below="@+id/textViewTaskName"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
+        android:contentDescription="@string/content_description_alarm_clock_icon"
         app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
     <TextView

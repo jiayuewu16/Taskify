@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/content_description_profile_photo"
         android:src="@drawable/ic_baseline_person_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,6 +26,7 @@
         android:layout_marginEnd="-10dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_a_photo_24"
+        android:contentDescription="@string/content_description_add_profile_photo"
         app:fabCustomSize="40dp" />
 
     <TextView
@@ -35,7 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:textSize="24sp"
-        tools:text="@username" />
+        tools:text="\@username" />
 
     <LinearLayout
         android:id="@+id/layoutFullName"
