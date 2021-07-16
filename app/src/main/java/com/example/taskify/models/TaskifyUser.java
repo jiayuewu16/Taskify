@@ -1,5 +1,6 @@
 package com.example.taskify.models;
 
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 public class TaskifyUser extends ParseUser {
@@ -8,6 +9,7 @@ public class TaskifyUser extends ParseUser {
     public static final String KEY_POINTS_TOTAL = "pointsTotal";
     public static final String KEY_FIRST_NAME = "firstName";
     public static final String KEY_LAST_NAME = "lastName";
+    public static final String KEY_PROFILE_PHOTO_FILE = "profilePhoto";
 
     public TaskifyUser() {
         super();
@@ -29,6 +31,10 @@ public class TaskifyUser extends ParseUser {
         return getInt(KEY_POINTS_TOTAL);
     }
 
+    public ParseFile getProfilePhoto() {
+        return getParseFile(KEY_PROFILE_PHOTO_FILE);
+    }
+
     public void setIsParent(boolean isParent) {
         put(KEY_IS_PARENT, isParent);
     }
@@ -43,5 +49,9 @@ public class TaskifyUser extends ParseUser {
 
     public void addPointsValue(int pointsValue) {
         put(KEY_POINTS_TOTAL, getPointsTotal() + pointsValue);
+    }
+
+    public void setProfilePhoto(ParseFile photoFile) {
+        put(KEY_PROFILE_PHOTO_FILE, photoFile);
     }
 }

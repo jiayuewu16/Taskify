@@ -35,6 +35,8 @@
     <string name="menu_create_title">Create</string>
     <string name="loading_text">Loading...</string>
     <string name="reward_name_hint_text">Reward Name</string>
+    <string name="change_password_button_text">Change Password</string>
+    <string name="sign_out_button">Sign Out</string>
 
 
 </resources>
