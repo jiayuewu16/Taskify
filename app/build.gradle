@@ -58,4 +58,8 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation "com.github.parse-community.Parse-SDK-Android:facebook:1.26.0"
+    //implementation 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+    //implementation 'com.github.parse-community:ParseFacebookUtils-Android:1.26.0'
 }
