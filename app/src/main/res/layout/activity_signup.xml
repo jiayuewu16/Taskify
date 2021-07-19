@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageViewLogo"
-        android:layout_width="166dp"
-        android:layout_height="166dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -175,13 +175,23 @@
             android:layout_toEndOf="@id/dividingLineText"/>
     </RelativeLayout>
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/buttonFacebookLogin"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutDividingLine"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutDividingLine"
+        android:layout_below="@+id/buttonFacebookLogin"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/log_in_button" />
 
 </RelativeLayout>

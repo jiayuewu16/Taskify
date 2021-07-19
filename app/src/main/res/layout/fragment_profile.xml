@@ -29,19 +29,9 @@
         android:contentDescription="@string/content_description_add_profile_photo"
         app:fabCustomSize="40dp" />
 
-    <TextView
-        android:id="@+id/textViewUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageViewProfilePhoto"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="24sp"
-        tools:text="\@username" />
-
     <LinearLayout
         android:id="@+id/layoutFullName"
-        android:layout_below="@id/textViewUsername"
+        android:layout_below="@id/imageViewProfilePhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -53,6 +43,7 @@
             android:textSize="24sp"
             android:hint="@string/first_name_hint_text"
             android:layout_weight="1"
+            android:gravity="end"
             android:layout_marginEnd="10dp" />
 
         <TextView
@@ -64,11 +55,20 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutFullName"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        tools:text="\@username" />
+
     <RelativeLayout
         android:id="@+id/layoutAssociatedUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutFullName"
+        android:layout_below="@id/textViewUsername"
         android:layout_above="@id/buttonChangePassword"
         android:layout_margin="10dp">
 

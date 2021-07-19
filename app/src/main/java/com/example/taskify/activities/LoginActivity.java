@@ -3,31 +3,24 @@ package com.example.taskify.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.taskify.R;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.databinding.ActivityLoginBinding;
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
-import java.util.Arrays;
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
-    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +49,24 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }));
 
-        //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
-        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, null, new LogInCallback() {
+        binding.buttonFacebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(ParseUser user, ParseException err) {
-                if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
-                    goToMainActivity();
-                } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                    goToMainActivity();
-                }
+            public void onClick(View v) {
+                //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, null, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException err) {
+                        if (user == null) {
+                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                        } else if (user.isNew()) {
+                            Log.d("MyApp", "User signed up and logged in through Facebook!");
+                            goToMainActivity();
+                        } else {
+                            Log.d("MyApp", "User logged in through Facebook!");
+                            goToMainActivity();
+                        }
+                    }
+                });
             }
         });
 

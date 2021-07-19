@@ -17,8 +17,8 @@
     <string name="bottom_navigation_bar_profile">Profile</string>
 
     <string name="username_hint_text">Username</string>
-    <string name="last_name_hint_text">Last Name</string>
-    <string name="first_name_hint_text">First Name</string>
+    <string name="last_name_hint_text">Last name</string>
+    <string name="first_name_hint_text">First name</string>
     <string name="password_hint_text">Password</string>
 
     <string name="task_name_hint_text">Task Name</string>

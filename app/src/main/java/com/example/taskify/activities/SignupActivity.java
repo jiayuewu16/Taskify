@@ -12,8 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.example.taskify.util.ParseUtil;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.facebook.ParseFacebookUtils;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends LoginActivity {
 
     private static final String TAG = "SignupActivity";
     private ActivitySignupBinding binding;
@@ -86,9 +90,7 @@ public class SignupActivity extends AppCompatActivity {
             // Invoke signUpInBackground
             user.signUpInBackground(e -> {
                 if (e == null) {
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    goToMainActivity();
                 } else {
                     // Sign up didn't succeed. Returns error message to user.
                     Toast.makeText(this, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
@@ -96,5 +98,32 @@ public class SignupActivity extends AppCompatActivity {
                 }
             });
         });
+
+        binding.buttonFacebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(SignupActivity.this, null, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException err) {
+                        if (user == null) {
+                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                        } else if (user.isNew()) {
+                            Log.d("MyApp", "User signed up and logged in through Facebook!");
+                            goToMainActivity();
+                        } else {
+                            Log.d("MyApp", "User logged in through Facebook!");
+                            goToMainActivity();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

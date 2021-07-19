@@ -13,7 +13,7 @@
             android:id="@+id/editTextTaskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:ems="10"
             android:hint="@string/task_name_hint_text"
             android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
@@ -30,16 +30,20 @@
                 android:id="@+id/textViewAlarmText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
                 android:text="@string/schedule_alarm_text"
                 android:textSize="18sp" />
 
             <TimePicker
                 android:id="@+id/timePicker"
-                android:layout_width="match_parent"
+                android:layout_width="266dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewAlarmText"
+                android:layout_toEndOf="@+id/textViewAlarmText"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-20dp"
+                android:layout_marginBottom="-20dp"
                 android:timePickerMode="spinner" />
 
             <CheckBox
@@ -55,7 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/checkBoxSetRecurringTrue"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
