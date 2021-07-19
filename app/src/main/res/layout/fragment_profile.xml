@@ -64,6 +64,40 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/layoutAssociatedUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutFullName"
+        android:layout_above="@id/buttonChangePassword"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/textViewAssociatedUserHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            tools:text="@string/profile_children_header"/>
+
+        <!-- View of parent for child -->
+        <include
+            android:id="@+id/layoutChildDisplayParent"
+            layout="@layout/item_user"
+            android:layout_below="@id/textViewAssociatedUserHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- RecyclerView of children for parent -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewParentDisplayChild"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textViewAssociatedUserHeader"
+            android:layout_marginTop="5dp" />
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/buttonChangePassword"
         android:layout_width="match_parent"

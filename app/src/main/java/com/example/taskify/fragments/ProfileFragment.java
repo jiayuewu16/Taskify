@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskify.R;
 import com.example.taskify.activities.LoginActivity;
+import com.example.taskify.adapters.UserAdapter;
 import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
@@ -31,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -62,16 +66,7 @@ public class ProfileFragment extends Fragment {
 
         user = (TaskifyUser) ParseUser.getCurrentUser();
         ParseFile photoFile = user.getProfilePhoto();
-        if (photoFile != null) {
-            photoFile.getDataInBackground((data, e) -> {
-                if (e != null) {
-                    Log.e(TAG, "Error getting profile photo.");
-                    return;
-                }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                binding.imageViewProfilePhoto.setImageBitmap(bitmap);
-            });
-        }
+        ParseUtil.setPhoto(getActivity(), binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
         if (user.getFirstName() != null) {
             binding.textViewFirstName.setText(user.getFirstName());
         }
@@ -94,6 +89,30 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
+        if (user.isParent()) {
+            binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.GONE);
+            binding.layoutChildDisplayParent.textViewUsername.setVisibility(View.GONE);
+            binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.GONE);
+
+            binding.recyclerViewParentDisplayChild.setVisibility(View.VISIBLE);
+            binding.textViewAssociatedUserHeader.setText(getActivity().getString(R.string.profile_children_header));
+            List<TaskifyUser> children = user.queryChildren();
+            UserAdapter adapter = new UserAdapter(getActivity(), children);
+            binding.recyclerViewParentDisplayChild.setAdapter(adapter);
+            binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+        else {
+            binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.VISIBLE);
+            binding.layoutChildDisplayParent.textViewUsername.setVisibility(View.VISIBLE);
+            binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.VISIBLE);
+
+            binding.recyclerViewParentDisplayChild.setVisibility(View.GONE);
+            binding.textViewAssociatedUserHeader.setText(getActivity().getString(R.string.profile_parent_header));
+            TaskifyUser parent = user.getParent();
+            ParseUtil.setPhoto(getActivity(), binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
+            binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
+            binding.layoutChildDisplayParent.textViewUsername.setText(String.format(getString(R.string.display_username_format), parent.getUsername()));
+        }
 
         binding.buttonSignout.setOnClickListener(v -> {
             ParseUser.logOut();

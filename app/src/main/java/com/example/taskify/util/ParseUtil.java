@@ -1,16 +1,27 @@
 package com.example.taskify.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.example.taskify.R;
+import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.ParseApplication;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 // Contains utility variables and methods used in the app.
 public class ParseUtil {
+
+    private static final String TAG = "ParseUser";
 
     // Returns the user-friendly error message that accompanies a ParseException.
     public static String parseExceptionToErrorText(ParseException e) {
@@ -43,5 +54,28 @@ public class ParseUtil {
                 }
             }
         });
+    }
+
+    public static void setPhoto(Context context, ImageView imageView, TaskifyUser user, Drawable defaultPhoto) {
+        try {
+            ParseFile photoFile = ((TaskifyUser) user.fetchIfNeeded()).getProfilePhoto();
+            if (photoFile != null) {
+                photoFile.getDataInBackground((data, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error getting profile photo.");
+                        imageView.setImageDrawable(defaultPhoto);
+                        return;
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    imageView.setImageBitmap(bitmap);
+                });
+            } else {
+                imageView.setImageDrawable(defaultPhoto);
+            }
+        }
+        catch (ParseException e) {
+            Log.e(TAG, "Error getting parent.");
+            imageView.setImageDrawable(defaultPhoto);
+        }
     }
 }

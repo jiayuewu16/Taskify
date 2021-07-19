@@ -77,6 +77,21 @@ public class TaskifyUser extends ParseUser {
         put(KEY_PARENT, user);
     }
 
+    public List<TaskifyUser> queryChildren() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo(KEY_PARENT, this);
+        try {
+            List<ParseUser> parseUsers = query.find();
+            Log.i(TAG, parseUsers.toString());
+            return (List<TaskifyUser>)(List<?>) parseUsers;
+        }
+        catch (ParseException e) {
+            Log.e(TAG, ParseUtil.parseExceptionToErrorText(e), e);
+            return null;
+        }
+
+    }
+
     public static TaskifyUser queryUser(String username) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo(KEY_USERNAME, username);

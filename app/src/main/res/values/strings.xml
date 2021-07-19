@@ -65,4 +65,8 @@
     <string name="content_description_alarm_clock_icon">Alarm clock icon</string>
 
     <string name="display_points_format">%d %s</string>
+    <string name="display_full_name_format">%s %s</string>
+    <string name="display_username_format">\@%s</string>
+    <string name="profile_children_header">Children:</string>
+    <string name="profile_parent_header">Parent:</string>
 </resources>
