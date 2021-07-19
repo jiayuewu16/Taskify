@@ -94,6 +94,10 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         @Override
         public boolean onLongClick(View v) {
             // Remove reward.
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            if (!user.isParent()) {
+                return true;
+            }
             Log.i(TAG, "onLongClick");
             int position = getAdapterPosition();
             if (position == RecyclerView.NO_POSITION) {
