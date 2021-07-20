@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.taskify.R;
+import com.example.taskify.adapters.AssignChildAdapter;
 import com.example.taskify.databinding.FragmentTaskCreateBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
@@ -25,7 +28,10 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TaskCreateFragment extends DialogFragment {
 
@@ -59,6 +65,15 @@ public class TaskCreateFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+
+        List<TaskifyUser> children = new ArrayList<>();
+        AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
+        binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
+        binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        children.addAll(user.queryChildren());
+        assignChildAdapter.notifyDataSetChanged();
+
         binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener((buttonView, isChecked) ->
                 binding.layoutCheckBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE));
 
@@ -83,7 +98,6 @@ public class TaskCreateFragment extends DialogFragment {
             date.setHours(binding.timePicker.getHour());
             date.setMinutes(binding.timePicker.getMinute());
 
-            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
             Task task = new Task(taskName, pointsValue, date, user);
             ParseUtil.save(task, activity, TAG,
                     activity.getResources().getString(R.string.success_save_task_message),

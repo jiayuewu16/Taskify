@@ -40,6 +40,8 @@
     <string name="reward_name_hint_text">Reward Name</string>
     <string name="change_password_button_text">Change Password</string>
     <string name="sign_out_button">Sign Out</string>
+    <string name="profile_children_header">Children:</string>
+    <string name="profile_parent_header">Parent:</string>
 
     <string name="error_default_message">Error! Something went wrong.</string>
     <string name="error_remove_reward_message">Error while removing reward.</string>
@@ -70,6 +72,5 @@
     <string name="display_points_format">%d %s</string>
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
-    <string name="profile_children_header">Children:</string>
-    <string name="profile_parent_header">Parent:</string>
+    <string name="display_full_username_format">%s %s \@%s</string>
 </resources>
