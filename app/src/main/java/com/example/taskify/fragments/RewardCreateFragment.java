@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.taskify.R;
+import com.example.taskify.adapters.AssignChildAdapter;
 import com.example.taskify.databinding.FragmentRewardCreateBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
@@ -36,6 +38,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RewardCreateFragment extends DialogFragment {
 
@@ -91,6 +95,14 @@ public class RewardCreateFragment extends DialogFragment {
 
         binding.buttonCancel.setOnClickListener(v -> dismiss());
 
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        List<TaskifyUser> children = new ArrayList<>();
+        AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
+        binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
+        binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        children.addAll(user.queryChildren());
+        assignChildAdapter.notifyDataSetChanged();
+
         binding.buttonConfirm.setOnClickListener(v -> {
             String rewardName = binding.editTextRewardName.getText().toString();
             if (rewardName.isEmpty()) {
@@ -106,10 +118,19 @@ public class RewardCreateFragment extends DialogFragment {
                 Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                 return;
             }
-            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            catch (IllegalArgumentException ie) {
+                Toast.makeText(activity, getString(R.string.error_negative_points_message), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            List<ParseUser> selectedChildren = assignChildAdapter.getSelectedChildren();
+            if (selectedChildren.isEmpty()) {
+                Toast.makeText(activity, "You must select a child.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (binding.imageViewPhoto.getDrawable() == null) {
                 // Does not require a photo to be uploaded.
-                reward = new Reward(rewardName, pointsValue, null, user);
+                reward = new Reward(rewardName, pointsValue, null, selectedChildren);
                 ParseUtil.save(reward, activity, TAG,
                         activity.getResources().getString(R.string.success_save_reward_message),
                         activity.getResources().getString(R.string.error_save_reward_message));
@@ -120,7 +141,7 @@ public class RewardCreateFragment extends DialogFragment {
                 ParseFile parseFile = new ParseFile(photoFile);
                 parseFile.saveInBackground((SaveCallback) e -> {
                     if (e == null) {
-                        reward = new Reward(rewardName, pointsValue, parseFile, user);
+                        reward = new Reward(rewardName, pointsValue, parseFile, selectedChildren);
                         ParseUtil.save(reward, activity, TAG,
                                 activity.getResources().getString(R.string.success_save_reward_message),
                                 activity.getResources().getString(R.string.error_save_reward_message));
@@ -139,6 +160,8 @@ public class RewardCreateFragment extends DialogFragment {
                 });
             }
         });
+
+
     }
 
     private void returnReward() {

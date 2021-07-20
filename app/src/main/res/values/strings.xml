@@ -75,4 +75,5 @@
     <string name="display_username_format">\@%s</string>
     <string name="display_full_username_format">%s %s \@%s</string>
     <string name="success_parent_remove_task_message">Deleted task.</string>
+    <string name="link_facebook_button_text">Link with Facebook</string>
 </resources>

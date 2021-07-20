@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/imageViewPhoto"
-            android:layout_above="@id/buttonConfirm"
+            android:layout_alignBottom="@id/imageViewPhoto"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp">
 
@@ -75,11 +75,28 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textViewAssignToText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageViewPhoto"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:text="Assign to:" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAssignChild"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/textViewAssignToText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp" />
+
         <Button
             android:id="@+id/buttonCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageViewPhoto"
+            android:layout_below="@+id/recyclerViewAssignChild"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
             android:text="@string/cancel_button_text" />
@@ -88,7 +105,7 @@
             android:id="@+id/buttonConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageViewPhoto"
+            android:layout_below="@+id/recyclerViewAssignChild"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
             android:text="@string/confirm_button_text" />

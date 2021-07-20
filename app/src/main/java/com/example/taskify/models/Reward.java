@@ -5,6 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 @ParseClassName("Reward")
 public class Reward extends ParseObject implements Comparable<Reward> {
     public final static String KEY_REWARD_NAME = "rewardName";
@@ -22,6 +24,14 @@ public class Reward extends ParseObject implements Comparable<Reward> {
         }
         setPointsValue(rewardPoints);
         setUser(user);
+    }
+    public Reward(String rewardName, int rewardPoints, ParseFile rewardPhoto, List<ParseUser> users) {
+        setRewardName(rewardName);
+        if (rewardPhoto != null) {
+            setRewardPhoto(rewardPhoto);
+        }
+        setPointsValue(rewardPoints);
+        setUser(users);
     }
 
     public String getRewardName() {
@@ -54,6 +64,12 @@ public class Reward extends ParseObject implements Comparable<Reward> {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public void setUser(List<ParseUser> users) {
+        if (!users.isEmpty()) {
+            put(KEY_USER, users.get(0));
+        }
     }
 
     @Override
