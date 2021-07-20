@@ -94,11 +94,21 @@ public class TaskCreateFragment extends DialogFragment {
                 Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                 return;
             }
+            catch (IllegalArgumentException ie) {
+                Toast.makeText(activity, getString(R.string.error_negative_points_message), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            List<ParseUser> selectedChildren = assignChildAdapter.getSelectedChildren();
+            if (selectedChildren.isEmpty()) {
+                Toast.makeText(activity, "You must select a child.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Date date = new Date();
             date.setHours(binding.timePicker.getHour());
             date.setMinutes(binding.timePicker.getMinute());
 
-            Task task = new Task(taskName, pointsValue, date, user);
+            Task task = new Task(taskName, pointsValue, date, selectedChildren);
             ParseUtil.save(task, activity, TAG,
                     activity.getResources().getString(R.string.success_save_task_message),
                     activity.getResources().getString(R.string.error_save_task_message));

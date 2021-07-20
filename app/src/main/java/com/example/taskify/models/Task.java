@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @ParseClassName("Task")
@@ -27,6 +28,13 @@ public class Task extends ParseObject implements Comparable<Task> {
         this.setAlarmTime(alarmTime);
     }
 
+    public Task(String taskName, int pointsValue, Date alarmTime, List<ParseUser> users) {
+        this.setTaskName(taskName);
+        this.setPointsValue(pointsValue);
+        this.setUser(users);
+        this.setAlarmTime(alarmTime);
+    }
+
     public void setTaskName(String taskName) {
         put(KEY_TASK_NAME, taskName);
     }
@@ -37,6 +45,13 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public void setUser(List<ParseUser> users) {
+        if (!users.isEmpty()) {
+            put(KEY_USER, users.get(0)); // Stores one user for now. Change for stretch goals.
+        }
+        // Silently fail otherwise.
     }
 
     public void setAlarmTime(Date alarmTime) {

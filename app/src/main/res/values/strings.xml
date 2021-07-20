@@ -56,6 +56,7 @@
     <string name="error_save_reward_message">Error while saving reward.</string>
     <string name="error_empty_reward_name_message">Reward name cannot be empty."</string>
     <string name="error_empty_points_message">Points cannot be empty.</string>
+    <string name="error_negative_points_message">Points cannot be negative.</string>
     <string name="error_empty_task_name_message">Task name cannot be empty.</string>
     <string name="success_save_task_message">Task saved successfully!</string>
     <string name="error_save_task_message">Error while saving text.</string>
