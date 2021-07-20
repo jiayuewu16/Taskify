@@ -19,6 +19,7 @@ import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentRewardsBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -65,9 +66,10 @@ public class RewardsFragment extends Fragment {
         binding.recyclerViewRewardsStream.setAdapter(adapter);
         binding.recyclerViewRewardsStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        queryRewards();
-
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+
+        ParseUtil.queryRewards(getContext(), user, rewards, adapter);
+
         if (!user.isParent()) {
             binding.floatingActionButtonCreateReward.setVisibility(View.GONE);
         }
@@ -78,32 +80,6 @@ public class RewardsFragment extends Fragment {
                 rewardCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
             });
         }
-    }
-
-    private void queryRewards() {
-        ParseQuery<Reward> query = ParseQuery.getQuery(Reward.class);
-        query = query.include(Reward.KEY_USER);
-        query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(getContext(), getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
-            Log.e(TAG, getString(R.string.error_default_message));
-        }
-        if (!user.isParent()) {
-            query.whereEqualTo(Reward.KEY_USER, user);
-        }
-        query.findInBackground((queryRewards, e) -> {
-            if (e != null) {
-                Log.e(TAG, "Issue with getting posts", e);
-            }
-            else {
-                for (Reward reward : queryRewards) {
-                    Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUser().getUsername());
-                }
-                rewards.addAll(queryRewards);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override

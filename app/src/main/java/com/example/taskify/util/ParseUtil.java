@@ -9,19 +9,27 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
+import com.example.taskify.models.Reward;
+import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.ParseApplication;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 // Contains utility variables and methods used in the app.
 public class ParseUtil {
 
-    private static final String TAG = "ParseUser";
+    private static final String TAG = "ParseUtil";
 
     // Returns the user-friendly error message that accompanies a ParseException.
     public static String parseExceptionToErrorText(ParseException e) {
@@ -74,8 +82,63 @@ public class ParseUtil {
             }
         }
         catch (ParseException e) {
-            Log.e(TAG, "Error getting parent.");
+            Log.e(TAG, "Error getting user.");
             imageView.setImageDrawable(defaultPhoto);
         }
     }
+
+    public static void queryRewards(Context context, TaskifyUser user, List<Reward> rewards, RecyclerView.Adapter adapter) {
+        ParseQuery<Reward> query = ParseQuery.getQuery(Reward.class);
+        query = query.include(Reward.KEY_USER);
+        query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
+        if (user == null) {
+            Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, context.getString(R.string.error_default_message));
+        }
+        if (!user.isParent()) {
+            query.whereEqualTo(Reward.KEY_USER, user);
+        }
+        query.findInBackground((queryRewards, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting posts", e);
+            } else {
+                for (Reward reward : queryRewards) {
+                    Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUser().getUsername());
+                }
+                rewards.addAll(queryRewards);
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    public static void queryTasks(Context context, TaskifyUser user, List<Task> tasks, RecyclerView.Adapter adapter) {
+        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+        query = query.include(Task.KEY_USER);
+        if (user == null) {
+            Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, context.getString(R.string.error_default_message));
+        }
+        if (!user.isParent()) {
+            query.whereEqualTo(Reward.KEY_USER, user);
+        }
+        query.findInBackground((queryTasks, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting posts", e);
+            }
+            else {
+                tasks.addAll(queryTasks);
+                for (Task task : tasks) {
+                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
+                }
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                    Log.i(TAG, "Adapter updated.");
+                }
+            }
+        });
+    }
+
+
 }

@@ -23,6 +23,7 @@ import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.AlarmBroadcastReceiver;
+import com.example.taskify.util.ParseUtil;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -67,9 +68,11 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewTasksStream.setAdapter(adapter);
         binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        queryTasks();
-
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+
+        ParseUtil.queryTasks(getContext(), user, tasks, adapter);
+        Log.i(TAG, tasks.toString());
+
         if (!user.isParent()) {
             binding.floatingActionButtonCreateTask.setVisibility(View.GONE);
         }
@@ -80,31 +83,6 @@ public class TasksFragment extends Fragment {
                 taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
             });
         }
-    }
-
-    private void queryTasks() {
-        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
-        query = query.include(Task.KEY_USER);
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(getActivity(), getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!user.isParent()) {
-            query.whereEqualTo(Task.KEY_USER, user);
-        }
-        query.findInBackground((queryTasks, e) -> {
-            if (e != null) {
-                Log.e(TAG, "Issue with getting posts", e);
-            }
-            else {
-                for (Task task : queryTasks) {
-                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
-                }
-                tasks.addAll(queryTasks);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
