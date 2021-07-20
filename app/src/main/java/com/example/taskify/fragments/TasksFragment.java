@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
@@ -69,9 +70,7 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-
         ParseUtil.queryTasks(getContext(), user, tasks, adapter);
-        Log.i(TAG, tasks.toString());
 
         if (!user.isParent()) {
             binding.floatingActionButtonCreateTask.setVisibility(View.GONE);

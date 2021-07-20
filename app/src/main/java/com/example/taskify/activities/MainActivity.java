@@ -12,12 +12,19 @@ import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.fragments.ProfileFragment;
 import com.example.taskify.fragments.RewardsFragment;
 import com.example.taskify.fragments.TasksFragment;
+import com.example.taskify.models.Reward;
+import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    public final static List<Reward> rewards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 });
         // Set default selection
         binding.bottomNavigationBar.setSelectedItemId(R.id.action_tasks);
+
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        ParseUtil.queryRewards(this, user, rewards, null);
     }
 
     @Override

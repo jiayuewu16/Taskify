@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentRewardsBinding;
 import com.example.taskify.models.Reward;
@@ -60,15 +61,14 @@ public class RewardsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rewards = new ArrayList<>();
+        rewards = MainActivity.rewards;
+
         adapter = new RewardAdapter(getActivity(), rewards);
 
         binding.recyclerViewRewardsStream.setAdapter(adapter);
         binding.recyclerViewRewardsStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-
-        ParseUtil.queryRewards(getContext(), user, rewards, adapter);
 
         if (!user.isParent()) {
             binding.floatingActionButtonCreateReward.setVisibility(View.GONE);
