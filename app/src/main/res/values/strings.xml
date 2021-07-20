@@ -74,4 +74,5 @@
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
     <string name="display_full_username_format">%s %s \@%s</string>
+    <string name="success_parent_remove_task_message">Deleted task.</string>
 </resources>

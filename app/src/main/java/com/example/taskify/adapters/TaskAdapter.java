@@ -92,9 +92,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 tasks.remove(position);
                 notifyDataSetChanged();
                 Log.i(TAG, "Task completion was successful!");
-                Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
-
                 TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+                if (user.isParent()) {
+                    Toast.makeText(context, context.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
                 user.addPointsValue(pointsValue);
                 ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
             });

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        if (user != null) {
+        if (user != null && !user.isParent()) {
             textViewPointsTotal.setText(String.format(getResources().getString(R.string.display_points_format), user.getPointsTotal(), getResources().getString(R.string.points_value_suffix_text)));
         }
 
