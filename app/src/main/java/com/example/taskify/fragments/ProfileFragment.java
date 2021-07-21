@@ -27,13 +27,17 @@ import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.facebook.ParseFacebookUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -89,6 +93,7 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
+
         if (user.isParent()) {
             binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.GONE);
             binding.layoutChildDisplayParent.textViewUsername.setVisibility(View.GONE);
@@ -112,6 +117,31 @@ public class ProfileFragment extends Fragment {
             ParseUtil.setPhoto(getActivity(), binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
             binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
             binding.layoutChildDisplayParent.textViewUsername.setText(String.format(getString(R.string.display_username_format), parent.getUsername()));
+        }
+
+        if (ParseFacebookUtils.isLinked(user)) {
+            binding.buttonFacebookLink.setVisibility(View.GONE);
+        }
+        else {
+            binding.buttonFacebookLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "User: " + user.toString());
+                    if (!ParseFacebookUtils.isLinked(user)) {
+                        ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, getActivity(), null, new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (ParseFacebookUtils.isLinked(user)) {
+                                    Log.d(TAG, "User linked with Facebook!");
+                                    Toast.makeText(getContext(), "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Log.e(TAG, "User link with Facebook failed.", e);
+                            }
+                        });
+                    }
+                }
+            });
         }
 
         binding.buttonSignout.setOnClickListener(v -> {

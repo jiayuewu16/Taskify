@@ -1,5 +1,6 @@
 package com.example.taskify.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
+import com.parse.facebook.ParseFacebookUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,5 +83,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 }
