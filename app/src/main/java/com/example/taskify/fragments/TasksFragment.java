@@ -24,6 +24,7 @@ import com.example.taskify.databinding.FragmentTasksBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.AlarmBroadcastReceiver;
+import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -93,7 +94,7 @@ public class TasksFragment extends Fragment {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent receiverIntent = new Intent(getActivity(), AlarmBroadcastReceiver.class);
             receiverIntent.putExtra(Task.KEY_TASK_NAME, task.getTaskName());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), GeneralUtil.randomInt(), receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, task.getAlarmTime().getTime(), pendingIntent);
 
             tasks.add(task);
