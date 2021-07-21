@@ -112,4 +112,11 @@ public class TaskifyUser extends ParseUser {
             return null;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        return this.getObjectId().equals(((ParseUser)o).getObjectId());
+    }
 }

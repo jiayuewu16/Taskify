@@ -89,21 +89,21 @@ public class ParseUtil {
 
     public static void queryRewards(Context context, TaskifyUser user, List<Reward> rewards, RecyclerView.Adapter adapter) {
         ParseQuery<Reward> query = ParseQuery.getQuery(Reward.class);
-        query = query.include(Reward.KEY_USER);
+        query = query.include(Reward.KEY_USERS);
         query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
         if (user == null) {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
         if (!user.isParent()) {
-            query.whereEqualTo(Reward.KEY_USER, user);
+            query.whereEqualTo(Reward.KEY_USERS, user);
         }
         query.findInBackground((queryRewards, e) -> {
             if (e != null) {
                 Log.e(TAG, "Issue with getting posts", e);
             } else {
                 for (Reward reward : queryRewards) {
-                    Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUser().getUsername());
+                    Log.i(TAG, "Reward Name: " + reward.getRewardName() + ", assigned to: " + reward.getUsers().toString());
                 }
                 rewards.addAll(queryRewards);
                 if (adapter != null) {
@@ -115,13 +115,13 @@ public class ParseUtil {
 
     public static void queryTasks(Context context, TaskifyUser user, List<Task> tasks, RecyclerView.Adapter adapter) {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
-        query = query.include(Task.KEY_USER);
+        query = query.include(Task.KEY_USERS);
         if (user == null) {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
         if (!user.isParent()) {
-            query.whereEqualTo(Reward.KEY_USER, user);
+            query.whereEqualTo(Reward.KEY_USERS, user);
         }
         query.findInBackground((queryTasks, e) -> {
             if (e != null) {
@@ -130,7 +130,7 @@ public class ParseUtil {
             else {
                 tasks.addAll(queryTasks);
                 for (Task task : tasks) {
-                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUser().getUsername());
+                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUsers().toString());
                 }
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();

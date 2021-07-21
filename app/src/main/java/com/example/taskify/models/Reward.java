@@ -12,26 +12,18 @@ public class Reward extends ParseObject implements Comparable<Reward> {
     public final static String KEY_REWARD_NAME = "rewardName";
     public final static String KEY_REWARD_PHOTO = "rewardPhoto";
     public final static String KEY_POINTS_VALUE = "rewardPoints";
-    public final static String KEY_USER = "user";
+    public final static String KEY_USERS = "users";
 
     // Required default constructor.
     public Reward() {}
 
-    public Reward(String rewardName, int rewardPoints, ParseFile rewardPhoto, ParseUser user) {
-        setRewardName(rewardName);
-        if (rewardPhoto != null) {
-            setRewardPhoto(rewardPhoto);
-        }
-        setPointsValue(rewardPoints);
-        setUser(user);
-    }
     public Reward(String rewardName, int rewardPoints, ParseFile rewardPhoto, List<ParseUser> users) {
         setRewardName(rewardName);
         if (rewardPhoto != null) {
             setRewardPhoto(rewardPhoto);
         }
         setPointsValue(rewardPoints);
-        setUser(users);
+        setUsers(users);
     }
 
     public String getRewardName() {
@@ -46,8 +38,8 @@ public class Reward extends ParseObject implements Comparable<Reward> {
         return getInt(KEY_POINTS_VALUE);
     }
 
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+    public List<ParseUser> getUsers() {
+        return getList(KEY_USERS);
     }
 
     public void setRewardName(String rewardName) {
@@ -62,18 +54,19 @@ public class Reward extends ParseObject implements Comparable<Reward> {
         put(KEY_POINTS_VALUE, rewardPoints);
     }
 
-    public void setUser(ParseUser user) {
-        put(KEY_USER, user);
-    }
-
-    public void setUser(List<ParseUser> users) {
-        if (!users.isEmpty()) {
-            put(KEY_USER, users.get(0));
-        }
+    public void setUsers(List<ParseUser> users) {
+        put(KEY_USERS, users);
     }
 
     @Override
     public int compareTo(Reward o) {
         return this.getPointsValue() - o.getPointsValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        return this.getObjectId().equals(((Reward)o).getObjectId());
     }
 }

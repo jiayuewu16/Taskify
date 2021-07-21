@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationBar.setSelectedItemId(R.id.action_tasks);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);
     }
 

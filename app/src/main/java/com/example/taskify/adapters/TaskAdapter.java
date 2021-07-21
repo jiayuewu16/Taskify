@@ -18,7 +18,9 @@ import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,32 +88,68 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
             Task task = tasks.get(position);
             int pointsValue = task.getPointsValue();
-            task.deleteInBackground(e -> {
-                if (e != null) {
-                    Log.e(TAG, "Error while marking task complete", e);
-                    Toast.makeText(context, context.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                tasks.remove(position);
-                notifyDataSetChanged();
-                Log.i(TAG, "Task completion was successful!");
-                TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-                if (user.isParent()) {
-                    Toast.makeText(context, context.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1? "point" : "points"), Toast.LENGTH_SHORT).show();
-
-                int prevPointsValue = user.getPointsTotal();
-                user.addPointsValue(pointsValue);
-                ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
-                for (Reward reward : MainActivity.rewards) {
-                    if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
-                        Toast.makeText(context, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
+            List<ParseUser> users = task.getUsers();
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+            if (users.size() == 1 || user.isParent()) {
+                task.deleteInBackground(e -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error while marking task complete", e);
+                        Toast.makeText(context, context.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                }
-            });
+                    removeTaskFromList(position);
+                    updatePoints(user, pointsValue);
+                    Log.i(TAG, "Task completion was successful!");
+                    if (user.isParent()) {
+                        Toast.makeText(context, context.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                });
+            }
+            else {
+                users.remove(user);
+                task.setUsers(users);
+                task.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Toast.makeText(context, context.getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, context.getString(R.string.error_remove_task_message));
+                            return;
+                        }
+                        ParseUtil.save(task, context, TAG,
+                                String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
+                                context.getString(R.string.error_remove_task_message));
+                        removeTaskFromList(position);
+                        updatePoints(user, pointsValue);
+                        Log.i(TAG, "Task completion was successful!");
+                        if (user.isParent()) {
+                            Toast.makeText(context, context.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(context, String.format(context.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
             return true;
+        }
+    }
+
+    private void removeTaskFromList(int position) {
+        tasks.remove(position);
+        notifyDataSetChanged();
+    }
+
+    private void updatePoints(TaskifyUser user, int pointsValue) {
+        int prevPointsValue = user.getPointsTotal();
+        user.addPointsValue(pointsValue);
+        ParseUtil.save(user, context, TAG, null, context.getResources().getString(R.string.error_save_user_points));
+        for (Reward reward : MainActivity.rewards) {
+            if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
+                Toast.makeText(context, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

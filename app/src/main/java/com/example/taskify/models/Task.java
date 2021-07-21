@@ -1,5 +1,7 @@
 package com.example.taskify.models;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -16,22 +18,15 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public static final String KEY_TASK_NAME = "taskName";
     public static final String KEY_POINTS_VALUE = "pointsValue";
-    public static final String KEY_USER = "user";
+    public static final String KEY_USERS = "users";
     public static final String KEY_ALARM_TIME = "alarmTime";
 
     public Task() {}
 
-    public Task(String taskName, int pointsValue, Date alarmTime, ParseUser user) {
-        this.setTaskName(taskName);
-        this.setPointsValue(pointsValue);
-        this.setUser(user);
-        this.setAlarmTime(alarmTime);
-    }
-
     public Task(String taskName, int pointsValue, Date alarmTime, List<ParseUser> users) {
         this.setTaskName(taskName);
         this.setPointsValue(pointsValue);
-        this.setUser(users);
+        this.setUsers(users);
         this.setAlarmTime(alarmTime);
     }
 
@@ -43,15 +38,8 @@ public class Task extends ParseObject implements Comparable<Task> {
         put(KEY_POINTS_VALUE, pointsValue);
     }
 
-    public void setUser(ParseUser user) {
-        put(KEY_USER, user);
-    }
-
-    public void setUser(List<ParseUser> users) {
-        if (!users.isEmpty()) {
-            put(KEY_USER, users.get(0)); // Stores one user for now. Change for stretch goals.
-        }
-        // Silently fail otherwise.
+    public void setUsers(List<ParseUser> users) {
+        put(KEY_USERS, users);
     }
 
     public void setAlarmTime(Date alarmTime) {
@@ -66,8 +54,8 @@ public class Task extends ParseObject implements Comparable<Task> {
         return getInt(KEY_POINTS_VALUE);
     }
 
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+    public List<ParseUser> getUsers() {
+        return getList(KEY_USERS);
     }
 
     public Date getAlarmTime() {
@@ -85,5 +73,12 @@ public class Task extends ParseObject implements Comparable<Task> {
     @Override
     public int compareTo(Task o) {
         return this.getAlarmTime().compareTo(o.getAlarmTime());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        return this.getObjectId().equals(((Task)o).getObjectId());
     }
 }
