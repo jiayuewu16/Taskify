@@ -42,6 +42,7 @@
     <string name="sign_out_button">Sign Out</string>
     <string name="profile_children_header">Children:</string>
     <string name="profile_parent_header">Parent:</string>
+    <string name="link_facebook_button_text">Link with Facebook</string>
 
     <string name="error_default_message">Error! Something went wrong.</string>
     <string name="error_remove_reward_message">Error while removing reward.</string>
@@ -60,6 +61,7 @@
     <string name="error_empty_task_name_message">Task name cannot be empty.</string>
     <string name="success_save_task_message">Task saved successfully!</string>
     <string name="error_save_task_message">Error while saving text.</string>
+    <string name="success_parent_remove_task_message">Deleted task.</string>
 
     <string name="content_description_taskify_logo">Taskify logo</string>
     <string name="content_description_profile_photo">Profile photo</string>
@@ -74,6 +76,6 @@
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
     <string name="display_full_username_format">%s %s \@%s</string>
-    <string name="success_parent_remove_task_message">Deleted task.</string>
-    <string name="link_facebook_button_text">Link with Facebook</string>
+
+    <string name="alarm_new_task_alert">You have a new task!</string>
 </resources>
