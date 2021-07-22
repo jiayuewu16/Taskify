@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.taskify.R;
 import com.example.taskify.adapters.AssignChildAdapter;
 import com.example.taskify.databinding.FragmentTaskCreateBinding;
+import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
@@ -30,6 +31,7 @@ import org.parceler.Parcels;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -104,11 +106,29 @@ public class TaskCreateFragment extends DialogFragment {
                 Toast.makeText(activity, "You must select a child.", Toast.LENGTH_SHORT).show();
                 return;
             }
+            Alarm alarm;
             Date date = new Date();
             date.setHours(binding.timePicker.getHour());
             date.setMinutes(binding.timePicker.getMinute());
+            boolean recurring = binding.checkBoxSetRecurringTrue.isChecked();
+            if (recurring) {
+                List<Boolean> recurringWeekdays = Arrays.asList(
+                        binding.checkBoxSetRecurringMon.isChecked(),
+                        binding.checkBoxSetRecurringTue.isChecked(),
+                        binding.checkBoxSetRecurringWed.isChecked(),
+                        binding.checkBoxSetRecurringThu.isChecked(),
+                        binding.checkBoxSetRecurringFri.isChecked(),
+                        binding.checkBoxSetRecurringSat.isChecked(),
+                        binding.checkBoxSetRecurringSun.isChecked()
+                );
+                alarm = new Alarm(date, true, recurringWeekdays);
+            }
+            else {
+                alarm = new Alarm(date, false);
+            }
+            ParseUtil.save(alarm, activity, TAG, null, null);
 
-            Task task = new Task(taskName, pointsValue, date, selectedChildren);
+            Task task = new Task(taskName, pointsValue, alarm, selectedChildren);
             ParseUtil.save(task, activity, TAG,
                     activity.getResources().getString(R.string.success_save_task_message),
                     activity.getResources().getString(R.string.error_save_task_message));

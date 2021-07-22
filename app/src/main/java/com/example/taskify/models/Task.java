@@ -2,12 +2,13 @@ package com.example.taskify.models;
 
 import android.util.Log;
 
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.ParseObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,15 +20,15 @@ public class Task extends ParseObject implements Comparable<Task> {
     public static final String KEY_TASK_NAME = "taskName";
     public static final String KEY_POINTS_VALUE = "pointsValue";
     public static final String KEY_USERS = "users";
-    public static final String KEY_ALARM_TIME = "alarmTime";
+    public static final String KEY_ALARM = "alarm";
 
     public Task() {}
 
-    public Task(String taskName, int pointsValue, Date alarmTime, List<ParseUser> users) {
+    public Task(String taskName, int pointsValue, Alarm alarm, List<ParseUser> users) {
         this.setTaskName(taskName);
         this.setPointsValue(pointsValue);
         this.setUsers(users);
-        this.setAlarmTime(alarmTime);
+        this.setAlarm(alarm);
     }
 
     public void setTaskName(String taskName) {
@@ -42,8 +43,8 @@ public class Task extends ParseObject implements Comparable<Task> {
         put(KEY_USERS, users);
     }
 
-    public void setAlarmTime(Date alarmTime) {
-        put(KEY_ALARM_TIME, alarmTime);
+    public void setAlarm(Alarm alarm) {
+        put(KEY_ALARM, alarm);
     }
 
     public String getTaskName() {
@@ -58,21 +59,30 @@ public class Task extends ParseObject implements Comparable<Task> {
         return getList(KEY_USERS);
     }
 
-    public Date getAlarmTime() {
-        return getDate(KEY_ALARM_TIME);
+    public Alarm getAlarm() throws ParseException {
+        Alarm alarm = getParseObject(KEY_ALARM).fetchIfNeeded();
+        return alarm;
     }
 
-    public String getAlarmTimeString() {
+    public Date getAlarmTime() throws ParseException {
+        return getAlarm().getDate();
+    }
+
+    public String getAlarmTimeString() throws ParseException {
         String newDateFormat = "hh:mm aa";
         SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat(newDateFormat, Locale.ENGLISH);
         newSimpleDateFormat.setLenient(true);
-
         return newSimpleDateFormat.format(getAlarmTime());
     }
 
     @Override
     public int compareTo(Task o) {
-        return this.getAlarmTime().compareTo(o.getAlarmTime());
+        try {
+            return this.getAlarmTime().compareTo(o.getAlarmTime());
+        } catch (ParseException e) {
+            Log.e("Task", "Error when comparing Alarms.", e);
+        }
+        return -1;
     }
 
     @Override

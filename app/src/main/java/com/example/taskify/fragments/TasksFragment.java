@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentTasksBinding;
@@ -27,12 +25,11 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
-import com.parse.ParseQuery;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -66,7 +63,7 @@ public class TasksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tasks = MainActivity.tasks;
-        adapter = new TaskAdapter(getActivity(), tasks);
+        adapter = new TaskAdapter(getContext(), tasks);
 
         binding.recyclerViewTasksStream.setAdapter(adapter);
         binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -107,7 +104,12 @@ public class TasksFragment extends Fragment {
             Intent receiverIntent = new Intent(getActivity(), AlarmBroadcastReceiver.class);
             receiverIntent.putExtra(Task.KEY_TASK_NAME, task.getTaskName());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), GeneralUtil.randomInt(), receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, task.getAlarmTime().getTime(), pendingIntent);
+            try {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, task.getAlarmTime().getTime(), pendingIntent);
+            }
+            catch (ParseException e) {
+                Log.e(TAG, "Error fetching alarm to set notification", e);
+            }
 
             tasks.add(task);
             Collections.sort(tasks);

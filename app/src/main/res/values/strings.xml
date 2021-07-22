@@ -78,4 +78,5 @@
     <string name="display_full_username_format">%s %s \@%s</string>
 
     <string name="alarm_new_task_alert">You have a new task!</string>
+    <string name="default_alarm_time_display">00:00 AM</string>
 </resources>
