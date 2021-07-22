@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_CODE_QUERY = 16;
     private final static String TAG = "MainActivity";
     private ActivityMainBinding binding;
+    public final static List<Task> tasks = new ArrayList<>();
     public final static List<Reward> rewards = new ArrayList<>();
     private TaskifyUser user;
 

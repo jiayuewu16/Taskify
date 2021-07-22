@@ -8,7 +8,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
+import com.parse.CountCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -41,6 +45,7 @@ public class TaskQueryService extends Service {
     private final static String TAG = "TaskQueryService";
     private final static String createdAtFileName = "createdAtDate.tkf";
     private NotificationManager notificationManager;
+    private Context activityContext;
 
     @Nullable
     @Override
@@ -60,17 +65,14 @@ public class TaskQueryService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Task query service activated.");
 
+        activityContext = getApplicationContext();
+
         //query from database, if new task then set up that pending intent and immediately push a
         //notification saying that the user has a new task.
         Bundle bundle = intent.getBundleExtra("bundle");
         TaskifyUser user = bundle.getParcelable("user");
         if (user == null) {
             Log.e(TAG, "TaskQueryService error; user doesn't exist.");
-            return START_NOT_STICKY;
-        }
-        if (user.isParent()) {
-            //an error has occurred. parent should not be querying from the database.
-            Log.e(TAG, "TaskQueryService error; user is a parent.");
             return START_NOT_STICKY;
         }
 
@@ -82,22 +84,33 @@ public class TaskQueryService extends Service {
 
             ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
             query = query.include(Task.KEY_USERS);
-            query.whereEqualTo(Reward.KEY_USERS, user);
-            query.whereGreaterThan(Task.KEY_UPDATED_AT, createdAtDate);
-            List<Task> tasks = new ArrayList<>();
+            if (user.isParent()) {
+                //just query all for parent for now. fix later.
+            }
+            else {
+                query.whereEqualTo(Reward.KEY_USERS, user);
+            }
+            //query.whereGreaterThan(Task.KEY_UPDATED_AT, createdAtDate);
 
-            query.findInBackground((queryTasks, e) -> {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    return;
-                }
-                tasks.addAll(queryTasks);
-                for (Task task : tasks) {
-                    Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUsers().toString());
-                }
-                if (!tasks.isEmpty()) {
-                    //start instant notification
-                    //set up pendingintent for these tasks' alarms
+            query.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Issue with getting posts", e);
+                        return;
+                    }
+                    Log.i(TAG, "Count: " + count + ", " + MainActivity.tasks.size());
+                    if (count != MainActivity.tasks.size()) {
+                        Log.i(TAG, "Tasks updated.");
+                        if (user.isParent()) {
+                            Log.i(TAG, "Parent tasks updated.");
+                            Toast.makeText(TaskQueryService.this, "Your children have completed a task! Please refresh.", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Log.i(TAG, "Child tasks updated.");
+                            Toast.makeText(TaskQueryService.this, "Your tasks have been updated! Please refresh.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             });
         } catch (FileNotFoundException fe) {

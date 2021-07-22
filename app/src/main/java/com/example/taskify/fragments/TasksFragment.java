@@ -65,13 +65,14 @@ public class TasksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tasks = new ArrayList<>();
+        tasks = MainActivity.tasks;
         adapter = new TaskAdapter(getActivity(), tasks);
 
         binding.recyclerViewTasksStream.setAdapter(adapter);
         binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        tasks.clear();
         ParseUtil.queryTasks(getContext(), user, tasks, adapter);
 
         if (!user.isParent()) {
