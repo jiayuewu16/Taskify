@@ -87,12 +87,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startBackgroundTaskQuery();
+        //startBackgroundTaskQuery();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        stopBackgroundTaskQuery();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         stopBackgroundTaskQuery();
     }
 
