@@ -69,7 +69,7 @@ public class SignupActivity extends LoginActivity {
                     return;
                 }
                 String parentUsername = binding.editTextChildEnterParentUsername.getText().toString();
-                TaskifyUser parent = TaskifyUser.queryUser(parentUsername);
+                TaskifyUser parent = ParseUtil.queryUser(parentUsername);
                 if (parent == null) {
                     Toast.makeText(this, "User " + parentUsername + " does not exist.", Toast.LENGTH_SHORT).show();
                     return;

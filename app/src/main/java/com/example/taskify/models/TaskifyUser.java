@@ -92,27 +92,6 @@ public class TaskifyUser extends ParseUser {
 
     }
 
-    public static TaskifyUser queryUser(String username) {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo(KEY_USERNAME, username);
-        try {
-            List<ParseUser> parseUsers = query.find();
-            if (parseUsers.size() == 0) {
-                Log.e(TAG, String.format("No user found with username \"%s\".", username));
-                return null;
-            }
-            if (parseUsers.size() != 1) {
-                Log.e(TAG, String.format("Multiple users found with username \"%s\".", username));
-                return null;
-            }
-            return (TaskifyUser) parseUsers.get(0);
-        }
-        catch (ParseException e) {
-            Log.e(TAG, ParseUtil.parseExceptionToErrorText(e), e);
-            return null;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
