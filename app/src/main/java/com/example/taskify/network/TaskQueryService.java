@@ -74,15 +74,16 @@ public class TaskQueryService extends Service {
             return START_NOT_STICKY;
         }
 
-        //try {
-            //File createdAtDate = GeneralUtil.getFileUri(this, createdAtFileName);
-            //BufferedReader input = new BufferedReader(new FileReader(createdAtDate));
-            //String createdAt = input.readLine();
+        File createdAtFile = GeneralUtil.getFileUri(this, createdAtFileName);
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(createdAtFile));
+            String createdAtString = input.readLine();
+            Date createdAtDate = new Date(Date.parse(createdAtString));
 
             ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
             query = query.include(Task.KEY_USERS);
             query.whereEqualTo(Reward.KEY_USERS, user);
-            //query.whereGreaterThan(Task.KEY_UPDATED_AT, createdAt);
+            query.whereGreaterThan(Task.KEY_UPDATED_AT, createdAtDate);
             List<Task> tasks = new ArrayList<>();
 
             query.findInBackground((queryTasks, e) -> {
@@ -99,18 +100,16 @@ public class TaskQueryService extends Service {
                     //set up pendingintent for these tasks' alarms
                 }
             });
-        /*} /*catch (FileNotFoundException fe) {
+        } catch (FileNotFoundException fe) {
             Log.e(TAG, "Error finding createdAtDate file", fe);
         } catch (IOException ie) {
             Log.e(TAG, "createdAtDate file has io exceptions", ie);
-        }*/
+        }
 
         //write a new createdatdate file with the current time
-        FileOutputStream outputStream;
         Date nowDate = new Date();
-
         try {
-            outputStream = openFileOutput(createdAtFileName, Context.MODE_PRIVATE);
+            FileOutputStream outputStream = new FileOutputStream(createdAtFile);
             outputStream.write(nowDate.toString().getBytes());
             outputStream.close();
         } catch (Exception e) {
