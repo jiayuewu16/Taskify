@@ -121,7 +121,7 @@ public class ParseUtil {
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
         if (!user.isParent()) {
-            query.whereEqualTo(Reward.KEY_USERS, user);
+            query.whereEqualTo(Task.KEY_USERS, user);
         }
         query.findInBackground((queryTasks, e) -> {
             if (e != null) {
