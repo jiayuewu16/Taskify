@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
@@ -83,6 +84,16 @@ public class TasksFragment extends Fragment {
                 taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
             });
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.swipeRefreshLayout.setRefreshing(true);
+                tasks.clear();
+                ParseUtil.queryTasks(getContext(), user, tasks, adapter);
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
