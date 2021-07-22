@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     private ActivityMainBinding binding;
     public final static List<Reward> rewards = new ArrayList<>();
+    private TaskifyUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(findViewById(R.id.toolbar_main));
 
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+        user = (TaskifyUser) ParseUser.getCurrentUser();
         if (user == null) {
             Log.e(TAG, "No user.");
             Intent intent = new Intent(this, LoginActivity.class);
@@ -80,13 +81,21 @@ public class MainActivity extends AppCompatActivity {
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);
-
-        if (!user.isParent()) {
-            startBackgroundTaskQuery(user);
-        }
     }
 
-    private void startBackgroundTaskQuery(TaskifyUser user) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startBackgroundTaskQuery();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopBackgroundTaskQuery();
+    }
+
+    private void startBackgroundTaskQuery() {
         // Tutorial: https://stackoverflow.com/questions/32138061/how-to-run-a-parse-query-in-background-or-schedule-it-in-android
         // and https://www.thepolyglotdeveloper.com/2014/10/use-broadcast-receiver-background-services-android/
         Log.i(TAG, "Query intent started.");
@@ -103,6 +112,15 @@ public class MainActivity extends AppCompatActivity {
         //requestCode is always 16, so only one query pendingIntent is ever running.
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_CODE_QUERY, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), INTERVAL_SECONDS * MILLISECONDS, pendingIntent);
+    }
+
+    private void stopBackgroundTaskQuery() {
+        Intent receiverIntent = new Intent(this, TaskQueryBroadcastReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", user);
+        receiverIntent.putExtra("bundle", bundle);
+        PendingIntent.getBroadcast(this, REQUEST_CODE_QUERY, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT).cancel();
+        Log.i(TAG, "Query intent stopped.");
     }
 
     @Override
