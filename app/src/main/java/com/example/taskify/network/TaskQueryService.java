@@ -82,12 +82,23 @@ public class TaskQueryService extends Service {
             String createdAtString = input.readLine();
             Date createdAtDate = new Date(Date.parse(createdAtString));
 
-            ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
-            query = query.include(Task.KEY_USERS);
+            ParseQuery<Task> query;
             if (user.isParent()) {
-                //just query all for parent for now. fix later.
+                List<TaskifyUser> children = user.queryChildren();
+                List<ParseQuery<Task>> queries = new ArrayList<>();
+                for (TaskifyUser child : children) {
+                    ParseQuery tempQuery = ParseQuery.getQuery(Task.class);
+                    tempQuery.whereEqualTo(Task.KEY_USERS, child);
+                    queries.add(tempQuery);
+                }
+                if (queries.isEmpty()) {
+                    return START_NOT_STICKY;
+                }
+                query = ParseQuery.or(queries);
             }
             else {
+                query = ParseQuery.getQuery(Task.class);
+                query = query.include(Task.KEY_USERS);
                 query.whereEqualTo(Reward.KEY_USERS, user);
             }
             //query.whereGreaterThan(Task.KEY_UPDATED_AT, createdAtDate);

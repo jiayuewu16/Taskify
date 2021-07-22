@@ -88,16 +88,30 @@ public class ParseUtil {
     }
 
     public static void queryRewards(Context context, TaskifyUser user, List<Reward> rewards, RecyclerView.Adapter adapter) {
-        ParseQuery<Reward> query = ParseQuery.getQuery(Reward.class);
-        query = query.include(Reward.KEY_USERS);
-        query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
+        ParseQuery<Reward> query;
         if (user == null) {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
-        if (!user.isParent()) {
+        if (user.isParent()) {
+            List<TaskifyUser> children = user.queryChildren();
+            List<ParseQuery<Reward>> queries = new ArrayList<>();
+            for (TaskifyUser child : children) {
+                ParseQuery<Reward> tempQuery = ParseQuery.getQuery(Reward.class);
+                tempQuery.whereEqualTo(Reward.KEY_USERS, child);
+                queries.add(tempQuery);
+            }
+            if (queries.isEmpty()) {
+                return;
+            }
+            query = ParseQuery.or(queries);
+        }
+        else {
+            query = ParseQuery.getQuery(Reward.class);
+            query = query.include(Reward.KEY_USERS);
             query.whereEqualTo(Reward.KEY_USERS, user);
         }
+        query.addAscendingOrder(Reward.KEY_POINTS_VALUE);
         query.findInBackground((queryRewards, e) -> {
             if (e != null) {
                 Log.e(TAG, "Issue with getting posts", e);
@@ -120,7 +134,20 @@ public class ParseUtil {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
-        if (!user.isParent()) {
+        if (user.isParent()) {
+            List<TaskifyUser> children = user.queryChildren();
+            List<ParseQuery<Task>> queries = new ArrayList<>();
+            for (TaskifyUser child : children) {
+                ParseQuery<Task> tempQuery = ParseQuery.getQuery(Task.class);
+                tempQuery.whereEqualTo(Task.KEY_USERS, child);
+                queries.add(tempQuery);
+            }
+            if (queries.isEmpty()) {
+                return;
+            }
+            query = ParseQuery.or(queries);
+        }
+        else {
             query.whereEqualTo(Task.KEY_USERS, user);
         }
         query.findInBackground((queryTasks, e) -> {
