@@ -77,7 +77,7 @@ public class TaskCreateFragment extends DialogFragment {
         binding.buttonConfirm.setOnClickListener(v -> {
             String taskName = binding.editTextTaskName.getText().toString();
             if (taskName.isEmpty()) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_task_name_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_empty_task_name_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             int pointsValue;
@@ -86,7 +86,7 @@ public class TaskCreateFragment extends DialogFragment {
                 if (pointsValue < 0) throw new IllegalArgumentException();
             }
             catch (NumberFormatException ne) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             catch (IllegalArgumentException ie) {
@@ -122,9 +122,7 @@ public class TaskCreateFragment extends DialogFragment {
             ParseUtil.save(alarm, activity, TAG, null, null);
 
             Task task = new Task(taskName, pointsValue, alarm, selectedChildren);
-            ParseUtil.save(task, activity, TAG,
-                    activity.getResources().getString(R.string.success_save_task_message),
-                    activity.getResources().getString(R.string.error_save_task_message));
+            ParseUtil.save(task, activity, TAG, getString(R.string.success_save_task_message), getString(R.string.error_save_task_message));
 
             Intent intent = new Intent();
             intent.putExtra("task", Parcels.wrap(task));

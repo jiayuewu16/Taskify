@@ -49,8 +49,8 @@ public class ParseUtil {
                     Log.e(TAG, errorMessage, e);
                 }
                 else {
-                    Toast.makeText(context, ParseApplication.getContext().getResources().getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, ParseApplication.getContext().getResources().getString(R.string.error_default_message), e);
+                    Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, context.getString(R.string.error_default_message), e);
                 }
             }
             else {

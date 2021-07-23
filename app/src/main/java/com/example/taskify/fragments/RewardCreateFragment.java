@@ -75,7 +75,7 @@ public class RewardCreateFragment extends DialogFragment {
             // CodePath tutorial
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-            Uri fileProvider = FileProvider.getUriForFile(activity, activity.getResources().getString(R.string.uri_fileprovider_authority), photoFile);
+            Uri fileProvider = FileProvider.getUriForFile(activity, getString(R.string.uri_fileprovider_authority), photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
             // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -102,7 +102,7 @@ public class RewardCreateFragment extends DialogFragment {
         binding.buttonConfirm.setOnClickListener(v -> {
             String rewardName = binding.editTextRewardName.getText().toString();
             if (rewardName.isEmpty()) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_reward_name_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_empty_reward_name_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             int pointsValue;
@@ -111,7 +111,7 @@ public class RewardCreateFragment extends DialogFragment {
                 if (pointsValue < 0) throw new IllegalArgumentException();
             }
             catch (NumberFormatException ne) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_empty_points_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             catch (IllegalArgumentException ie) {
@@ -127,9 +127,7 @@ public class RewardCreateFragment extends DialogFragment {
             if (binding.imageViewPhoto.getDrawable() == null) {
                 // Does not require a photo to be uploaded.
                 reward = new Reward(rewardName, pointsValue, null, selectedChildren);
-                ParseUtil.save(reward, activity, TAG,
-                        activity.getResources().getString(R.string.success_save_reward_message),
-                        activity.getResources().getString(R.string.error_save_reward_message));
+                ParseUtil.save(reward, activity, TAG, getString(R.string.success_save_reward_message), getString(R.string.error_save_reward_message));
                 returnReward();
             }
             else {
@@ -138,9 +136,7 @@ public class RewardCreateFragment extends DialogFragment {
                 parseFile.saveInBackground((SaveCallback) e -> {
                     if (e == null) {
                         reward = new Reward(rewardName, pointsValue, parseFile, selectedChildren);
-                        ParseUtil.save(reward, activity, TAG,
-                                activity.getResources().getString(R.string.success_save_reward_message),
-                                activity.getResources().getString(R.string.error_save_reward_message));
+                        ParseUtil.save(reward, activity, TAG, getString(R.string.success_save_reward_message), getString(R.string.error_save_reward_message));
                         if (photoFile.delete()) {
                             Log.i(TAG, "Photo deletion successful.");
                         }
@@ -202,7 +198,7 @@ public class RewardCreateFragment extends DialogFragment {
                 // Load the resized image into a preview
                 binding.imageViewPhoto.setImageBitmap(resizedBitmap);
             } else { // Result was a failure
-                Toast.makeText(activity, activity.getResources().getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
             }
         }
     }

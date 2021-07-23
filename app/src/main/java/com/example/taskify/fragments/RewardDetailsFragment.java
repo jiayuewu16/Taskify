@@ -64,7 +64,7 @@ public class RewardDetailsFragment extends DialogFragment {
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
         binding.textViewRewardName.setText(reward.getRewardName());
-        String pointsValueString = reward.getPointsValue() + " " + activity.getResources().getString(R.string.points_value_suffix_text);
+        String pointsValueString = reward.getPointsValue() + " " + getString(R.string.points_value_suffix_text);
         binding.textViewPointsValue.setText(pointsValueString);
         ParseFile rewardPhoto = reward.getRewardPhoto();
         if (rewardPhoto == null) {

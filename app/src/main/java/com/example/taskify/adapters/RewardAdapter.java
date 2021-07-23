@@ -64,7 +64,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         public void bind(Reward reward) {
             binding.textViewRewardName.setText(reward.getRewardName());
-            String pointsValueString = reward.getPointsValue() + " " + fragmentActivity.getResources().getString(R.string.points_value_suffix_text);
+            String pointsValueString = reward.getPointsValue() + " " + fragmentActivity.getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
             binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
@@ -110,13 +110,13 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             reward.deleteInBackground(e -> {
                 if (e != null) {
                     Log.e(TAG, "Error while removing reward.", e);
-                    Toast.makeText(fragmentActivity, fragmentActivity.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 rewards.remove(position);
                 notifyDataSetChanged();
                 Log.i(TAG, "Reward removed successfully.");
-                Toast.makeText(fragmentActivity, fragmentActivity.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
             });
             return true;
         }

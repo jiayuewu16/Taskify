@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
             // CodePath tutorial
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File photoFile1 = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-            Uri fileProvider = FileProvider.getUriForFile(getActivity(), getActivity().getResources().getString(R.string.uri_fileprovider_authority), photoFile1);
+            Uri fileProvider = FileProvider.getUriForFile(getActivity(), getString(R.string.uri_fileprovider_authority), photoFile1);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
             // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
             binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.GONE);
 
             binding.recyclerViewParentDisplayChild.setVisibility(View.VISIBLE);
-            binding.textViewAssociatedUserHeader.setText(getActivity().getString(R.string.profile_children_header));
+            binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
             List<TaskifyUser> children = user.queryChildren();
             UserAdapter adapter = new UserAdapter(getActivity(), children);
             binding.recyclerViewParentDisplayChild.setAdapter(adapter);
@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
             binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.VISIBLE);
 
             binding.recyclerViewParentDisplayChild.setVisibility(View.GONE);
-            binding.textViewAssociatedUserHeader.setText(getActivity().getString(R.string.profile_parent_header));
+            binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
             TaskifyUser parent = user.getParent();
             ParseUtil.setPhoto(binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
             binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
@@ -170,12 +170,10 @@ public class ProfileFragment extends Fragment {
                 // Load the resized image into a preview
                 binding.imageViewProfilePhoto.setImageBitmap(resizedBitmap);
                 user.setProfilePhoto(new ParseFile(photoFile));
-                ParseUtil.save(user, getActivity(), TAG,
-                        getContext().getResources().getString(R.string.success_save_profile_image),
-                        getContext().getResources().getString(R.string.error_save_profile_image));
+                ParseUtil.save(user, getActivity(), TAG, getString(R.string.success_save_profile_image), getString(R.string.error_save_profile_image));
 
             } else { // Result was a failure
-                Toast.makeText(getActivity(), getContext().getResources().getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
             }
         }
     }

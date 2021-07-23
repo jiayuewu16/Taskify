@@ -66,7 +66,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(Task task) {
             Alarm alarm = task.getAlarm();
             binding.textViewTaskName.setText(task.getTaskName());
-            String pointsValueString = task.getPointsValue() + " " + fragmentActivity.getResources().getString(R.string.points_value_suffix_text);
+            String pointsValueString = task.getPointsValue() + " " + fragmentActivity.getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
             binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
             binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
@@ -97,7 +97,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 task.deleteInBackground(e -> {
                     if (e != null) {
                         Log.e(TAG, "Error while marking task complete", e);
-                        Toast.makeText(fragmentActivity, fragmentActivity.getResources().getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     removeTaskFromList(position);
@@ -107,7 +107,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
                 });
             }
             else {
@@ -120,7 +120,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         return;
                     }
                     ParseUtil.save(task, fragmentActivity, TAG,
-                            String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
+                            String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
                             fragmentActivity.getString(R.string.error_remove_task_message));
                     removeTaskFromList(position);
                     updatePoints(user, pointsValue);
@@ -129,7 +129,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
                 });
             }
             return true;
@@ -144,7 +144,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private void updatePoints(TaskifyUser user, int pointsValue) {
         int prevPointsValue = user.getPointsTotal();
         user.addPointsValue(pointsValue);
-        ParseUtil.save(user, fragmentActivity, TAG, null, fragmentActivity.getResources().getString(R.string.error_save_user_points));
+        ParseUtil.save(user, fragmentActivity, TAG, null, fragmentActivity.getString(R.string.error_save_user_points));
         for (Reward reward : MainActivity.rewards) {
             if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
                 Toast.makeText(fragmentActivity, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();

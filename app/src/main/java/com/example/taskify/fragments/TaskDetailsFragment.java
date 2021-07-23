@@ -63,7 +63,7 @@ public class TaskDetailsFragment extends DialogFragment {
 
         Alarm alarm = task.getAlarm();
         binding.textViewTaskName.setText(task.getTaskName());
-        String pointsValueString = task.getPointsValue() + " " + activity.getResources().getString(R.string.points_value_suffix_text);
+        String pointsValueString = task.getPointsValue() + " " + getString(R.string.points_value_suffix_text);
         binding.textViewPointsValue.setText(pointsValueString);
         binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
         binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
