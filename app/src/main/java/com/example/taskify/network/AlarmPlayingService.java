@@ -12,11 +12,16 @@ import androidx.annotation.Nullable;
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.models.Task;
+import com.example.taskify.util.GeneralUtil;
 
 public class AlarmPlayingService extends Service {
     // Tutorial: https://www.c-sharpcorner.com/article/create-alarm-android-application/
 
+    private static final String NOTIFICATION_CHANNEL_ID = "com.example.taskify";
+    private static final String CHANNEL_NAME = "Taskify";
+    private static final int NOTIFICATION_ID = 166;
     private NotificationManager notificationManager;
+
 
     @Nullable
     @Override
@@ -40,19 +45,16 @@ public class AlarmPlayingService extends Service {
         Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
 
-        String NOTIFICATION_CHANNEL_ID = "com.example.taskify";
-        String channelName = "Taskify";
-        int notificationId = 166;
-        createNotificationChannel(NOTIFICATION_CHANNEL_ID, channelName);
+        createNotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME);
 
-        String alarmTitle = intent.getStringExtra(Task.KEY_TASK_NAME);
+        String alarmTitle = intent.getStringExtra("taskName");
         Notification notificationPopup = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(alarmTitle)
                 .setSmallIcon(R.drawable.ic_taskify_logo_transparent_white)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();
-        startForeground(notificationId, notificationPopup);
+        startForeground(GeneralUtil.randomInt(), notificationPopup);
         stopForeground(false);
 
         return START_NOT_STICKY;

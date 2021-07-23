@@ -69,13 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             binding.textViewTaskName.setText(task.getTaskName());
             String pointsValueString = task.getPointsValue() + " " + context.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
-            try {
-                binding.textViewAlarmTime.setText(task.getAlarmTimeString());
-            }
-            catch (ParseException e) {
-                Log.e(TAG, "Error with fetching alarm", e);
-                binding.textViewAlarmTime.setText(R.string.default_alarm_time_display);
-            }
+            binding.textViewAlarmTime.setText(task.getAlarmTimeString());
         }
 
         @Override

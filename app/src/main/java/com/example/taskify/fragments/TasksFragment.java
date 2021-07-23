@@ -100,16 +100,7 @@ public class TasksFragment extends Fragment {
         if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
             Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
 
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            Intent receiverIntent = new Intent(getActivity(), AlarmBroadcastReceiver.class);
-            receiverIntent.putExtra(Task.KEY_TASK_NAME, task.getTaskName());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), GeneralUtil.randomInt(), receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            try {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, task.getAlarmTime().getTime(), pendingIntent);
-            }
-            catch (ParseException e) {
-                Log.e(TAG, "Error fetching alarm to set notification", e);
-            }
+            task.startAlarm(getContext());
 
             tasks.add(task);
             Collections.sort(tasks);

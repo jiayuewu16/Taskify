@@ -25,8 +25,12 @@ public class Alarm extends ParseObject {
 
     public Alarm() {}
 
-    public Alarm(Date date, boolean recurring, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
-        this(date, recurring, Arrays.asList(mon, tue, wed, thu, fri, sat, sun));
+    public Alarm(Date date, boolean recurring, boolean sun, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat) {
+        this(date, recurring, Arrays.asList(sun, mon, tue, wed, thu, fri, sat, sun));
+        if (recurring && !(sun && mon && tue && wed && thu && fri && sat)) {
+            // `recurring` was checked but no days selected; effectively non-recurring.
+            setRecurring(false);
+        }
     }
 
     public Alarm(Date date, boolean recurring) {
@@ -46,6 +50,10 @@ public class Alarm extends ParseObject {
 
     public boolean getRecurring() {
         return getBoolean(KEY_RECURRING);
+    }
+
+    public boolean isRecurring() {
+        return getRecurring();
     }
 
     public List<Boolean> getRecurringWeekdays() {

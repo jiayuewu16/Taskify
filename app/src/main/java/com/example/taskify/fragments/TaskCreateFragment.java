@@ -113,13 +113,13 @@ public class TaskCreateFragment extends DialogFragment {
             boolean recurring = binding.checkBoxSetRecurringTrue.isChecked();
             if (recurring) {
                 List<Boolean> recurringWeekdays = Arrays.asList(
+                        binding.checkBoxSetRecurringSun.isChecked(),
                         binding.checkBoxSetRecurringMon.isChecked(),
                         binding.checkBoxSetRecurringTue.isChecked(),
                         binding.checkBoxSetRecurringWed.isChecked(),
                         binding.checkBoxSetRecurringThu.isChecked(),
                         binding.checkBoxSetRecurringFri.isChecked(),
-                        binding.checkBoxSetRecurringSat.isChecked(),
-                        binding.checkBoxSetRecurringSun.isChecked()
+                        binding.checkBoxSetRecurringSat.isChecked()
                 );
                 alarm = new Alarm(date, true, recurringWeekdays);
             }
