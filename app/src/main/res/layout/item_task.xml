@@ -43,4 +43,19 @@
         android:textSize="22sp"
         tools:text="5 Point(s)" />
 
+    <TextView
+        android:id="@+id/textViewRecurring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTaskName"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/textViewPointsValue"
+        android:layout_toEndOf="@+id/textViewAlarmTime"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textSize="22sp"
+        tools:text="Mon Wed Fri" />
+
 </RelativeLayout>

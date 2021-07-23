@@ -13,8 +13,10 @@ import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.parse.ParseException;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TimeUtil {
@@ -70,5 +72,58 @@ public class TimeUtil {
         int today = calendar.get(Calendar.DAY_OF_WEEK) - 1; // `today` has range [0, 6], where 0 is Sunday.
 
         return alarm.getRecurringWeekdays().get(today);
+    }
+
+    public static String getRecurringText(Alarm alarm) {
+        List<Boolean> recurringWeekdays = alarm.getRecurringWeekdays();
+        /*
+        Based on the iOS alarm app,
+        One day: Every Sunday
+        Two-Six days: Mon Tue Wed Thu
+        Seven days: Every day
+        */
+        int count = 0;
+        for (boolean weekday : recurringWeekdays) {
+            if (weekday) {
+                count++;
+            }
+        }
+        String outputString = "";
+        if (count == 1) {
+            outputString = outputString.concat("Every ");
+            for (int i = 0; i < recurringWeekdays.size(); i++) {
+                if (recurringWeekdays.get(i)) {
+                    outputString = outputString.concat(intWeekdayToStringFull(i));
+                    break;
+                }
+            }
+        }
+        else if (count < 7) {
+            for (int i = 0; i < recurringWeekdays.size(); i++) {
+                if (recurringWeekdays.get(i)) {
+                    outputString = outputString.concat(intWeekdayToStringShort(i) + " ");
+                }
+            }
+        }
+        else {
+            outputString = "Every day";
+        }
+        return outputString;
+    }
+
+    private static String intWeekdayToStringFull(int weekday) {
+        List<String> weekdaysFull = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        if (weekday >= 0 && weekday < 7) {
+            return weekdaysFull.get(weekday);
+        }
+        return "";
+    }
+
+    private static String intWeekdayToStringShort(int weekday) {
+        List<String> weekdaysFull = Arrays.asList("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+        if (weekday >= 0 && weekday < 7) {
+            return weekdaysFull.get(weekday);
+        }
+        return "";
     }
 }

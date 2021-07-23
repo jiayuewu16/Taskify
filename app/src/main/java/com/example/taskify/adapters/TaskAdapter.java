@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.databinding.ItemTaskBinding;
+import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
+import com.example.taskify.util.TimeUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -66,10 +68,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
 
         public void bind(Task task) {
+            Alarm alarm = task.getAlarm();
             binding.textViewTaskName.setText(task.getTaskName());
             String pointsValueString = task.getPointsValue() + " " + context.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
-            binding.textViewAlarmTime.setText(task.getAlarmTimeString());
+            binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
+            binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
         }
 
         @Override
