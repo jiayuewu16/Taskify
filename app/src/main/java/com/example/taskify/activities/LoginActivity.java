@@ -50,12 +50,12 @@ public class LoginActivity extends AppCompatActivity {
             //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
             ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, null, (user, err) -> {
                 if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                    Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
                 } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    Log.d(TAG, "User signed up and logged in through Facebook!");
                     goToMainActivity();
                 } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
+                    Log.d(TAG, "User logged in through Facebook!");
                     goToMainActivity();
                 }
             });
