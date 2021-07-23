@@ -48,7 +48,7 @@ public class TaskDetailsFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskDetailsBinding.inflate(inflater, container, false);
@@ -83,7 +83,7 @@ public class TaskDetailsFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
             activity = (FragmentActivity)context;

@@ -1,6 +1,7 @@
 package com.example.taskify.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -18,11 +19,11 @@ public class PhotoUtil {
     public final static int DEFAULT_WIDTH = 500;
 
     // Returns the File for a photo stored on disk given the fileName
-    public static File getPhotoFileUri(Activity activity, String fileName) {
+    public static File getPhotoFileUri(Context context, String fileName) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){

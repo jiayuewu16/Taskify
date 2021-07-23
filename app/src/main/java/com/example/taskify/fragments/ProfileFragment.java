@@ -1,6 +1,7 @@
 package com.example.taskify.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -42,6 +43,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
     public static final int REQUEST_IMAGE_CAPTURE = 2;
     private TaskifyUser user;
+    private Context context;
 
     // Required empty public constructor
     public ProfileFragment() {}
@@ -65,7 +67,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         user = (TaskifyUser) ParseUser.getCurrentUser();
-        ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
+        ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
         if (user.getFirstName() != null) {
             binding.textViewFirstName.setText(user.getFirstName());
         }
@@ -77,13 +79,13 @@ public class ProfileFragment extends Fragment {
         binding.floatingActionButtonCamera.setOnClickListener(v -> {
             // CodePath tutorial
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File photoFile1 = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
-            Uri fileProvider = FileProvider.getUriForFile(getActivity(), getString(R.string.uri_fileprovider_authority), photoFile1);
+            File photoFile1 = PhotoUtil.getPhotoFileUri(context, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+            Uri fileProvider = FileProvider.getUriForFile(context, getString(R.string.uri_fileprovider_authority), photoFile1);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
             // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
             // So as long as the result is not null, it's safe to use the intent.
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
                 // Start the image capture intent to take photo
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -97,9 +99,9 @@ public class ProfileFragment extends Fragment {
             binding.recyclerViewParentDisplayChild.setVisibility(View.VISIBLE);
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
             List<TaskifyUser> children = user.queryChildren();
-            UserAdapter adapter = new UserAdapter(getActivity(), children);
+            UserAdapter adapter = new UserAdapter(context, children);
             binding.recyclerViewParentDisplayChild.setAdapter(adapter);
-            binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(getActivity()));
+            binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));
         }
         else {
             binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.VISIBLE);
@@ -109,7 +111,7 @@ public class ProfileFragment extends Fragment {
             binding.recyclerViewParentDisplayChild.setVisibility(View.GONE);
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
             TaskifyUser parent = user.getParent();
-            ParseUtil.setPhoto(binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
+            ParseUtil.setPhoto(binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
             binding.layoutChildDisplayParent.textViewUsername.setText(String.format(getString(R.string.display_username_format), parent.getUsername()));
         }
@@ -121,10 +123,10 @@ public class ProfileFragment extends Fragment {
             binding.buttonFacebookLink.setOnClickListener(v -> {
                 Log.i(TAG, "User: " + user.toString());
                 if (!ParseFacebookUtils.isLinked(user)) {
-                    ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, getActivity(), null, e -> {
+                    ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, requireActivity(), null, e -> {
                         if (ParseFacebookUtils.isLinked(user)) {
                             Log.d(TAG, "User linked with Facebook!");
-                            Toast.makeText(getContext(), "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Log.e(TAG, "User link with Facebook failed.", e);
@@ -135,9 +137,9 @@ public class ProfileFragment extends Fragment {
 
         binding.buttonSignout.setOnClickListener(v -> {
             ParseUser.logOut();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
-            getActivity().finish();
+            requireActivity().finish();
         });
 
     }
@@ -147,7 +149,7 @@ public class ProfileFragment extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK) {
                 // Codepath tutorial
-                File photoFile = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+                File photoFile = PhotoUtil.getPhotoFileUri(context, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = PhotoUtil.rotateBitmapOrientation(photoFile.getAbsolutePath());
                 // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
@@ -166,15 +168,21 @@ public class ProfileFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                photoFile = PhotoUtil.getPhotoFileUri(getActivity(), PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
+                photoFile = PhotoUtil.getPhotoFileUri(context, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
                 // Load the resized image into a preview
                 binding.imageViewProfilePhoto.setImageBitmap(resizedBitmap);
                 user.setProfilePhoto(new ParseFile(photoFile));
-                ParseUtil.save(user, getActivity(), TAG, getString(R.string.success_save_profile_image), getString(R.string.error_save_profile_image));
+                ParseUtil.save(user, context, TAG, getString(R.string.success_save_profile_image), getString(R.string.error_save_profile_image));
 
             } else { // Result was a failure
-                Toast.makeText(getActivity(), getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getString(R.string.error_take_camera_picture), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 }

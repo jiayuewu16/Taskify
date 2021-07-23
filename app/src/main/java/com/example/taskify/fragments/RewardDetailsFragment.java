@@ -111,7 +111,7 @@ public class RewardDetailsFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
             activity = (FragmentActivity)context;

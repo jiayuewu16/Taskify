@@ -40,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RewardCreateFragment extends DialogFragment {
 
@@ -159,12 +160,12 @@ public class RewardCreateFragment extends DialogFragment {
     private void returnReward() {
         Intent intent = new Intent();
         intent.putExtra("reward", Parcels.wrap(reward));
-        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         dismiss();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
             activity = (FragmentActivity)context;

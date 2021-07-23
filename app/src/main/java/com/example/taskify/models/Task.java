@@ -9,6 +9,7 @@ import com.parse.ParseObject;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @ParseClassName("Task")
 public class Task extends ParseObject implements Comparable<Task> {
@@ -58,10 +59,10 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public Alarm getAlarm() {
         try {
-            return getParseObject(KEY_ALARM).fetchIfNeeded();
+            return Objects.requireNonNull(getParseObject(KEY_ALARM)).fetchIfNeeded();
         }
-        catch (ParseException e) {
-            Log.e(TAG, "Error fetching alarm.", e);
+        catch (ParseException pe) {
+            Log.e(TAG, "Error fetching alarm.", pe);
         }
         return new Alarm();
     }

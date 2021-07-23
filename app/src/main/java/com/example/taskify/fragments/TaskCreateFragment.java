@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskCreateFragment extends DialogFragment {
 
@@ -49,7 +50,7 @@ public class TaskCreateFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskCreateBinding.inflate(inflater, container, false);
@@ -126,13 +127,13 @@ public class TaskCreateFragment extends DialogFragment {
 
             Intent intent = new Intent();
             intent.putExtra("task", Parcels.wrap(task));
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             dismiss();
         });
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
             activity = (FragmentActivity)context;

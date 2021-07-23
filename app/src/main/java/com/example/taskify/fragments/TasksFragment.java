@@ -3,6 +3,7 @@ package com.example.taskify.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class TasksFragment extends Fragment {
 
+    private final static String TAG = "TasksFragment";
     private final static int KEY_TASK_CREATE_FRAGMENT = 1;
     private FragmentStreamBinding binding;
     private TaskAdapter adapter;
@@ -43,7 +45,7 @@ public class TasksFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentStreamBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -70,7 +72,7 @@ public class TasksFragment extends Fragment {
             binding.floatingActionButtonCreate.setOnClickListener(v -> {
                 TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
                 taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
-                taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
+                taskCreateFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
             });
         }
 
@@ -86,6 +88,10 @@ public class TasksFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                Log.i(TAG, "No task returned");
+                return;
+            }
             Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
             tasks.add(task);
             Collections.sort(tasks);
