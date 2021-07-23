@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:layout_height="match_parent"
+    tools:context=".fragments.TaskDetailsFragment"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/textViewTaskName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
+        android:textSize="24sp"
         tools:text="Wash Dishes" />
 
     <ImageView
@@ -19,7 +20,7 @@
         android:layout_height="22dp"
         android:layout_below="@+id/textViewTaskName"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/content_description_alarm_clock_icon"
         app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
@@ -29,32 +30,49 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTaskName"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/imageViewClock"
         android:textSize="22sp"
         tools:text="00:00 PM" />
 
     <TextView
+        android:id="@+id/textViewRecurring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewAlarmTime"
+        android:layout_alignParentStart="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textSize="22sp"
+        tools:text="Mon Wed Fri" />
+
+    <TextView
         android:id="@+id/textViewPointsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTaskName"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textViewRecurring"
+        android:layout_alignParentStart="true"
         android:gravity="end"
+        android:layout_marginTop="5dp"
         android:textSize="22sp"
         tools:text="5 Point(s)" />
 
     <TextView
-        android:id="@+id/textViewRecurring"
+        android:id="@+id/textViewAssignedToText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTaskName"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/textViewPointsValue"
-        android:layout_toEndOf="@+id/textViewAlarmTime"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textSize="22sp"
-        tools:text="Mon Wed Fri" />
+        android:layout_below="@+id/textViewPointsValue"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:text="Assigned to:" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAssignedChild"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/textViewAssignedToText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"/>
 
 </RelativeLayout>
