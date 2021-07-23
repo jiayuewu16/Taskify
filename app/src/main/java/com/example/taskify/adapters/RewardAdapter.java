@@ -1,6 +1,5 @@
 package com.example.taskify.adapters;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -10,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
 import com.example.taskify.databinding.ItemRewardBinding;
+import com.example.taskify.fragments.RewardDetailsFragment;
+import com.example.taskify.fragments.TaskDetailsFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
 import com.parse.ParseFile;
@@ -25,18 +27,18 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
     private final static String TAG = "RewardAdapter";
 
-    private final Context context;
+    private final FragmentActivity fragmentActivity;
     private final List<Reward> rewards;
 
-    public RewardAdapter(Context context, List<Reward> rewards) {
-        this.context = context;
+    public RewardAdapter(FragmentActivity fragmentActivity, List<Reward> rewards) {
+        this.fragmentActivity = fragmentActivity;
         this.rewards = rewards;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemRewardBinding binding = ItemRewardBinding.inflate(LayoutInflater.from(context));
+        ItemRewardBinding binding = ItemRewardBinding.inflate(LayoutInflater.from(fragmentActivity));
         return new ViewHolder(binding);
     }
 
@@ -63,7 +65,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         public void bind(Reward reward) {
             binding.textViewRewardName.setText(reward.getRewardName());
-            String pointsValueString = reward.getPointsValue() + " " + context.getResources().getString(R.string.points_value_suffix_text);
+            String pointsValueString = reward.getPointsValue() + " " + fragmentActivity.getResources().getString(R.string.points_value_suffix_text);
             binding.textViewPointsValue.setText(pointsValueString);
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
             binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
@@ -89,6 +91,8 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         public void onClick(View v) {
             //go to details screen
             Log.i(TAG, "onClick");
+            RewardDetailsFragment rewardDetailsFragment = RewardDetailsFragment.newInstance(rewards.get(getAdapterPosition()));
+            rewardDetailsFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_reward_details");
         }
 
         @Override
@@ -107,13 +111,13 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             reward.deleteInBackground(e -> {
                 if (e != null) {
                     Log.e(TAG, "Error while removing reward.", e);
-                    Toast.makeText(context, context.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentActivity, fragmentActivity.getResources().getString(R.string.error_remove_reward_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 rewards.remove(position);
                 notifyDataSetChanged();
                 Log.i(TAG, "Reward removed successfully.");
-                Toast.makeText(context, context.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragmentActivity, fragmentActivity.getResources().getString(R.string.success_remove_reward_message), Toast.LENGTH_SHORT).show();
             });
             return true;
         }
