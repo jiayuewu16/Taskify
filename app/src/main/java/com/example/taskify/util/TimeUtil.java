@@ -12,58 +12,53 @@ import com.example.taskify.models.Task;
 import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.parse.ParseException;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class TimeUtil {
 
+    private final static String requestCodeFileName = "requestCode.tkf";
     public final static long SECONDS_PER_DAY = 24 * 60 * 60 * 1000;
     private static final String TAG = "TimeUtil";
+
+    public static void cancelAlarms(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent receiverIntent = new Intent(context, AlarmBroadcastReceiver.class);
+        Bundle bundle = new Bundle();
+        receiverIntent.putExtra("bundle", bundle);
+
+        for (Integer requestCode : getPendingIntentRequestCodes(context)) {
+            Log.i(TAG, "Canceled alarm " + requestCode);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.cancel(pendingIntent);
+        }
+    }
+
+    public static void startAlarms(Context context, List<Task> tasks) {
+        List<Integer> requestCodes = new ArrayList<>();
+        for (Task task : tasks) {
+            requestCodes.add(startAlarm(context, task));
+        }
+        savePendingIntentRequestCodes(context, requestCodes);
+    }
 
     public static String dateToAlarmTimeString(Date date) {
         String newDateFormat = "hh:mm aa";
         SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat(newDateFormat, Locale.ENGLISH);
         newSimpleDateFormat.setLenient(true);
         return newSimpleDateFormat.format(date);
-    }
-
-    public static void startAlarm(Context context, Task task) {
-        // Tutorial: https://learntodroid.com/how-to-create-a-simple-alarm-clock-app-in-android/
-        Alarm alarm = task.getAlarm();
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent receiverIntent = new Intent(context, AlarmBroadcastReceiver.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("task", task);
-        receiverIntent.putExtra("bundle", bundle);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, GeneralUtil.randomInt(), receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, alarm.getDate().getHours());
-        calendar.set(Calendar.MINUTE, alarm.getDate().getMinutes());
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        // If alarm time has already passed, play the alarm tomorrow;
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
-        }
-
-        if (!task.getAlarm().isRecurring()) {
-            Log.i(TAG, "Set one-time alarm for " + task.getTaskName() + ".");
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
-        else {
-            // Check the alarm daily. If the alarm should be played on the current day of the week,
-            // play the alarm.
-            Log.i(TAG, "Set repeating alarm for " + task.getTaskName() + ".");
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), SECONDS_PER_DAY, pendingIntent);
-        }
     }
 
     public static boolean alarmIsToday(Alarm alarm) {
@@ -111,6 +106,77 @@ public class TimeUtil {
         return outputString;
     }
 
+    private static List<Integer> getPendingIntentRequestCodes(Context context) {
+        File requestCodeFile = GeneralUtil.getFileUri(context, requestCodeFileName);
+        List<Integer> requestCodes = new ArrayList<>();
+        try {
+            Scanner input = new Scanner(new FileReader(requestCodeFile));
+            while (input.hasNext()) {
+                requestCodes.add(Integer.parseInt(input.nextLine()));
+            }
+            Log.i(TAG, "Retrieved request codes " + requestCodes.toString());
+        }
+        catch (FileNotFoundException fe) {
+            Log.e(TAG, "Error finding requestCode file or first time creating it", fe);
+        }
+        catch (NumberFormatException ne) {
+            Log.e(TAG, "NumberFormatException in requestCode file", ne);
+        }
+        return requestCodes;
+    }
+
+    private static void savePendingIntentRequestCodes(Context context, List<Integer> requestCodes) {
+        try {
+            File requestCodeFile = GeneralUtil.getFileUri(context, requestCodeFileName);
+            FileOutputStream outputStream = new FileOutputStream(requestCodeFile);
+            for (Integer requestCode : requestCodes) {
+                outputStream.write((requestCode+"\n").getBytes());
+            }
+            outputStream.close();
+            Log.i(TAG, "Saved request codes " + requestCodes.toString());
+        } catch (IOException e) {
+            Log.e(TAG, "Error writing to requestCode file", e);
+        }
+    }
+
+    private static int startAlarm(Context context, Task task) {
+        // Tutorial: https://learntodroid.com/how-to-create-a-simple-alarm-clock-app-in-android/
+        Alarm alarm = task.getAlarm();
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent receiverIntent = new Intent(context, AlarmBroadcastReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("task", task);
+        receiverIntent.putExtra("bundle", bundle);
+        int requestCode = getRequestCode(task.getTaskName(), alarm);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, alarm.getDate().getHours());
+        calendar.set(Calendar.MINUTE, alarm.getDate().getMinutes());
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        // If alarm time has already passed, play the alarm tomorrow;
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        }
+
+        if (!task.getAlarm().isRecurring()) {
+            Log.i(TAG, "Set one-time alarm for " + task.getTaskName() + ".");
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+        else {
+            // Check the alarm daily. If the alarm should be played on the current day of the week,
+            // play the alarm.
+            Log.i(TAG, "Set repeating alarm for " + task.getTaskName() + ".");
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), SECONDS_PER_DAY, pendingIntent);
+        }
+
+        return requestCode;
+    }
+
     private static String intWeekdayToStringFull(int weekday) {
         List<String> weekdaysFull = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
         if (weekday >= 0 && weekday < 7) {
@@ -125,5 +191,20 @@ public class TimeUtil {
             return weekdaysFull.get(weekday);
         }
         return "";
+    }
+
+    /**
+     * Gets a requestCode for a specific task based on its attributes. In very rare edge cases, may be the
+     * same as a task with a similar task name and similar alarm time.
+     *
+     * @param taskName name of the task/alarm.
+     * @param alarm the alarm.
+     * @return an integer requestCode representing the task's pending intent.
+     */
+    private static int getRequestCode(String taskName, Alarm alarm) {
+        int taskNameLength = 15;
+
+        String requestCodeString = taskName.substring(0, Math.min(taskName.length(), taskNameLength)) + alarm.getDate().toString() + alarm.getRecurringWeekdays().toString();
+        return requestCodeString.hashCode();
     }
 }

@@ -184,6 +184,10 @@ public class ParseUtil {
                     adapter.notifyDataSetChanged();
                     Log.i(TAG, "Adapter updated.");
                 }
+                if (!user.isParent()) {
+                    TimeUtil.cancelAlarms(context);
+                    TimeUtil.startAlarms(context, tasks);
+                }
             }
         });
     }

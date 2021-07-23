@@ -86,10 +86,6 @@ public class Task extends ParseObject implements Comparable<Task> {
     public String getAlarmTimeString() {
         return TimeUtil.dateToAlarmTimeString(getAlarmTime());
     }
-    
-    public void startAlarm(Context context) {
-        TimeUtil.startAlarm(context, this);
-    }
 
     @Override
     public int compareTo(Task o) {

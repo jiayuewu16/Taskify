@@ -25,11 +25,13 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
+import com.example.taskify.util.TimeUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -99,9 +101,6 @@ public class TasksFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
             Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
-
-            task.startAlarm(getContext());
-
             tasks.add(task);
             Collections.sort(tasks);
             adapter.notifyDataSetChanged();
