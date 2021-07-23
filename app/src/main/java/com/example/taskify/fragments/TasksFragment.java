@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.TaskAdapter;
-import com.example.taskify.databinding.FragmentTasksBinding;
+import com.example.taskify.databinding.FragmentStreamBinding;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
@@ -28,7 +28,7 @@ import java.util.List;
 public class TasksFragment extends Fragment {
 
     private final static int KEY_TASK_CREATE_FRAGMENT = 1;
-    private FragmentTasksBinding binding;
+    private FragmentStreamBinding binding;
     private TaskAdapter adapter;
     private List<Task> tasks;
 
@@ -45,7 +45,7 @@ public class TasksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTasksBinding.inflate(inflater, container, false);
+        binding = FragmentStreamBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -56,18 +56,18 @@ public class TasksFragment extends Fragment {
         tasks = MainActivity.tasks;
         adapter = new TaskAdapter(getActivity(), tasks);
 
-        binding.recyclerViewTasksStream.setAdapter(adapter);
-        binding.recyclerViewTasksStream.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewStream.setAdapter(adapter);
+        binding.recyclerViewStream.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         tasks.clear();
         ParseUtil.queryTasks(getContext(), user, tasks, adapter);
 
         if (!user.isParent()) {
-            binding.floatingActionButtonCreateTask.setVisibility(View.GONE);
+            binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
         else {
-            binding.floatingActionButtonCreateTask.setOnClickListener(v -> {
+            binding.floatingActionButtonCreate.setOnClickListener(v -> {
                 TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
                 taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
                 taskCreateFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
@@ -90,7 +90,7 @@ public class TasksFragment extends Fragment {
             tasks.add(task);
             Collections.sort(tasks);
             adapter.notifyDataSetChanged();
-            binding.recyclerViewTasksStream.smoothScrollToPosition(adapter.getItemCount()-1);
+            binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
         }
     }
 }

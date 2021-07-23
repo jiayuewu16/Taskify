@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.RewardsFragment">
+    android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonCreateReward"
+        android:id="@+id/floatingActionButtonCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -17,12 +16,13 @@
         app:maxImageSize="50dp"
         android:contentDescription="@string/content_description_launch_create_reward"
         android:src="@android:drawable/ic_menu_add" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRewardsStream"
+            android:id="@+id/recyclerViewStream"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="1dp" />
