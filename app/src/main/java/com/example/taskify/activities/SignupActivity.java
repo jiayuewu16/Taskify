@@ -4,17 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.example.taskify.util.ParseUtil;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
 public class SignupActivity extends LoginActivity {
@@ -28,20 +22,14 @@ public class SignupActivity extends LoginActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.checkBoxIsParent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                binding.checkBoxIsChild.setChecked(!isChecked);
-                binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.GONE : View.VISIBLE);
-            }
+        binding.checkBoxIsParent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.checkBoxIsChild.setChecked(!isChecked);
+            binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.GONE : View.VISIBLE);
         });
 
-        binding.checkBoxIsChild.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                binding.checkBoxIsParent.setChecked(!isChecked);
-                binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.VISIBLE : View.GONE);
-            }
+        binding.checkBoxIsChild.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.checkBoxIsParent.setChecked(!isChecked);
+            binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.VISIBLE : View.GONE);
         });
 
         binding.buttonLogin.setOnClickListener(view -> {
@@ -99,25 +87,19 @@ public class SignupActivity extends LoginActivity {
             });
         });
 
-        binding.buttonFacebookLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
-                ParseFacebookUtils.logInWithReadPermissionsInBackground(SignupActivity.this, null, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException err) {
-                        if (user == null) {
-                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                        } else if (user.isNew()) {
-                            Log.d("MyApp", "User signed up and logged in through Facebook!");
-                            goToMainActivity();
-                        } else {
-                            Log.d("MyApp", "User logged in through Facebook!");
-                            goToMainActivity();
-                        }
-                    }
-                });
-            }
+        binding.buttonFacebookLogin.setOnClickListener(v -> {
+            //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
+            ParseFacebookUtils.logInWithReadPermissionsInBackground(SignupActivity.this, null, (user, err) -> {
+                if (user == null) {
+                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                } else if (user.isNew()) {
+                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    goToMainActivity();
+                } else {
+                    Log.d("MyApp", "User logged in through Facebook!");
+                    goToMainActivity();
+                }
+            });
         });
     }
 

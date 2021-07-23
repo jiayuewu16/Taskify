@@ -1,17 +1,13 @@
 package com.example.taskify.models;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.taskify.util.ParseUtil;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskifyUser extends ParseUser {

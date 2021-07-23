@@ -2,9 +2,7 @@ package com.example.taskify.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -15,14 +13,9 @@ import com.example.taskify.databinding.ItemAssignedChildBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AssignedChildAdapter extends RecyclerView.Adapter<AssignedChildAdapter.ViewHolder> {
-
-    private final static String TAG = "UserAdapter";
 
     private final Context context;
     private final List<TaskifyUser> users;
@@ -64,7 +57,7 @@ public class AssignedChildAdapter extends RecyclerView.Adapter<AssignedChildAdap
         }
 
         public void bind(TaskifyUser user) {
-            ParseUtil.setPhoto(context, binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
+            ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             binding.textViewFullUsername.setText(String.format(context.getString(R.string.display_full_username_format), user.getFirstName(), user.getLastName(), user.getUsername()));
         }
     }

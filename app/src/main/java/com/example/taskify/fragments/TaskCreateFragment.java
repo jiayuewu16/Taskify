@@ -11,11 +11,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.taskify.R;
@@ -29,7 +27,6 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,10 +37,6 @@ public class TaskCreateFragment extends DialogFragment {
     public final static String TAG = "TaskCreateFragment";
     private FragmentTaskCreateBinding binding;
     protected FragmentActivity activity;
-
-    public interface TaskCreateDialogListener {
-        void onFinishTaskCreateDialog(Task task);
-    }
 
     // Required empty public constructor
     public TaskCreateFragment() {}
@@ -133,8 +126,6 @@ public class TaskCreateFragment extends DialogFragment {
                     activity.getResources().getString(R.string.success_save_task_message),
                     activity.getResources().getString(R.string.error_save_task_message));
 
-            //TaskCreateDialogListener listener = (TaskCreateDialogListener) activity;
-            //listener.onFinishTaskCreateDialog(task);
             Intent intent = new Intent();
             intent.putExtra("task", Parcels.wrap(task));
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);

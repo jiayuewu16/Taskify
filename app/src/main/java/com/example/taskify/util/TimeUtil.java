@@ -10,9 +10,7 @@ import android.util.Log;
 import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Task;
 import com.example.taskify.network.AlarmBroadcastReceiver;
-import com.parse.ParseException;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

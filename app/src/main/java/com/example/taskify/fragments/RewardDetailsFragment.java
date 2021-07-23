@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -21,14 +20,11 @@ import android.view.ViewGroup;
 import com.example.taskify.R;
 import com.example.taskify.adapters.AssignedChildAdapter;
 import com.example.taskify.databinding.FragmentRewardDetailsBinding;
-import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
-import com.example.taskify.util.TimeUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RewardDetailsFragment extends DialogFragment {

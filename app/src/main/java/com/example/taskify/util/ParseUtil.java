@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
@@ -22,7 +21,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +62,7 @@ public class ParseUtil {
         });
     }
 
-    public static void setPhoto(Context context, ImageView imageView, TaskifyUser user, Drawable defaultPhoto) {
+    public static void setPhoto(ImageView imageView, TaskifyUser user, Drawable defaultPhoto) {
         try {
             ParseFile photoFile = ((TaskifyUser) user.fetchIfNeeded()).getProfilePhoto();
             if (photoFile != null) {

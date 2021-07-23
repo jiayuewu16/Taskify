@@ -3,7 +3,6 @@ package com.example.taskify.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,17 +26,14 @@ import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -69,8 +65,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         user = (TaskifyUser) ParseUser.getCurrentUser();
-        ParseFile photoFile = user.getProfilePhoto();
-        ParseUtil.setPhoto(getActivity(), binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
+        ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
         if (user.getFirstName() != null) {
             binding.textViewFirstName.setText(user.getFirstName());
         }
@@ -114,7 +109,7 @@ public class ProfileFragment extends Fragment {
             binding.recyclerViewParentDisplayChild.setVisibility(View.GONE);
             binding.textViewAssociatedUserHeader.setText(getActivity().getString(R.string.profile_parent_header));
             TaskifyUser parent = user.getParent();
-            ParseUtil.setPhoto(getActivity(), binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
+            ParseUtil.setPhoto(binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(getContext(), R.drawable.ic_baseline_person_24));
             binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
             binding.layoutChildDisplayParent.textViewUsername.setText(String.format(getString(R.string.display_username_format), parent.getUsername()));
         }
@@ -123,23 +118,17 @@ public class ProfileFragment extends Fragment {
             binding.buttonFacebookLink.setVisibility(View.GONE);
         }
         else {
-            binding.buttonFacebookLink.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i(TAG, "User: " + user.toString());
-                    if (!ParseFacebookUtils.isLinked(user)) {
-                        ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, getActivity(), null, new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (ParseFacebookUtils.isLinked(user)) {
-                                    Log.d(TAG, "User linked with Facebook!");
-                                    Toast.makeText(getContext(), "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                Log.e(TAG, "User link with Facebook failed.", e);
-                            }
-                        });
-                    }
+            binding.buttonFacebookLink.setOnClickListener(v -> {
+                Log.i(TAG, "User: " + user.toString());
+                if (!ParseFacebookUtils.isLinked(user)) {
+                    ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, getActivity(), null, e -> {
+                        if (ParseFacebookUtils.isLinked(user)) {
+                            Log.d(TAG, "User linked with Facebook!");
+                            Toast.makeText(getContext(), "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Log.e(TAG, "User link with Facebook failed.", e);
+                    });
                 }
             });
         }

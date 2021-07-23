@@ -49,10 +49,6 @@ public class RewardCreateFragment extends DialogFragment {
     protected FragmentActivity activity;
     private Reward reward;
 
-    public interface RewardCreateDialogListener {
-        void onFinishRewardCreateDialog(Reward reward);
-    }
-
     // Required empty public constructor
     public RewardCreateFragment() {}
 
@@ -165,8 +161,6 @@ public class RewardCreateFragment extends DialogFragment {
     }
 
     private void returnReward() {
-        //RewardCreateDialogListener listener = (RewardCreateDialogListener) activity;
-        //listener.onFinishRewardCreateDialog(reward);
         Intent intent = new Intent();
         intent.putExtra("reward", Parcels.wrap(reward));
         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);

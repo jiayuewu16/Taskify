@@ -1,8 +1,6 @@
 package com.example.taskify.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +14,6 @@ import com.example.taskify.R;
 import com.example.taskify.databinding.ItemUserBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
-import com.example.taskify.util.PhotoUtil;
-import com.parse.ParseFile;
 
 import java.util.List;
 
@@ -62,8 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         public void bind(TaskifyUser user) {
-            ParseFile photoFile = user.getProfilePhoto();
-            ParseUtil.setPhoto(context, binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
+            ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             binding.textViewFullName.setText(String.format(context.getString(R.string.display_full_name_format), user.getFirstName(), user.getLastName()));
             binding.textViewUsername.setText(String.format(context.getString(R.string.display_username_format), user.getUsername()));
         }

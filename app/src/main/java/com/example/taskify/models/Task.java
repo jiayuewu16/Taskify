@@ -1,26 +1,14 @@
 package com.example.taskify.models;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.example.taskify.network.AlarmBroadcastReceiver;
-import com.example.taskify.util.GeneralUtil;
-import com.example.taskify.util.TimeUtil;
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.ParseObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @ParseClassName("Task")
 public class Task extends ParseObject implements Comparable<Task> {
@@ -70,8 +58,7 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public Alarm getAlarm() {
         try {
-            Alarm alarm = getParseObject(KEY_ALARM).fetchIfNeeded();
-            return alarm;
+            return getParseObject(KEY_ALARM).fetchIfNeeded();
         }
         catch (ParseException e) {
             Log.e(TAG, "Error fetching alarm.", e);
@@ -81,10 +68,6 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public Date getAlarmTime() {
         return getAlarm().getDate();
-    }
-
-    public String getAlarmTimeString() {
-        return TimeUtil.dateToAlarmTimeString(getAlarmTime());
     }
 
     @Override

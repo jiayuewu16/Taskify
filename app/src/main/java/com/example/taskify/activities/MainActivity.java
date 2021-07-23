@@ -21,9 +21,7 @@ import com.example.taskify.fragments.TasksFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
-import com.example.taskify.network.AlarmBroadcastReceiver;
 import com.example.taskify.network.TaskQueryBroadcastReceiver;
-import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
@@ -108,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Query intent started.");
 
         int MILLISECONDS = 1000;
-        int INTERVAL_SECONDS = 30;
+        int INTERVAL_SECONDS = 60;
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent receiverIntent = new Intent(this, TaskQueryBroadcastReceiver.class);

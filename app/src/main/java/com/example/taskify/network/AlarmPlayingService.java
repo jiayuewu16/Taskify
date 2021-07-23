@@ -11,7 +11,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
-import com.example.taskify.models.Task;
 import com.example.taskify.util.GeneralUtil;
 
 public class AlarmPlayingService extends Service {
@@ -19,7 +18,6 @@ public class AlarmPlayingService extends Service {
 
     private static final String NOTIFICATION_CHANNEL_ID = "com.example.taskify";
     private static final String CHANNEL_NAME = "Taskify";
-    private static final int NOTIFICATION_ID = 166;
     private NotificationManager notificationManager;
 
 
@@ -29,9 +27,9 @@ public class AlarmPlayingService extends Service {
         return null;
     }
 
-    private void createNotificationChannel(String channelId, String channelName) {
+    private void createNotificationChannel() {
         // Tutorial: https://stackoverflow.com/questions/47531742/startforeground-fail-after-upgrade-to-android-8-1
-        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.setLightColor(getColor(R.color.red));
         notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(notificationChannel);
@@ -45,7 +43,7 @@ public class AlarmPlayingService extends Service {
         Intent activityIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
 
-        createNotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME);
+        createNotificationChannel();
 
         String alarmTitle = intent.getStringExtra("taskName");
         Notification notificationPopup = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)

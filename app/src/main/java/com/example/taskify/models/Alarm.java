@@ -1,21 +1,11 @@
 package com.example.taskify.models;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @ParseClassName("Alarm")
 public class Alarm extends ParseObject {
@@ -24,14 +14,6 @@ public class Alarm extends ParseObject {
     private static final String KEY_RECURRING_WEEKDAYS = "recurringWeekdays";
 
     public Alarm() {}
-
-    public Alarm(Date date, boolean recurring, boolean sun, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat) {
-        this(date, recurring, Arrays.asList(sun, mon, tue, wed, thu, fri, sat, sun));
-        if (recurring && !(sun && mon && tue && wed && thu && fri && sat)) {
-            // `recurring` was checked but no days selected; effectively non-recurring.
-            setRecurring(false);
-        }
-    }
 
     public Alarm(Date date, boolean recurring) {
         // Assume recurring false.

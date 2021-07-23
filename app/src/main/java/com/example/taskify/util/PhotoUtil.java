@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,31 +71,5 @@ public class PhotoUtil {
         // CodePath
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
-    }
-
-    // scale and keep aspect ratio
-    public static Bitmap scaleToFitHeight(Bitmap b, int height) {
-        // CodePath
-        float factor = height / (float) b.getHeight();
-        return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factor), height, true);
-    }
-
-    // scale and keep aspect ratio
-    public static Bitmap scaleToFill(Bitmap b, int width, int height) {
-        // CodePath
-        float factorH = height / (float) b.getWidth();
-        float factorW = width / (float) b.getWidth();
-        float factorToUse = Math.min(factorH, factorW);
-        return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorToUse),
-                (int) (b.getHeight() * factorToUse), true);
-    }
-
-    // scale and don't keep aspect ratio
-    public static Bitmap stretchToFill(Bitmap b, int width, int height) {
-        // CodePath
-        float factorH = height / (float) b.getHeight();
-        float factorW = width / (float) b.getWidth();
-        return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),
-                (int) (b.getHeight() * factorH), true);
     }
 }

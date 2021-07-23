@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.fragments.RewardDetailsFragment;
-import com.example.taskify.fragments.TaskDetailsFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
 import com.parse.ParseFile;

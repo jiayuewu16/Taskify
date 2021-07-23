@@ -13,20 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.databinding.ItemTaskBinding;
-import com.example.taskify.fragments.TaskCreateFragment;
 import com.example.taskify.fragments.TaskDetailsFragment;
-import com.example.taskify.fragments.TasksFragment;
 import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.TimeUtil;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
@@ -119,26 +113,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             else {
                 users.remove(user);
                 task.setUsers(users);
-                task.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, fragmentActivity.getString(R.string.error_remove_task_message));
-                            return;
-                        }
-                        ParseUtil.save(task, fragmentActivity, TAG,
-                                String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
-                                fragmentActivity.getString(R.string.error_remove_task_message));
-                        removeTaskFromList(position);
-                        updatePoints(user, pointsValue);
-                        Log.i(TAG, "Task completion was successful!");
-                        if (user.isParent()) {
-                            Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(fragmentActivity, String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                task.saveInBackground(e -> {
+                    if (e != null) {
+                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, fragmentActivity.getString(R.string.error_remove_task_message));
+                        return;
                     }
+                    ParseUtil.save(task, fragmentActivity, TAG,
+                            String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
+                            fragmentActivity.getString(R.string.error_remove_task_message));
+                    removeTaskFromList(position);
+                    updatePoints(user, pointsValue);
+                    Log.i(TAG, "Task completion was successful!");
+                    if (user.isParent()) {
+                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getResources().getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
                 });
             }
             return true;

@@ -1,13 +1,9 @@
 package com.example.taskify.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -17,16 +13,12 @@ import com.example.taskify.R;
 import com.example.taskify.databinding.ItemAssignChildBinding;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
-import com.example.taskify.util.PhotoUtil;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AssignChildAdapter extends RecyclerView.Adapter<AssignChildAdapter.ViewHolder> {
-
-    private final static String TAG = "UserAdapter";
 
     private final Context context;
     private final List<TaskifyUser> users;
@@ -70,16 +62,13 @@ public class AssignChildAdapter extends RecyclerView.Adapter<AssignChildAdapter.
         }
 
         public void bind(TaskifyUser user) {
-            ParseUtil.setPhoto(context, binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
+            ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             binding.textViewFullUsername.setText(String.format(context.getString(R.string.display_full_username_format), user.getFirstName(), user.getLastName(), user.getUsername()));
-            binding.checkBoxAssignChild.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        selectedChildren.add(user);
-                    } else {
-                        selectedChildren.remove(user);
-                    }
+            binding.checkBoxAssignChild.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedChildren.add(user);
+                } else {
+                    selectedChildren.remove(user);
                 }
             });
         }
