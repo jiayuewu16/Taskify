@@ -21,6 +21,13 @@ public class GeneralUtil {
         return (int)(Math.random() * (max-min+1) + min);
     }
 
+    public static String getPointsValueString(int pointsValue) {
+        if (pointsValue == 1) {
+            return "1 Point";
+        }
+        return pointsValue + " Points";
+    }
+
     // Returns the File for a photo stored on disk given the fileName
     public static File getFileUri(Context context, String fileName) {
         // Get safe storage directory for photos

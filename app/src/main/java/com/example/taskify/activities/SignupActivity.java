@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.taskify.R;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.databinding.ActivitySignupBinding;
 import com.example.taskify.util.ParseUtil;
@@ -53,22 +54,21 @@ public class SignupActivity extends LoginActivity {
             if (binding.checkBoxIsChild.isChecked()) {
                 user.setIsParent(false);
                 if (binding.editTextChildEnterParentUsername.getText().toString().isEmpty()) {
-                    Toast.makeText(this, "You must enter your parent's username.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.child_sign_up_missing_parent_username), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String parentUsername = binding.editTextChildEnterParentUsername.getText().toString();
                 TaskifyUser parent = ParseUtil.queryUser(parentUsername);
                 if (parent == null) {
-                    Toast.makeText(this, "User " + parentUsername + " does not exist.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, String.format(getString(R.string.child_sign_up_user_not_exist), parentUsername), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (!parent.isParent()) {
-                    Toast.makeText(this, "User " + parentUsername + " is not a parent.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, String.format(getString(R.string.child_sign_up_user_not_parent), parentUsername), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //Parent is a valid parent to be linked to this child.
-                parent.setParent(user);
                 user.setParent(parent);
             }
             else {

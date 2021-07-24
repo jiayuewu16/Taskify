@@ -20,6 +20,7 @@ import com.example.taskify.databinding.FragmentTaskDetailsBinding;
 import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.TimeUtil;
 import com.parse.ParseUser;
 
@@ -63,8 +64,7 @@ public class TaskDetailsFragment extends DialogFragment {
 
         Alarm alarm = task.getAlarm();
         binding.textViewTaskName.setText(task.getTaskName());
-        String pointsValueString = task.getPointsValue() + " " + getString(R.string.points_value_suffix_text);
-        binding.textViewPointsValue.setText(pointsValueString);
+        binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));
         binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
         binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
 

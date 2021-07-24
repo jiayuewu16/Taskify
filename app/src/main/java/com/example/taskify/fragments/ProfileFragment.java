@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment {
         if (user.getLastName() != null) {
             binding.textViewLastName.setText(user.getLastName());
         }
-        binding.textViewUsername.setText(String.format("@%s", user.getUsername()));
+        binding.textViewUsername.setText(String.format(getString(R.string.display_username_format), user.getUsername()));
 
         binding.floatingActionButtonCamera.setOnClickListener(v -> {
             // CodePath tutorial
@@ -126,10 +126,11 @@ public class ProfileFragment extends Fragment {
                     ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, requireActivity(), null, e -> {
                         if (ParseFacebookUtils.isLinked(user)) {
                             Log.d(TAG, "User linked with Facebook!");
-                            Toast.makeText(context, "Successfully linked with Facebook!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, getString(R.string.success_link_facebook_message), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Log.e(TAG, "User link with Facebook failed.", e);
+                        Toast.makeText(context, getString(R.string.error_link_facebook_message), Toast.LENGTH_SHORT).show();
                     });
                 }
             });

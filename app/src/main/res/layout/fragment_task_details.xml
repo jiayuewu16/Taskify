@@ -65,7 +65,7 @@
         android:layout_below="@+id/textViewPointsValue"
         android:layout_marginTop="5dp"
         android:textSize="18sp"
-        android:text="Assigned to:" />
+        android:text="@string/assigned_to_text" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAssignedChild"

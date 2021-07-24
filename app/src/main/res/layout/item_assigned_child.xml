@@ -11,9 +11,8 @@
         android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/checkBoxAssignChild"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/ic_baseline_person_24" />
+        app:srcCompat="@drawable/ic_baseline_person_24"
+        android:contentDescription="@string/content_description_profile_photo" />
 
     <TextView
         android:id="@+id/textViewFullUsername"

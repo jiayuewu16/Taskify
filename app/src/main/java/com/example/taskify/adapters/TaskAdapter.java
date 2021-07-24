@@ -18,6 +18,7 @@ import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.TimeUtil;
 import com.parse.ParseUser;
@@ -66,8 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(Task task) {
             Alarm alarm = task.getAlarm();
             binding.textViewTaskName.setText(task.getTaskName());
-            String pointsValueString = task.getPointsValue() + " " + fragmentActivity.getString(R.string.points_value_suffix_text);
-            binding.textViewPointsValue.setText(pointsValueString);
+            binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));
             binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
             binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
         }

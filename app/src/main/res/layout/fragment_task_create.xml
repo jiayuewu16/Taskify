@@ -166,7 +166,7 @@
             android:layout_below="@+id/layoutPoints"
             android:layout_marginTop="5dp"
             android:textSize="18sp"
-            android:text="Assign to:" />
+            android:text="@string/assign_to_text" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAssignChild"

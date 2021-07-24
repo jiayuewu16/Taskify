@@ -17,6 +17,7 @@ import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.fragments.RewardDetailsFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.GeneralUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -64,8 +65,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         public void bind(Reward reward) {
             binding.textViewRewardName.setText(reward.getRewardName());
-            String pointsValueString = reward.getPointsValue() + " " + fragmentActivity.getString(R.string.points_value_suffix_text);
-            binding.textViewPointsValue.setText(pointsValueString);
+            binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
             binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
             ParseFile rewardPhoto = reward.getRewardPhoto();

@@ -22,6 +22,7 @@ import com.example.taskify.adapters.AssignedChildAdapter;
 import com.example.taskify.databinding.FragmentRewardDetailsBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.GeneralUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -64,8 +65,7 @@ public class RewardDetailsFragment extends DialogFragment {
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
         binding.textViewRewardName.setText(reward.getRewardName());
-        String pointsValueString = reward.getPointsValue() + " " + getString(R.string.points_value_suffix_text);
-        binding.textViewPointsValue.setText(pointsValueString);
+        binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
         ParseFile rewardPhoto = reward.getRewardPhoto();
         if (rewardPhoto == null) {
             binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
@@ -99,13 +99,13 @@ public class RewardDetailsFragment extends DialogFragment {
 
             int pointsLeft = reward.getPointsValue() - user.getPointsTotal();
             if (pointsLeft <= 0) {
-                binding.textViewPointsProgress.setText(String.format("Congratulations! You earned '%s'!", reward.getRewardName()));
+                binding.textViewPointsProgress.setText(getString(R.string.reward_details_progress_complete));
             }
             else if (pointsLeft == 1) {
-                binding.textViewPointsProgress.setText("1 point to go!");
+                binding.textViewPointsProgress.setText(getString(R.string.reward_details_progress_1_point));
             }
             else {
-                binding.textViewPointsProgress.setText(String.format("%d points to go!", pointsLeft));
+                binding.textViewPointsProgress.setText(String.format(getString(R.string.reward_details_progress_plural_points), pointsLeft));
             }
         }
     }

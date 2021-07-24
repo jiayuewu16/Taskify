@@ -97,7 +97,7 @@ public class TaskCreateFragment extends DialogFragment {
 
             List<ParseUser> selectedChildren = assignChildAdapter.getSelectedChildren();
             if (selectedChildren.isEmpty()) {
-                Toast.makeText(activity, "You must select a child.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.error_empty_child_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             Alarm alarm;

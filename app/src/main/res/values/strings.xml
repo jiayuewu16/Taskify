@@ -9,9 +9,8 @@
     <string name="login_screen_dividing_line_text">OR</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="log_in_button">Log In</string>
-    <string name="login_error">Invalid username and/or password.</string>
-    <string name="signup_error">That username is taken.</string>
 
+    <string name="menu_points_title">Points</string>
     <string name="bottom_navigation_bar_tasks">Tasks</string>
     <string name="bottom_navigation_bar_rewards">Rewards</string>
     <string name="bottom_navigation_bar_profile">Profile</string>
@@ -20,10 +19,12 @@
     <string name="last_name_hint_text">Last name</string>
     <string name="first_name_hint_text">First name</string>
     <string name="password_hint_text">Password</string>
+    <string name="child_sign_up_missing_parent_username">You must enter your parent\'s username.</string>
+    <string name="child_sign_up_user_not_parent">User %s is not a parent.</string>
+    <string name="child_sign_up_user_not_exist">User %s does not exist.</string>
 
     <string name="task_name_hint_text">Task Name</string>
     <string name="points_value_hint_text">0</string>
-    <string name="points_value_suffix_text">Point(s)</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="confirm_button_text">Confirm</string>
     <string name="schedule_alarm_text">Schedule Alarm</string>
@@ -43,6 +44,9 @@
     <string name="profile_children_header">Children:</string>
     <string name="profile_parent_header">Parent:</string>
     <string name="link_facebook_button_text">Link with Facebook</string>
+    <string name="points_value_suffix_text">Point(s)</string>
+    <string name="assign_to_text">Assign to:</string>
+    <string name="assigned_to_text">Assigned to:</string>
 
     <string name="error_default_message">Error! Something went wrong.</string>
     <string name="error_remove_reward_message">Error while removing reward.</string>
@@ -59,9 +63,16 @@
     <string name="error_empty_points_message">Points cannot be empty.</string>
     <string name="error_negative_points_message">Points cannot be negative.</string>
     <string name="error_empty_task_name_message">Task name cannot be empty.</string>
+    <string name="error_empty_child_message">You must select a child.</string>
     <string name="success_save_task_message">Task saved successfully!</string>
     <string name="error_save_task_message">Error while saving text.</string>
     <string name="success_parent_remove_task_message">Deleted task.</string>
+    <string name="success_link_facebook_message">Sucessfully linked with Facebook!</string>
+    <string name="error_link_facebook_message">Error linking with facebook.</string>
+
+    <string name="reward_details_progress_complete">Congratulations! You earned this reward.</string>
+    <string name="reward_details_progress_1_point">1 point to go!</string>
+    <string name="reward_details_progress_plural_points">%d points to go!</string>
 
     <string name="content_description_taskify_logo">Taskify logo</string>
     <string name="content_description_profile_photo">Profile photo</string>
@@ -72,11 +83,9 @@
     <string name="content_description_launch_task_reward">Launch task creation screen</string>
     <string name="content_description_alarm_clock_icon">Alarm clock icon</string>
 
-    <string name="display_points_format">%d %s</string>
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
     <string name="display_full_username_format">%s %s \@%s</string>
 
     <string name="alarm_new_task_alert">You have a new task!</string>
-    <string name="default_alarm_time_display">00:00 AM</string>
 </resources>
