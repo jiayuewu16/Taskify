@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_tasks"
+        android:id="@+id/tasks"
         app:itemBackground="?attr/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
@@ -11,7 +11,7 @@
         android:title="@string/bottom_navigation_bar_tasks"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_rewards"
+        android:id="@+id/rewards"
         app:itemBackground="?attr/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
@@ -20,7 +20,7 @@
         android:title="@string/bottom_navigation_bar_rewards"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_profile"
+        android:id="@+id/profile"
         app:itemBackground="?attr/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"

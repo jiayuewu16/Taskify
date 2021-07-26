@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/textViewTaskName"
+        android:transitionName="textViewTaskName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
@@ -16,6 +17,7 @@
 
     <ImageView
         android:id="@+id/imageViewClock"
+        android:transitionName="imageViewClock"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_below="@+id/textViewTaskName"
@@ -26,6 +28,7 @@
 
     <TextView
         android:id="@+id/textViewAlarmTime"
+        android:transitionName="textViewAlarmTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTaskName"
@@ -37,6 +40,7 @@
 
     <TextView
         android:id="@+id/textViewRecurring"
+        android:transitionName="textViewRecurring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewAlarmTime"
@@ -49,6 +53,7 @@
 
     <TextView
         android:id="@+id/textViewPointsValue"
+        android:transitionName="textViewPointsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewRecurring"

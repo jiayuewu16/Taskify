@@ -11,8 +11,14 @@ import android.view.Menu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
 import com.example.taskify.R;
 import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.fragments.ProfileFragment;
@@ -47,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(findViewById(R.id.toolbar_main));
 
+        // Tutorial: https://medium.com/@freedom.chuks7/how-to-use-jet-pack-components-bottomnavigationview-with-navigation-ui-19fb120e3fb9
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
+        NavController navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
+
         user = (TaskifyUser) ParseUser.getCurrentUser();
         if (user == null) {
             Log.e(TAG, "No user.");
@@ -54,30 +66,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        final Fragment tasksFragment = TasksFragment.newInstance();
-        final Fragment rewardsFragment = RewardsFragment.newInstance();
-        final Fragment profileFragment = ProfileFragment.newInstance();
-
-        binding.bottomNavigationBar.setOnNavigationItemSelectedListener(
-                item -> {
-                    Fragment fragment;
-                    if (item.getItemId() == R.id.action_rewards) {
-                        fragment = rewardsFragment;
-                    }
-                    else if (item.getItemId() == R.id.action_profile) {
-                        fragment = profileFragment;
-                    }
-                    else {
-                        fragment = tasksFragment;
-                    }
-                    fragmentManager.beginTransaction().replace(binding.frameLayoutDisplayFragment.getId(), fragment).commit();
-                    return true;
-                });
-        // Set default selection
-        binding.bottomNavigationBar.setSelectedItemId(R.id.action_tasks);
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);

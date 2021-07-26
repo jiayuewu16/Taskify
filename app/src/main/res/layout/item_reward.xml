@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/textViewRewardName"
+        android:transitionName="textViewRewardName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -18,6 +19,7 @@
 
     <TextView
         android:id="@+id/textViewPointsValue"
+        android:transitionName="textViewPointsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewRewardName"
@@ -29,6 +31,7 @@
 
     <ImageView
         android:id="@+id/imageViewRewardPhoto"
+        android:transitionName="imageViewRewardPhoto"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"

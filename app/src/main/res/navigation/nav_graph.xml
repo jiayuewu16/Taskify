@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tasks">
+
+    <!-- Tutorial: https://developer.android.com/guide/navigation/navigation-getting-started#java -->
+
+    <fragment
+        android:id="@+id/tasks"
+        android:name="com.example.taskify.fragments.TasksFragment"
+        android:label="fragment_tasks"
+        tools:layout="@layout/fragment_stream" >
+        <action
+            android:id="@+id/action_tasks_to_rewards"
+            app:destination="@id/rewards" />
+        <action
+            android:id="@+id/action_tasks_to_profile"
+            app:destination="@id/profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/rewards"
+        android:name="com.example.taskify.fragments.RewardsFragment"
+        android:label="fragment_rewards"
+        tools:layout="@layout/fragment_stream" >
+        <action
+            android:id="@+id/action_rewards_to_profile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_rewards_to_tasks"
+            app:destination="@id/tasks" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.taskify.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_rewards"
+            app:destination="@id/rewards" />
+        <action
+            android:id="@+id/action_profile_to_tasks"
+            app:destination="@id/tasks" />
+    </fragment>
+
+
+</navigation>
