@@ -19,6 +19,7 @@ public class Task extends ParseObject implements Comparable<Task> {
     public static final String KEY_POINTS_VALUE = "pointsValue";
     public static final String KEY_USERS = "users";
     public static final String KEY_ALARM = "alarm";
+    private Alarm alarm;
 
     public Task() {}
 
@@ -43,6 +44,7 @@ public class Task extends ParseObject implements Comparable<Task> {
 
     public void setAlarm(Alarm alarm) {
         put(KEY_ALARM, alarm);
+        this.alarm = alarm;
     }
 
     public String getTaskName() {
@@ -58,8 +60,14 @@ public class Task extends ParseObject implements Comparable<Task> {
     }
 
     public Alarm getAlarm() {
+        if (alarm != null) {
+            Log.i(TAG, "Using stored alarm");
+            return alarm;
+        }
         try {
-            return Objects.requireNonNull(getParseObject(KEY_ALARM)).fetchIfNeeded();
+            Log.i(TAG, "Fetching alarm from database");
+            alarm = Objects.requireNonNull(getParseObject(KEY_ALARM)).fetchIfNeeded();
+            return alarm;
         }
         catch (ParseException pe) {
             Log.e(TAG, "Error fetching alarm.", pe);
