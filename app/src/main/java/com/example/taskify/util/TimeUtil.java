@@ -145,9 +145,21 @@ public class TimeUtil {
         Alarm alarm = task.getAlarm();
         Date date = alarm.getDate();
 
-        // If alarm time has already passed, don't set the alarm.
+        // If alarm date has already passed, don't set the alarm.
         if (!alarm.isRecurring() && date.getTime() <= System.currentTimeMillis()) {
             return 0;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, date.getHours());
+        calendar.set(Calendar.MINUTE, date.getMinutes());
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        // If alarm time has already passed for recurring alarms, play the alarm tomorrow.
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
         }
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -160,13 +172,14 @@ public class TimeUtil {
 
         if (!alarm.isRecurring()) {
             Log.i(TAG, "Set one-time alarm for " + task.getTaskName() + ".");
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getDate().getTime(), pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
         else {
-            // Check the alarm daily. If the alarm should be played on the current day of the week,
-            // play the alarm.
+            // alarmManager.setRepeating is not exact. This alarm might not play at the intended time
+            // by many minutes. However, chores are not critical and so this level of imprecision
+            // should be allowed.
             Log.i(TAG, "Set repeating alarm for " + task.getTaskName() + ".");
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getDate().getTime(), SECONDS_PER_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), SECONDS_PER_DAY, pendingIntent);
         }
 
         return requestCode;

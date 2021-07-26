@@ -22,7 +22,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         if (!alarm.isRecurring()) {
             startAlarmService(context, taskName);
-        } {
+        }
+        else {
             if (TimeUtil.alarmIsToday(alarm)) {
                 startAlarmService(context, taskName);
             }
