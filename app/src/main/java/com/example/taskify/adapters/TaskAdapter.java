@@ -90,9 +90,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 return false;
             }
             Task task = tasks.get(position);
+            Alarm alarm = task.getAlarm();
             int pointsValue = task.getPointsValue();
-            List<ParseUser> users = task.getUsers();
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+
+            if (alarm.isRecurring()) {
+                // Do not delete the task. Only update points.
+                updatePoints(user, pointsValue);
+                return true;
+            }
+
+            List<ParseUser> users = task.getUsers();
             if (users.size() == 1 || user.isParent()) {
                 task.deleteInBackground(e -> {
                     if (e != null) {

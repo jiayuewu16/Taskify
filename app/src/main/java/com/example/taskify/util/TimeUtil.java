@@ -102,6 +102,7 @@ public class TimeUtil {
             }
         }
         else if (count < 7) {
+            outputString = "";
             for (int i = 0; i < recurringWeekdays.size(); i++) {
                 if (recurringWeekdays.get(i)) {
                     outputString = outputString.concat(intWeekdayToStringShort(i) + " ");

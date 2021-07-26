@@ -27,6 +27,9 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_tasks_to_taskCreateFragment"
+            app:destination="@id/taskCreateFragment" />
     </fragment>
 
     <fragment
@@ -48,6 +51,9 @@
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_left" />
+        <action
+            android:id="@+id/action_rewards_to_rewardCreateFragment"
+            app:destination="@id/rewardCreateFragment" />
     </fragment>
 
     <fragment
@@ -70,6 +76,14 @@
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_left" />
     </fragment>
+    <dialog
+        android:id="@+id/rewardCreateFragment"
+        android:name="com.example.taskify.fragments.RewardCreateFragment"
+        android:label="RewardCreateFragment" />
+    <dialog
+        android:id="@+id/taskCreateFragment"
+        android:name="com.example.taskify.fragments.TaskCreateFragment"
+        android:label="TaskCreateFragment" />
 
 
 </navigation>

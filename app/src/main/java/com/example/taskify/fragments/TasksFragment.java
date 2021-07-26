@@ -11,11 +11,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentStreamBinding;
+import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
@@ -70,9 +77,7 @@ public class TasksFragment extends Fragment {
         }
         else {
             binding.floatingActionButtonCreate.setOnClickListener(v -> {
-                TaskCreateFragment taskCreateFragment = TaskCreateFragment.newInstance();
-                taskCreateFragment.setTargetFragment(TasksFragment.this, KEY_TASK_CREATE_FRAGMENT);
-                taskCreateFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "fragment_task_create");
+                Navigation.findNavController(v).navigate(R.id.action_tasks_to_taskCreateFragment);
             });
         }
 
@@ -81,6 +86,25 @@ public class TasksFragment extends Fragment {
             tasks.clear();
             ParseUtil.queryTasks(getContext(), user, tasks, adapter);
             binding.swipeRefreshLayout.setRefreshing(false);
+        });
+
+        NavController navController = NavHostFragment.findNavController(this);
+        // We use a String here, but any type that can be put in a Bundle is supported
+        MutableLiveData<Task> liveData = navController.getCurrentBackStackEntry()
+                .getSavedStateHandle()
+                .getLiveData("task");
+        liveData.observe(getViewLifecycleOwner(), new Observer<Task>() {
+            @Override
+            public void onChanged(Task task) {
+                if (task == null) {
+                    Log.i(TAG, "No task returned");
+                    return;
+                }
+                tasks.add(task);
+                Collections.sort(tasks);
+                adapter.notifyDataSetChanged();
+                binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
+            }
         });
     }
 

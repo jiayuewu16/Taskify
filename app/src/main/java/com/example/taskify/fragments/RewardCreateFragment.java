@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.provider.MediaStore;
@@ -153,14 +155,10 @@ public class RewardCreateFragment extends DialogFragment {
                 });
             }
         });
-
-
     }
 
     private void returnReward() {
-        Intent intent = new Intent();
-        intent.putExtra("reward", Parcels.wrap(reward));
-        Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("reward", reward);
         dismiss();
     }
 

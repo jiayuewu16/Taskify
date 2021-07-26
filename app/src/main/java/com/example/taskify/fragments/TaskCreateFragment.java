@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -125,9 +126,7 @@ public class TaskCreateFragment extends DialogFragment {
             Task task = new Task(taskName, pointsValue, alarm, selectedChildren);
             ParseUtil.save(task, activity, TAG, getString(R.string.success_save_task_message), getString(R.string.error_save_task_message));
 
-            Intent intent = new Intent();
-            intent.putExtra("task", Parcels.wrap(task));
-            Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("task", task);
             dismiss();
         });
     }

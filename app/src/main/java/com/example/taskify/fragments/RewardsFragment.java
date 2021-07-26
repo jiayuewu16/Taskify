@@ -11,8 +11,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentStreamBinding;
@@ -69,9 +75,7 @@ public class RewardsFragment extends Fragment {
         }
         else {
             binding.floatingActionButtonCreate.setOnClickListener(v -> {
-                RewardCreateFragment rewardCreateFragment = RewardCreateFragment.newInstance();
-                rewardCreateFragment.setTargetFragment(RewardsFragment.this, KEY_REWARD_CREATE_FRAGMENT);
-                rewardCreateFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "fragment_reward_create");
+                Navigation.findNavController(v).navigate(R.id.action_rewards_to_rewardCreateFragment);
             });
         }
 
@@ -81,22 +85,24 @@ public class RewardsFragment extends Fragment {
             ParseUtil.queryRewards(getContext(), user, rewards, adapter);
             binding.swipeRefreshLayout.setRefreshing(false);
         });
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == KEY_REWARD_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
-            if (data == null) {
-                Log.i(TAG, "No reward returned");
-                return;
+        NavController navController = NavHostFragment.findNavController(this);
+        // We use a String here, but any type that can be put in a Bundle is supported
+        MutableLiveData<Reward> liveData = navController.getCurrentBackStackEntry()
+                .getSavedStateHandle()
+                .getLiveData("reward");
+        liveData.observe(getViewLifecycleOwner(), new Observer<Reward>() {
+            @Override
+            public void onChanged(Reward reward) {
+                if (reward == null) {
+                    Log.i(TAG, "No reward returned");
+                    return;
+                }
+                rewards.add(reward);
+                Collections.sort(rewards);
+                adapter.notifyDataSetChanged();
+                binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
             }
-            Reward reward = Parcels.unwrap(data.getExtras().getParcelable("reward"));
-
-            rewards.add(reward);
-            Collections.sort(rewards);
-            adapter.notifyDataSetChanged();
-            binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
-        }
+        });
     }
 }
