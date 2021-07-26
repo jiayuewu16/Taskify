@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -30,6 +32,7 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.network.TaskQueryBroadcastReceiver;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
@@ -44,10 +47,20 @@ public class MainActivity extends AppCompatActivity {
     public final static List<Task> tasks = new ArrayList<>();
     public final static List<Reward> rewards = new ArrayList<>();
     private TaskifyUser user;
+    private int selectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = (TaskifyUser) ParseUser.getCurrentUser();
+        if (user == null) {
+            Log.e(TAG, "No user.");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -57,15 +70,44 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
         NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
-
-        user = (TaskifyUser) ParseUser.getCurrentUser();
-        if (user == null) {
-            Log.e(TAG, "No user.");
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        //NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
+        BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
+        selectedItem = R.id.tasks;
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.tasks:
+                        if (selectedItem == R.id.rewards){
+                            navController.navigate(R.id.action_rewards_to_tasks);
+                        }
+                        else if (selectedItem == R.id.profile){
+                            navController.navigate(R.id.action_profile_to_tasks);
+                        }
+                        selectedItem = R.id.tasks;
+                        break;
+                    case R.id.rewards:
+                        if (selectedItem == R.id.tasks) {
+                            navController.navigate(R.id.action_tasks_to_rewards);
+                        }
+                        else if (selectedItem == R.id.profile) {
+                            navController.navigate(R.id.action_profile_to_rewards);
+                        }
+                        selectedItem = R.id.rewards;
+                        break;
+                    case R.id.profile:
+                        if (selectedItem == R.id.tasks) {
+                            navController.navigate(R.id.action_tasks_to_profile);
+                        }
+                        else if (selectedItem == R.id.rewards) {
+                            navController.navigate(R.id.action_rewards_to_profile);
+                        }
+                        selectedItem = R.id.profile;
+                        break;
+                }
+                return true;
+            }
+        });
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);

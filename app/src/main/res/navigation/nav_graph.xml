@@ -6,6 +6,7 @@
     app:startDestination="@id/tasks">
 
     <!-- Tutorial: https://developer.android.com/guide/navigation/navigation-getting-started#java -->
+    <!-- Transitions tutorial: https://stackoverflow.com/questions/59366956/android-jetpack-bottomnavigationview-how-to-apply-custom-fragment-transition -->
 
     <fragment
         android:id="@+id/tasks"
@@ -14,10 +15,18 @@
         tools:layout="@layout/fragment_stream" >
         <action
             android:id="@+id/action_tasks_to_rewards"
-            app:destination="@id/rewards" />
+            app:destination="@id/rewards"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_tasks_to_profile"
-            app:destination="@id/profile" />
+            app:destination="@id/profile"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
 
     <fragment
@@ -27,10 +36,18 @@
         tools:layout="@layout/fragment_stream" >
         <action
             android:id="@+id/action_rewards_to_profile"
-            app:destination="@id/profile" />
+            app:destination="@id/profile"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_rewards_to_tasks"
-            app:destination="@id/tasks" />
+            app:destination="@id/tasks"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
 
     <fragment
@@ -40,10 +57,18 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profile_to_rewards"
-            app:destination="@id/rewards" />
+            app:destination="@id/rewards"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_profile_to_tasks"
-            app:destination="@id/tasks" />
+            app:destination="@id/tasks"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
 
 
