@@ -47,7 +47,10 @@ public class TimeUtil {
     public static void startAlarms(Context context, List<Task> tasks) {
         List<Integer> requestCodes = new ArrayList<>();
         for (Task task : tasks) {
-            requestCodes.add(startAlarm(context, task));
+            int requestCode = startAlarm(context, task);
+            if (requestCode != 0) {
+                requestCodes.add(requestCode);
+            }
         }
         savePendingIntentRequestCodes(context, requestCodes);
     }
@@ -140,6 +143,12 @@ public class TimeUtil {
     private static int startAlarm(Context context, Task task) {
         // Tutorial: https://learntodroid.com/how-to-create-a-simple-alarm-clock-app-in-android/
         Alarm alarm = task.getAlarm();
+        Date date = alarm.getDate();
+
+        // If alarm time has already passed, don't set the alarm.
+        if (!alarm.isRecurring() && date.getTime() <= System.currentTimeMillis()) {
+            return 0;
+        }
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent receiverIntent = new Intent(context, AlarmBroadcastReceiver.class);
@@ -149,27 +158,15 @@ public class TimeUtil {
         int requestCode = getRequestCode(task.getTaskName(), alarm);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, alarm.getDate().getHours());
-        calendar.set(Calendar.MINUTE, alarm.getDate().getMinutes());
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        // If alarm time has already passed, play the alarm tomorrow;
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
-        }
-
-        if (!task.getAlarm().isRecurring()) {
+        if (!alarm.isRecurring()) {
             Log.i(TAG, "Set one-time alarm for " + task.getTaskName() + ".");
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getDate().getTime(), pendingIntent);
         }
         else {
             // Check the alarm daily. If the alarm should be played on the current day of the week,
             // play the alarm.
             Log.i(TAG, "Set repeating alarm for " + task.getTaskName() + ".");
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), SECONDS_PER_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getDate().getTime(), SECONDS_PER_DAY, pendingIntent);
         }
 
         return requestCode;
