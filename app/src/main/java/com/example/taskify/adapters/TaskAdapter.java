@@ -102,6 +102,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
             List<ParseUser> users = task.getUsers();
             if (users.size() == 1 || user.isParent()) {
+                alarm.deleteInBackground(e -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error while marking task complete", e);
+                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.error_remove_task_message), Toast.LENGTH_SHORT).show();
+                    }});
                 task.deleteInBackground(e -> {
                     if (e != null) {
                         Log.e(TAG, "Error while marking task complete", e);
