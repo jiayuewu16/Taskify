@@ -62,6 +62,13 @@ public class TimeUtil {
         return newSimpleDateFormat.format(date);
     }
 
+    public static String dateToDateString(Date date) {
+        String newDateFormat = "MMM d";
+        SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat(newDateFormat, Locale.ENGLISH);
+        newSimpleDateFormat.setLenient(true);
+        return newSimpleDateFormat.format(date);
+    }
+
     public static boolean alarmIsToday(Alarm alarm) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -84,9 +91,9 @@ public class TimeUtil {
                 count++;
             }
         }
-        String outputString = "";
+        String outputString = dateToDateString(alarm.getDate());
         if (count == 1) {
-            outputString = outputString.concat("Every ");
+            outputString = "Every ";
             for (int i = 0; i < recurringWeekdays.size(); i++) {
                 if (recurringWeekdays.get(i)) {
                     outputString = outputString.concat(intWeekdayToStringFull(i));
