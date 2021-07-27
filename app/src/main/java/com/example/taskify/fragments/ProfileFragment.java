@@ -73,11 +73,11 @@ public class ProfileFragment extends Fragment {
         ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
         if (user.getFirstName() != null) {
             binding.textViewFirstName.setText(user.getFirstName());
-            binding.textViewFirstName.setTextColor(context.getColor(R.color.black));
+            binding.textViewFirstName.setTextColor(ColorUtil.getTextColor(context));
         }
         if (user.getLastName() != null) {
             binding.textViewLastName.setText(user.getLastName());
-            binding.textViewLastName.setTextColor(context.getColor(R.color.black));
+            binding.textViewLastName.setTextColor(ColorUtil.getTextColor(context));
         }
         binding.textViewUsername.setText(String.format(getString(R.string.display_username_format), user.getUsername()));
         binding.textViewUsername.setTextColor(ColorUtil.getPrimaryColor(context));
@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
             users = Collections.singletonList(user.getParent());
         }
-        binding.textViewAssociatedUserHeader.setTextColor(context.getColor(R.color.black));
+        binding.textViewAssociatedUserHeader.setTextColor(ColorUtil.getTextColor(context));
         UserAdapter adapter = new UserAdapter(context, users);
         binding.recyclerViewParentDisplayChild.setAdapter(adapter);
         binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));

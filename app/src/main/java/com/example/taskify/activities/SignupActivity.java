@@ -1,10 +1,13 @@
 package com.example.taskify.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.taskify.R;
 import com.example.taskify.models.TaskifyUser;
@@ -22,6 +25,14 @@ public class SignupActivity extends LoginActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightMode == Configuration.UI_MODE_NIGHT_YES) {
+            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent_white));
+        }
+        else {
+            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent));
+        }
 
         binding.checkBoxIsParent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.checkBoxIsChild.setChecked(!isChecked);

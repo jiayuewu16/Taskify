@@ -64,7 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             ColorUtil.alternateTextViewColors(
                     Arrays.asList(binding.textViewFullName, binding.textViewUsername, binding.textViewPointsTotal),
-                    context.getColor(R.color.black), ColorUtil.getPrimaryColor(context));
+                    ColorUtil.getTextColor(context), ColorUtil.getPrimaryColor(context));
             binding.textViewFullName.setText(String.format(context.getString(R.string.display_full_name_format), user.getFirstName(), user.getLastName()));
             binding.textViewUsername.setText(String.format(context.getString(R.string.display_username_format), user.getUsername()));
             if (!user.isParent()) {

@@ -1,12 +1,15 @@
 package com.example.taskify.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
+import com.example.taskify.R;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.databinding.ActivityLoginBinding;
@@ -29,6 +32,14 @@ public class LoginActivity extends AppCompatActivity {
         TaskifyUser currentUser = (TaskifyUser) ParseUser.getCurrentUser();
         if (currentUser != null || (accessToken != null && !accessToken.isExpired())) {
             goToMainActivity();
+        }
+
+        int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightMode == Configuration.UI_MODE_NIGHT_YES) {
+            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent_white));
+        }
+        else {
+            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent));
         }
 
         binding.buttonLogin.setOnClickListener(
