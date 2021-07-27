@@ -2,17 +2,21 @@ package com.example.taskify.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.taskify.R;
 import com.example.taskify.adapters.AssignedChildAdapter;
@@ -20,10 +24,12 @@ import com.example.taskify.databinding.FragmentTaskDetailsBinding;
 import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.TimeUtil;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TaskDetailsFragment extends DialogFragment {
@@ -62,8 +68,13 @@ public class TaskDetailsFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-
         Alarm alarm = task.getAlarm();
+
+        int primaryColor = ColorUtil.getPrimaryColor(activity);
+        List<TextView> list = Arrays.asList(binding.textViewTaskName, binding.textViewAlarmTime,
+                binding.textViewRecurring, binding.textViewPointsValue, binding.textViewAssignedToText);
+        ColorUtil.alternateTextViewColors(list, activity.getColor(R.color.black), primaryColor);
+        binding.imageViewClock.setColorFilter(primaryColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.textViewTaskName.setText(task.getTaskName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));
         binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));

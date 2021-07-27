@@ -16,16 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.taskify.R;
 import com.example.taskify.adapters.AssignedChildAdapter;
 import com.example.taskify.databinding.FragmentRewardDetailsBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class RewardDetailsFragment extends DialogFragment {
@@ -64,7 +67,9 @@ public class RewardDetailsFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-
+        int primaryColor = ColorUtil.getPrimaryColor(activity);
+        List<TextView> list = Arrays.asList(binding.textViewRewardName, binding.textViewPointsValue, binding.textViewPointsProgress);
+        ColorUtil.alternateTextViewColors(list, activity.getColor(R.color.black), primaryColor);
         binding.textViewRewardName.setText(reward.getRewardName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
         ParseFile rewardPhoto = reward.getRewardPhoto();
@@ -88,6 +93,7 @@ public class RewardDetailsFragment extends DialogFragment {
             binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
             binding.textViewPointsProgress.setVisibility(View.GONE);
 
+            binding.textViewAssignedToText.setTextColor(activity.getColor(R.color.black));
             List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) reward.getUsers();
             AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(activity, children);
             binding.recyclerViewAssignedChild.setAdapter(assignedChildAdapter);

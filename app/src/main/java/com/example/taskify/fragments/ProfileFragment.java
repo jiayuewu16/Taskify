@@ -25,6 +25,7 @@ import com.example.taskify.activities.LoginActivity;
 import com.example.taskify.adapters.UserAdapter;
 import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
 import com.parse.ParseFile;
@@ -72,11 +73,14 @@ public class ProfileFragment extends Fragment {
         ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
         if (user.getFirstName() != null) {
             binding.textViewFirstName.setText(user.getFirstName());
+            binding.textViewFirstName.setTextColor(context.getColor(R.color.black));
         }
         if (user.getLastName() != null) {
             binding.textViewLastName.setText(user.getLastName());
+            binding.textViewLastName.setTextColor(context.getColor(R.color.black));
         }
         binding.textViewUsername.setText(String.format(getString(R.string.display_username_format), user.getUsername()));
+        binding.textViewUsername.setTextColor(ColorUtil.getPrimaryColor(context));
 
         binding.floatingActionButtonCamera.setOnClickListener(v -> {
             // CodePath tutorial
@@ -102,6 +106,7 @@ public class ProfileFragment extends Fragment {
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
             users = Collections.singletonList(user.getParent());
         }
+        binding.textViewAssociatedUserHeader.setTextColor(context.getColor(R.color.black));
         UserAdapter adapter = new UserAdapter(context, users);
         binding.recyclerViewParentDisplayChild.setAdapter(adapter);
         binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));

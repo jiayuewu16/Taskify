@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskify.R;
 import com.example.taskify.databinding.ItemUserBinding;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
+import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -59,8 +62,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         public void bind(TaskifyUser user) {
             ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
+            ColorUtil.alternateTextViewColors(
+                    Arrays.asList(binding.textViewFullName, binding.textViewUsername, binding.textViewPointsTotal),
+                    context.getColor(R.color.black), ColorUtil.getPrimaryColor(context));
             binding.textViewFullName.setText(String.format(context.getString(R.string.display_full_name_format), user.getFirstName(), user.getLastName()));
             binding.textViewUsername.setText(String.format(context.getString(R.string.display_username_format), user.getUsername()));
+            if (!user.isParent()) {
+                binding.textViewPointsTotal.setText(GeneralUtil.getPointsValueString(user.getPointsTotal()));
+            }
         }
 
         @Override

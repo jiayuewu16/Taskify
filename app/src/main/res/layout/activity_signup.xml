@@ -152,7 +152,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/design_default_color_secondary"
+            android:background="?attr/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/dividingLineText"/>
@@ -161,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/dividingLineText"
-            android:textColor="@color/design_default_color_secondary"
+            android:textColor="?attr/colorPrimary"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="@string/login_screen_dividing_line_text" />
@@ -169,7 +169,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/design_default_color_secondary"
+            android:background="?attr/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/dividingLineText"/>
