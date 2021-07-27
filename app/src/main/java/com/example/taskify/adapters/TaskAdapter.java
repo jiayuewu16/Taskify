@@ -22,6 +22,7 @@ import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.TimeUtil;
@@ -80,7 +81,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(Task task, Drawable backgroundDrawable, int foregroundColor) {
             Alarm alarm = task.getAlarm();
             binding.getRoot().setBackground(backgroundDrawable);
-            binding.imageViewClock.setColorFilter(foregroundColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            ColorUtil.setImageViewColor(binding.imageViewClock, foregroundColor);
             binding.textViewTaskName.setText(task.getTaskName());
             binding.textViewTaskName.setTextColor(foregroundColor);
             binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));

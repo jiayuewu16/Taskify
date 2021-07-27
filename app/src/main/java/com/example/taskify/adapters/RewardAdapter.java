@@ -21,6 +21,7 @@ import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.fragments.RewardDetailsFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -88,7 +89,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             }
             else {
                 binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
-                CompoundButtonCompat.setButtonTintList(binding.checkBoxEarnedReward, ColorStateList.valueOf(foregroundColor));
+                ColorUtil.setCheckBoxColor(binding.checkBoxEarnedReward, foregroundColor);
             }
             ParseFile rewardPhoto = reward.getRewardPhoto();
             if (rewardPhoto == null) {
