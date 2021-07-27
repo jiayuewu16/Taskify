@@ -114,10 +114,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             int pointsValue = task.getPointsValue();
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
-            if (alarm.isRecurring()) {
+            if (alarm.isRecurring() && !user.isParent()) {
                 // Do not delete the task. Only update points.
                 updatePoints(user, pointsValue);
                 Log.i(TAG, "Task completion was successful!");
+                Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -176,6 +177,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     private void updatePoints(TaskifyUser user, int pointsValue) {
+        if (user.isParent()) {
+            return;
+        }
         int prevPointsValue = user.getPointsTotal();
         user.addPointsValue(pointsValue);
         ParseUtil.save(user, fragmentActivity, TAG, null, fragmentActivity.getString(R.string.error_save_user_points));
