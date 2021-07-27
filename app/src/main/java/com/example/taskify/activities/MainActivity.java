@@ -22,6 +22,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.taskify.R;
+import com.example.taskify.adapters.OnSwipeTouchListener;
 import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.fragments.ProfileFragment;
 import com.example.taskify.fragments.RewardsFragment;
@@ -73,39 +74,76 @@ public class MainActivity extends AppCompatActivity {
         //NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.tasks:
                         if (selectedItem == R.id.rewards){
+                            // Go to tasks from rewards
                             navController.navigate(R.id.action_rewards_to_tasks);
                         }
                         else if (selectedItem == R.id.profile){
+                            // Go to tasks from profile
                             navController.navigate(R.id.action_profile_to_tasks);
                         }
                         selectedItem = R.id.tasks;
                         break;
                     case R.id.rewards:
                         if (selectedItem == R.id.tasks) {
+                            // Go to rewards from tasks
                             navController.navigate(R.id.action_tasks_to_rewards);
                         }
                         else if (selectedItem == R.id.profile) {
+                            // Go to rewards from tasks
                             navController.navigate(R.id.action_profile_to_rewards);
                         }
                         selectedItem = R.id.rewards;
                         break;
                     case R.id.profile:
                         if (selectedItem == R.id.tasks) {
+                            // Go to profile from tasks
                             navController.navigate(R.id.action_tasks_to_profile);
                         }
                         else if (selectedItem == R.id.rewards) {
+                            // Go to profile from rewards
                             navController.navigate(R.id.action_rewards_to_profile);
                         }
                         selectedItem = R.id.profile;
                         break;
                 }
                 return true;
+            }
+        });
+
+        binding.fragmentContainerDisplayFragment.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+                if (selectedItem == R.id.rewards) {
+                    // Go to profile from rewards
+                    navController.navigate(R.id.action_rewards_to_profile);
+                    selectedItem = R.id.profile;
+                }
+                else if (selectedItem == R.id.tasks) {
+                    // Go to rewards from tasks
+                    navController.navigate(R.id.action_tasks_to_rewards);
+                    selectedItem = R.id.rewards;
+                }
+            }
+
+            @Override
+            public void onSwipeRight() {
+                if (selectedItem == R.id.profile) {
+                    // Go to rewards from profile
+                    navController.navigate(R.id.action_profile_to_rewards);
+                    selectedItem = R.id.rewards;
+                }
+                else if (selectedItem == R.id.rewards) {
+                    // Go to tasks from rewards
+                    navController.navigate(R.id.action_rewards_to_tasks);
+                    selectedItem = R.id.tasks;
+                }
             }
         });
 

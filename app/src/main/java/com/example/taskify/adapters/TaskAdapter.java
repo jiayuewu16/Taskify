@@ -97,6 +97,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             if (alarm.isRecurring()) {
                 // Do not delete the task. Only update points.
                 updatePoints(user, pointsValue);
+                Log.i(TAG, "Task completion was successful!");
                 return true;
             }
 
