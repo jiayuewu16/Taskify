@@ -51,13 +51,6 @@ public class ProfileFragment extends Fragment {
     // Required empty public constructor
     public ProfileFragment() {}
 
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,7 +111,7 @@ public class ProfileFragment extends Fragment {
             binding.buttonFacebookLink.setOnClickListener(v -> {
                 Log.i(TAG, "User: " + user.toString());
                 if (!ParseFacebookUtils.isLinked(user)) {
-                    ParseFacebookUtils.linkWithReadPermissionsInBackground((ParseUser) user, requireActivity(), null, e -> {
+                    ParseFacebookUtils.linkWithReadPermissionsInBackground(user, requireActivity(), null, e -> {
                         if (ParseFacebookUtils.isLinked(user)) {
                             Log.d(TAG, "User linked with Facebook!");
                             Toast.makeText(context, getString(R.string.success_link_facebook_message), Toast.LENGTH_SHORT).show();

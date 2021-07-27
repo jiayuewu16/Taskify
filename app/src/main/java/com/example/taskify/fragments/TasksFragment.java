@@ -1,7 +1,5 @@
 package com.example.taskify.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -28,28 +25,18 @@ import com.example.taskify.design.VerticalSpaceItemDecoration;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
 import java.util.Collections;
 import java.util.List;
 
 public class TasksFragment extends Fragment {
 
     private final static String TAG = "TasksFragment";
-    private final static int KEY_TASK_CREATE_FRAGMENT = 1;
     private FragmentStreamBinding binding;
     private TaskAdapter adapter;
     private List<Task> tasks;
 
     // Required empty public constructor
     public TasksFragment() {}
-
-    public static TasksFragment newInstance() {
-        TasksFragment fragment = new TasksFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -79,9 +66,8 @@ public class TasksFragment extends Fragment {
             binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
         else {
-            binding.floatingActionButtonCreate.setOnClickListener(v -> {
-                Navigation.findNavController(v).navigate(R.id.action_tasks_to_taskCreateFragment);
-            });
+            binding.floatingActionButtonCreate.setOnClickListener(v ->
+                    Navigation.findNavController(v).navigate(R.id.action_tasks_to_taskCreateFragment));
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -96,34 +82,15 @@ public class TasksFragment extends Fragment {
         MutableLiveData<Task> liveData = navController.getCurrentBackStackEntry()
                 .getSavedStateHandle()
                 .getLiveData("task");
-        liveData.observe(getViewLifecycleOwner(), new Observer<Task>() {
-            @Override
-            public void onChanged(Task task) {
-                if (task == null) {
-                    Log.i(TAG, "No task returned");
-                    return;
-                }
-                tasks.add(task);
-                Collections.sort(tasks);
-                adapter.notifyDataSetChanged();
-                binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == KEY_TASK_CREATE_FRAGMENT && resultCode == Activity.RESULT_OK) {
-            if (data == null) {
+        liveData.observe(getViewLifecycleOwner(), task -> {
+            if (task == null) {
                 Log.i(TAG, "No task returned");
                 return;
             }
-            Task task = Parcels.unwrap(data.getExtras().getParcelable("task"));
             tasks.add(task);
             Collections.sort(tasks);
             adapter.notifyDataSetChanged();
             binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
-        }
+        });
     }
 }

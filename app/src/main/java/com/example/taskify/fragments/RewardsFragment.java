@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -32,20 +31,12 @@ import java.util.List;
 public class RewardsFragment extends Fragment {
 
     private final static String TAG = "RewardsFragment";
-    private final static int KEY_REWARD_CREATE_FRAGMENT = 1;
     private FragmentStreamBinding binding;
     private RewardAdapter adapter;
     private List<Reward> rewards;
 
     // Required empty public constructor
     public RewardsFragment() {}
-
-    public static RewardsFragment newInstance() {
-        RewardsFragment fragment = new RewardsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -74,9 +65,8 @@ public class RewardsFragment extends Fragment {
             binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
         else {
-            binding.floatingActionButtonCreate.setOnClickListener(v -> {
-                Navigation.findNavController(v).navigate(R.id.action_rewards_to_rewardCreateFragment);
-            });
+            binding.floatingActionButtonCreate.setOnClickListener(v ->
+                    Navigation.findNavController(v).navigate(R.id.action_rewards_to_rewardCreateFragment));
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -91,18 +81,15 @@ public class RewardsFragment extends Fragment {
         MutableLiveData<Reward> liveData = navController.getCurrentBackStackEntry()
                 .getSavedStateHandle()
                 .getLiveData("reward");
-        liveData.observe(getViewLifecycleOwner(), new Observer<Reward>() {
-            @Override
-            public void onChanged(Reward reward) {
-                if (reward == null) {
-                    Log.i(TAG, "No reward returned");
-                    return;
-                }
-                rewards.add(reward);
-                Collections.sort(rewards);
-                adapter.notifyDataSetChanged();
-                binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
+        liveData.observe(getViewLifecycleOwner(), reward -> {
+            if (reward == null) {
+                Log.i(TAG, "No reward returned");
+                return;
             }
+            rewards.add(reward);
+            Collections.sort(rewards);
+            adapter.notifyDataSetChanged();
+            binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
         });
     }
 }
