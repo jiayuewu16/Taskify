@@ -55,6 +55,7 @@ public class RewardDetailsFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRewardDetailsBinding.inflate(inflater, container, false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 

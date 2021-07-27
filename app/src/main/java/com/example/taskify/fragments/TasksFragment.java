@@ -22,9 +22,9 @@ import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.FragmentStreamBinding;
-import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.design.VerticalSpaceItemDecoration;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 
@@ -66,7 +66,10 @@ public class TasksFragment extends Fragment {
         adapter = new TaskAdapter(getActivity(), tasks);
 
         binding.recyclerViewStream.setAdapter(adapter);
-        binding.recyclerViewStream.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerViewStream.setLayoutManager(linearLayoutManager);
+        VerticalSpaceItemDecoration dividerItemDecoration = new VerticalSpaceItemDecoration();
+        binding.recyclerViewStream.addItemDecoration(dividerItemDecoration);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         tasks.clear();

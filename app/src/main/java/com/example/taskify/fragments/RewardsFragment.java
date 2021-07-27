@@ -1,7 +1,5 @@
 package com.example.taskify.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,10 +22,9 @@ import com.example.taskify.adapters.RewardAdapter;
 import com.example.taskify.databinding.FragmentStreamBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.design.VerticalSpaceItemDecoration;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.Collections;
 import java.util.List;
@@ -66,7 +63,10 @@ public class RewardsFragment extends Fragment {
         adapter = new RewardAdapter(getActivity(), rewards);
 
         binding.recyclerViewStream.setAdapter(adapter);
-        binding.recyclerViewStream.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerViewStream.setLayoutManager(linearLayoutManager);
+        VerticalSpaceItemDecoration dividerItemDecoration = new VerticalSpaceItemDecoration();
+        binding.recyclerViewStream.addItemDecoration(dividerItemDecoration);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 

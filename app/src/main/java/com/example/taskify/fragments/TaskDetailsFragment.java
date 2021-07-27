@@ -53,6 +53,7 @@ public class TaskDetailsFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskDetailsBinding.inflate(inflater, container, false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 

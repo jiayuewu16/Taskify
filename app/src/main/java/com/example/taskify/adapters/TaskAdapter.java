@@ -1,5 +1,7 @@
 package com.example.taskify.adapters;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +50,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = tasks.get(position);
-        holder.bind(task);
+        Drawable backgroundDrawable;
+        int foregroundColor;
+        if (position % 2 == 0) {
+            backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_primary);
+            foregroundColor = fragmentActivity.getColor(R.color.white);
+        } else {
+            backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_secondary);
+            foregroundColor = fragmentActivity.getColor(R.color.black);
+        }
+        holder.bind(task, backgroundDrawable, foregroundColor);
     }
 
     @Override
@@ -64,12 +77,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             itemView.setOnLongClickListener(this);
         }
 
-        public void bind(Task task) {
+        public void bind(Task task, Drawable backgroundDrawable, int foregroundColor) {
             Alarm alarm = task.getAlarm();
+            binding.getRoot().setBackground(backgroundDrawable);
+            binding.imageViewClock.setColorFilter(foregroundColor, android.graphics.PorterDuff.Mode.SRC_IN);
             binding.textViewTaskName.setText(task.getTaskName());
+            binding.textViewTaskName.setTextColor(foregroundColor);
             binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));
+            binding.textViewPointsValue.setTextColor(foregroundColor);
             binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
+            binding.textViewAlarmTime.setTextColor(foregroundColor);
             binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
+            binding.textViewRecurring.setTextColor(foregroundColor);
         }
 
         @Override

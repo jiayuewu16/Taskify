@@ -1,7 +1,9 @@
 package com.example.taskify.adapters;
 
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,7 +49,16 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Reward reward = rewards.get(position);
-        holder.bind(reward);
+        Drawable backgroundDrawable;
+        int foregroundColor;
+        if (position % 2 == 0) {
+            backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_primary);
+            foregroundColor = fragmentActivity.getColor(R.color.white);
+        } else {
+            backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_secondary);
+            foregroundColor = fragmentActivity.getColor(R.color.black);
+        }
+        holder.bind(reward, backgroundDrawable, foregroundColor);
     }
 
     @Override
@@ -63,11 +76,20 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             itemView.setOnLongClickListener(this);
         }
 
-        public void bind(Reward reward) {
+        public void bind(Reward reward, Drawable backgroundDrawable, int foregroundColor) {
+            binding.getRoot().setBackground(backgroundDrawable);
             binding.textViewRewardName.setText(reward.getRewardName());
+            binding.textViewRewardName.setTextColor(foregroundColor);
             binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
+            binding.textViewPointsValue.setTextColor(foregroundColor);
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-            binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
+            if (user.isParent()) {
+                binding.checkBoxEarnedReward.setVisibility(View.GONE);
+            }
+            else {
+                binding.checkBoxEarnedReward.setChecked(user.getPointsTotal() >= reward.getPointsValue());
+                CompoundButtonCompat.setButtonTintList(binding.checkBoxEarnedReward, ColorStateList.valueOf(foregroundColor));
+            }
             ParseFile rewardPhoto = reward.getRewardPhoto();
             if (rewardPhoto == null) {
                 binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);

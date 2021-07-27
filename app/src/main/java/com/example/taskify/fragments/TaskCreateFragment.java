@@ -1,8 +1,6 @@
 package com.example.taskify.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,13 +24,10 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class TaskCreateFragment extends DialogFragment {
 
@@ -55,6 +50,7 @@ public class TaskCreateFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskCreateBinding.inflate(inflater, container, false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
