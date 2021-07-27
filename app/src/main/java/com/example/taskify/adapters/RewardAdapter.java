@@ -38,7 +38,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemRewardBinding binding = ItemRewardBinding.inflate(LayoutInflater.from(fragmentActivity));
+        ItemRewardBinding binding = ItemRewardBinding.inflate(LayoutInflater.from(fragmentActivity), parent, false);
         return new ViewHolder(binding);
     }
 

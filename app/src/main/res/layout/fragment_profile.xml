@@ -79,15 +79,6 @@
             android:textSize="22sp"
             tools:text="@string/profile_children_header"/>
 
-        <!-- View of parent for child -->
-        <include
-            android:id="@+id/layoutChildDisplayParent"
-            layout="@layout/item_user"
-            android:layout_below="@id/textViewAssociatedUserHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
-
         <!-- RecyclerView of children for parent -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewParentDisplayChild"

@@ -35,6 +35,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -91,30 +93,18 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        List<TaskifyUser> users;
         if (user.isParent()) {
-            binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.GONE);
-            binding.layoutChildDisplayParent.textViewUsername.setVisibility(View.GONE);
-            binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.GONE);
-
-            binding.recyclerViewParentDisplayChild.setVisibility(View.VISIBLE);
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
-            List<TaskifyUser> children = user.queryChildren();
-            UserAdapter adapter = new UserAdapter(context, children);
-            binding.recyclerViewParentDisplayChild.setAdapter(adapter);
-            binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));
+            users = user.queryChildren();
         }
         else {
-            binding.layoutChildDisplayParent.textViewFullName.setVisibility(View.VISIBLE);
-            binding.layoutChildDisplayParent.textViewUsername.setVisibility(View.VISIBLE);
-            binding.layoutChildDisplayParent.imageViewProfilePhoto.setVisibility(View.VISIBLE);
-
-            binding.recyclerViewParentDisplayChild.setVisibility(View.GONE);
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
-            TaskifyUser parent = user.getParent();
-            ParseUtil.setPhoto(binding.layoutChildDisplayParent.imageViewProfilePhoto, parent, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
-            binding.layoutChildDisplayParent.textViewFullName.setText(String.format(getString(R.string.display_full_name_format), parent.getFirstName(), parent.getLastName()));
-            binding.layoutChildDisplayParent.textViewUsername.setText(String.format(getString(R.string.display_username_format), parent.getUsername()));
+            users = Collections.singletonList(user.getParent());
         }
+        UserAdapter adapter = new UserAdapter(context, users);
+        binding.recyclerViewParentDisplayChild.setAdapter(adapter);
+        binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));
 
         if (ParseFacebookUtils.isLinked(user)) {
             binding.buttonFacebookLink.setVisibility(View.GONE);

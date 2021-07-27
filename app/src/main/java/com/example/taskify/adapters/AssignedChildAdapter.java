@@ -28,7 +28,7 @@ public class AssignedChildAdapter extends RecyclerView.Adapter<AssignedChildAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemAssignedChildBinding binding = ItemAssignedChildBinding.inflate(LayoutInflater.from(context));
+        ItemAssignedChildBinding binding = ItemAssignedChildBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ViewHolder(binding);
     }
 

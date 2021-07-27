@@ -39,7 +39,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemTaskBinding binding = ItemTaskBinding.inflate(LayoutInflater.from(fragmentActivity));
+        ItemTaskBinding binding = ItemTaskBinding.inflate(LayoutInflater.from(fragmentActivity), parent, false);
         return new ViewHolder(binding);
     }
 

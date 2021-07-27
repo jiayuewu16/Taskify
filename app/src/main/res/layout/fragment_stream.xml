@@ -23,7 +23,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewStream"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp" />
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
