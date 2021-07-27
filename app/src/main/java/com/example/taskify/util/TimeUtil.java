@@ -91,8 +91,11 @@ public class TimeUtil {
                 count++;
             }
         }
-        String outputString = dateToDateString(alarm.getDate());
-        if (count == 1) {
+        String outputString;
+        if (count == 0) {
+            outputString = dateToDateString(alarm.getDate());
+        }
+        else if (count == 1) {
             outputString = "Every ";
             for (int i = 0; i < recurringWeekdays.size(); i++) {
                 if (recurringWeekdays.get(i)) {
