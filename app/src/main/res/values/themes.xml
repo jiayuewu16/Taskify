@@ -2,6 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Taskify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_dark</item>
         <item name="colorPrimaryVariant">@color/purple_light</item>

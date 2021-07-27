@@ -73,7 +73,7 @@ public class TaskDetailsFragment extends DialogFragment {
         int primaryColor = ColorUtil.getPrimaryColor(activity);
         List<TextView> list = Arrays.asList(binding.textViewTaskName, binding.textViewAlarmTime,
                 binding.textViewRecurring, binding.textViewPointsValue, binding.textViewAssignedToText);
-        ColorUtil.alternateTextViewColors(list, activity.getColor(R.color.black), primaryColor);
+        ColorUtil.alternateTextViewColors(list, ColorUtil.getTextColor(activity), primaryColor);
         binding.imageViewClock.setColorFilter(primaryColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.textViewTaskName.setText(task.getTaskName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));

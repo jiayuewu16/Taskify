@@ -54,10 +54,10 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         int foregroundColor;
         if (position % 2 == 0) {
             backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_primary);
-            foregroundColor = fragmentActivity.getColor(R.color.white);
+            foregroundColor = ColorUtil.getBackgroundColor(fragmentActivity);
         } else {
             backgroundDrawable = AppCompatResources.getDrawable(fragmentActivity, R.drawable.background_rounded_secondary);
-            foregroundColor = fragmentActivity.getColor(R.color.black);
+            foregroundColor = ColorUtil.getTextColor(fragmentActivity);
         }
         holder.bind(reward, backgroundDrawable, foregroundColor);
     }
