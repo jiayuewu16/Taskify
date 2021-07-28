@@ -48,6 +48,8 @@
     <string name="points_value_suffix_text">Point(s)</string>
     <string name="assign_to_text">Assign to:</string>
     <string name="assigned_to_text">Assigned to:</string>
+    <string name="earned_text">Earned:</string>
+    <string name="not_earned_text">Not earned:</string>
 
     <string name="error_default_message">Error! Something went wrong.</string>
     <string name="error_remove_reward_message">Error while removing reward.</string>

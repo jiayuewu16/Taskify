@@ -38,20 +38,38 @@
         tools:text="5 Point(s)" />
 
     <TextView
-        android:id="@+id/textViewAssignedToText"
+        android:id="@+id/textViewEarnedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageViewRewardPhoto"
         android:layout_marginTop="5dp"
         android:textSize="18sp"
-        android:text="@string/assigned_to_text" />
+        android:text="@string/earned_text" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAssignedChild"
+        android:id="@+id/recyclerViewEarnedChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxHeight="100dp"
-        android:layout_below="@+id/textViewAssignedToText"
+        android:layout_below="@+id/textViewEarnedText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/textViewNotEarnedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recyclerViewEarnedChild"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:text="@string/not_earned_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNotEarnedChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="100dp"
+        android:layout_below="@+id/textViewNotEarnedText"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"/>
 
@@ -64,7 +82,8 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/shareButtonFacebook"
         android:textSize="18sp"
-        tools:text="20 points to go!" />
+        tools:text="20 points to go!"
+        android:visibility="gone"/>
 
     <com.facebook.share.widget.ShareButton
         android:id="@+id/shareButtonFacebook"
@@ -78,5 +97,6 @@
         android:drawableTint="@color/white"
         android:fontFamily="@font/soon_font"
         android:background="@drawable/background_rounded_primary"
-        android:backgroundTint="@color/com_facebook_blue"/>
+        android:backgroundTint="@color/com_facebook_blue"
+        android:visibility="gone"/>
 </RelativeLayout>

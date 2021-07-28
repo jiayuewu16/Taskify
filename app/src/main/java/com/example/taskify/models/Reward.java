@@ -1,6 +1,9 @@
 package com.example.taskify.models;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -39,7 +42,16 @@ public class Reward extends ParseObject implements Comparable<Reward> {
     }
 
     public List<ParseUser> getUsers() {
-        return getList(KEY_USERS);
+        List<ParseUser> list = getList(KEY_USERS);
+        for (ParseUser user : list) {
+            try {
+                user.fetchIfNeeded();
+            }
+            catch (ParseException e) {
+                Log.i("Reward", "Error fetching associated users.");
+            }
+        }
+        return list;
     }
 
     public void setRewardName(String rewardName) {

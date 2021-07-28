@@ -38,6 +38,7 @@ import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -105,20 +106,38 @@ public class RewardDetailsFragment extends DialogFragment {
 
         if (user.isParent()) {
             binding.shareButtonFacebook.setVisibility(View.GONE);
-            binding.textViewAssignedToText.setVisibility(View.VISIBLE);
-            binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
+            binding.textViewEarnedText.setVisibility(View.VISIBLE);
+            binding.textViewNotEarnedText.setVisibility(View.VISIBLE);
+            binding.recyclerViewEarnedChild.setVisibility(View.VISIBLE);
+            binding.recyclerViewNotEarnedChild.setVisibility(View.VISIBLE);
             binding.textViewPointsProgress.setVisibility(View.GONE);
 
-            binding.textViewAssignedToText.setTextColor(ColorUtil.getTextColor(activity));
+            binding.textViewEarnedText.setTextColor(ColorUtil.getTextColor(activity));
+            binding.textViewNotEarnedText.setTextColor(ColorUtil.getTextColor(activity));
             List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) reward.getUsers();
-            AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(activity, children);
-            binding.recyclerViewAssignedChild.setAdapter(assignedChildAdapter);
-            binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(activity));
+            List<TaskifyUser> earned = new ArrayList<>();
+            List<TaskifyUser> notEarned = new ArrayList<>();
+            for (TaskifyUser child : children) {
+                if (child.getPointsTotal() >= reward.getPointsValue()) {
+                    earned.add(child);
+                }
+                else {
+                    notEarned.add(child);
+                }
+            }
+            AssignedChildAdapter earnedChildAdapter = new AssignedChildAdapter(activity, earned);
+            AssignedChildAdapter notEarnedChildAdapter = new AssignedChildAdapter(activity, notEarned);
+            binding.recyclerViewEarnedChild.setAdapter(earnedChildAdapter);
+            binding.recyclerViewEarnedChild.setLayoutManager(new LinearLayoutManager(activity));
+            binding.recyclerViewNotEarnedChild.setAdapter(notEarnedChildAdapter);
+            binding.recyclerViewNotEarnedChild.setLayoutManager(new LinearLayoutManager(activity));
         }
         else {
             binding.shareButtonFacebook.setVisibility(View.VISIBLE);
-            binding.textViewAssignedToText.setVisibility(View.GONE);
-            binding.recyclerViewAssignedChild.setVisibility(View.GONE);
+            binding.textViewEarnedText.setVisibility(View.GONE);
+            binding.textViewNotEarnedText.setVisibility(View.GONE);
+            binding.recyclerViewEarnedChild.setVisibility(View.GONE);
+            binding.recyclerViewNotEarnedChild.setVisibility(View.GONE);
             binding.textViewPointsProgress.setVisibility(View.VISIBLE);
 
             int pointsLeft = reward.getPointsValue() - user.getPointsTotal();
