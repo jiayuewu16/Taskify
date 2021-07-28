@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +29,12 @@ import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
+import com.example.taskify.util.PhotoUtil;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -37,6 +47,7 @@ public class RewardDetailsFragment extends DialogFragment {
     private FragmentRewardDetailsBinding binding;
     private Reward reward;
     private Activity activity;
+    private ShareDialog shareDialog;
 
     // Required empty public constructor.
     public RewardDetailsFragment() {}
@@ -73,22 +84,27 @@ public class RewardDetailsFragment extends DialogFragment {
         binding.textViewRewardName.setText(reward.getRewardName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
         ParseFile rewardPhoto = reward.getRewardPhoto();
+
         if (rewardPhoto == null) {
             binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
+            setShareContent(AppCompatResources.getDrawable(activity, R.drawable.ic_taskify_logo_transparent));
         }
         else {
             rewardPhoto.getDataInBackground((data, e) -> {
                 if (e != null) {
                     Log.e(TAG, "Image load unsuccessful.", e);
                     binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
+                    setShareContent(AppCompatResources.getDrawable(activity, R.drawable.ic_taskify_logo_transparent));
                 } else {
                     Bitmap rewardImageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     binding.imageViewRewardPhoto.setImageBitmap(rewardImageBitmap);
+                    setShareContent(rewardImageBitmap);
                 }
             });
         }
 
         if (user.isParent()) {
+            binding.shareButtonFacebook.setVisibility(View.GONE);
             binding.textViewAssignedToText.setVisibility(View.VISIBLE);
             binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
             binding.textViewPointsProgress.setVisibility(View.GONE);
@@ -100,6 +116,7 @@ public class RewardDetailsFragment extends DialogFragment {
             binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(activity));
         }
         else {
+            binding.shareButtonFacebook.setVisibility(View.VISIBLE);
             binding.textViewAssignedToText.setVisibility(View.GONE);
             binding.recyclerViewAssignedChild.setVisibility(View.GONE);
             binding.textViewPointsProgress.setVisibility(View.VISIBLE);
@@ -123,5 +140,21 @@ public class RewardDetailsFragment extends DialogFragment {
         if (context instanceof FragmentActivity){
             activity = (FragmentActivity)context;
         }
+    }
+
+    private void setShareContent(Drawable drawable) {
+        Bitmap bitmap = PhotoUtil.getBitmapFromVectorDrawable(activity, drawable);
+        setShareContent(bitmap);
+    }
+
+    private void setShareContent(Bitmap bitmap) {
+        // Facebook publish tutorial: https://developers.facebook.com/docs/sharing/android/
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(bitmap)
+                .build();
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(photo)
+                .build();
+        binding.shareButtonFacebook.setShareContent(content);
     }
 }

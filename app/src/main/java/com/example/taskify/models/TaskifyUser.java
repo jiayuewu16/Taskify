@@ -20,9 +20,14 @@ public class TaskifyUser extends ParseUser {
     public static final String KEY_PROFILE_PHOTO_FILE = "profilePhoto";
     public static final String KEY_PARENT = "parent";
     public static final String KEY_USERNAME = "username";
+    public static final String KEY_AUTH_DATA = "authData";
 
     public TaskifyUser() {
         super();
+    }
+
+    public boolean hasAuthData() {
+        return get(KEY_AUTH_DATA) != null;
     }
 
     public boolean isParent() {
@@ -85,7 +90,6 @@ public class TaskifyUser extends ParseUser {
             Log.e(TAG, ParseUtil.parseExceptionToErrorText(e), e);
             return null;
         }
-
     }
 
     @Override

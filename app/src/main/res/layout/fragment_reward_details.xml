@@ -61,7 +61,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageViewRewardPhoto"
         android:layout_marginTop="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/shareButtonFacebook"
         android:textSize="18sp"
         tools:text="20 points to go!" />
 
+    <com.facebook.share.widget.ShareButton
+        android:id="@+id/shareButtonFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/textViewPointsProgress"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/soon_font"
+        android:background="@drawable/background_rounded_primary"
+        android:backgroundTint="@color/com_facebook_blue"/>
 </RelativeLayout>
