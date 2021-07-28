@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
+import com.example.taskify.databinding.FragmentStreamBinding;
 import com.example.taskify.databinding.ItemRewardBinding;
 import com.example.taskify.fragments.RewardDetailsFragment;
 import com.example.taskify.models.Reward;
@@ -34,9 +35,11 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
     private final FragmentActivity fragmentActivity;
     private final List<Reward> rewards;
+    private FragmentStreamBinding fragmentStreamBinding;
 
-    public RewardAdapter(FragmentActivity fragmentActivity, List<Reward> rewards) {
+    public RewardAdapter(FragmentActivity fragmentActivity, FragmentStreamBinding fragmentStreamBinding, List<Reward> rewards) {
         this.fragmentActivity = fragmentActivity;
+        this.fragmentStreamBinding = fragmentStreamBinding;
         this.rewards = rewards;
     }
 

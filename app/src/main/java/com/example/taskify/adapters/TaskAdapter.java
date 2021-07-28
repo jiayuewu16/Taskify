@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
+import com.example.taskify.databinding.FragmentStreamBinding;
 import com.example.taskify.databinding.ItemTaskBinding;
 import com.example.taskify.fragments.TaskDetailsFragment;
 import com.example.taskify.models.Alarm;
@@ -29,15 +30,19 @@ import com.example.taskify.util.TimeUtil;
 import com.parse.ParseUser;
 import java.util.List;
 
+import nl.dionsegijn.konfetti.models.Shape;
+
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final static String TAG = "TaskAdapter";
 
     private final FragmentActivity fragmentActivity;
     private final List<Task> tasks;
+    private FragmentStreamBinding fragmentStreamBinding;
 
-    public TaskAdapter(FragmentActivity fragmentActivity, List<Task> tasks) {
+    public TaskAdapter(FragmentActivity fragmentActivity, FragmentStreamBinding fragmentStreamBinding, List<Task> tasks) {
         this.fragmentActivity = fragmentActivity;
+        this.fragmentStreamBinding = fragmentStreamBinding;
         this.tasks = tasks;
     }
 
@@ -116,9 +121,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
             if (alarm.isRecurring() && !user.isParent()) {
                 // Do not delete the task. Only update points.
-                updatePoints(user, pointsValue);
-                Log.i(TAG, "Task completion was successful!");
-                Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                completeTask(user, pointsValue);
                 return true;
             }
 
@@ -136,13 +139,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         return;
                     }
                     removeTaskFromList(position);
-                    updatePoints(user, pointsValue);
-                    Log.i(TAG, "Task completion was successful!");
-                    if (user.isParent()) {
-                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    completeTask(user, pointsValue);
                 });
             }
             else {
@@ -158,13 +155,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                             String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"),
                             fragmentActivity.getString(R.string.error_remove_task_message));
                     removeTaskFromList(position);
-                    updatePoints(user, pointsValue);
-                    Log.i(TAG, "Task completion was successful!");
-                    if (user.isParent()) {
-                        Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+                    completeTask(user, pointsValue);
                 });
             }
             return true;
@@ -187,6 +178,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
                 Toast.makeText(fragmentActivity, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void completeTask(TaskifyUser user, int pointsValue) {
+        Log.i(TAG, "Task completion was successful!");
+        if (user.isParent()) {
+            Toast.makeText(fragmentActivity, fragmentActivity.getString(R.string.success_parent_remove_task_message), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            updatePoints(user, pointsValue);
+            Toast.makeText(fragmentActivity, String.format(fragmentActivity.getString(R.string.success_remove_task_message), pointsValue, pointsValue == 1 ? "point" : "points"), Toast.LENGTH_SHORT).show();
+            fragmentStreamBinding.konfettiView.build()
+                            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                            .setDirection(0.0, 359.0)
+                            .setSpeed(1f, 5f)
+                            .setFadeOutEnabled(true)
+                            .setTimeToLive(2000L)
+                            .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                            .setPosition(-50f, fragmentStreamBinding.konfettiView.getWidth() + 50f, -50f, -50f)
+                            .streamFor(300, 2000L);
         }
     }
 }

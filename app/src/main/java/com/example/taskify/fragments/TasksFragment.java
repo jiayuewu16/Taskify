@@ -50,7 +50,7 @@ public class TasksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tasks = MainActivity.tasks;
-        adapter = new TaskAdapter(getActivity(), tasks);
+        adapter = new TaskAdapter(getActivity(), binding, tasks);
 
         binding.recyclerViewStream.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
