@@ -8,9 +8,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
@@ -146,7 +148,7 @@ public class ParseUtil {
         });
     }
 
-    public static void queryTasks(Context context, TaskifyUser user, List<Task> tasks, RecyclerView.Adapter adapter) {
+    public static void queryTasks(Context context, TaskifyUser user, List<Task> tasks, RecyclerView.Adapter adapter, @Nullable MainActivity.TestInterface testInterface) {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         query = query.include(Task.KEY_USERS);
         if (user == null) {
@@ -175,6 +177,7 @@ public class ParseUtil {
             }
             else {
                 tasks.addAll(queryTasks);
+                testInterface.setNetworkCallCompleted();
                 for (Task task : tasks) {
                     Log.i(TAG, "Task Name: " + task.getTaskName() + ", assigned to: " + task.getUsers().toString());
                 }

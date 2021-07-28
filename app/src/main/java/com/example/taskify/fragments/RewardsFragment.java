@@ -76,8 +76,8 @@ public class RewardsFragment extends Fragment {
             binding.swipeRefreshLayout.setRefreshing(false);
         });
 
+        // Get return value from RewardCreateFragment.
         NavController navController = NavHostFragment.findNavController(this);
-        // We use a String here, but any type that can be put in a Bundle is supported
         MutableLiveData<Reward> liveData = navController.getCurrentBackStackEntry()
                 .getSavedStateHandle()
                 .getLiveData("reward");

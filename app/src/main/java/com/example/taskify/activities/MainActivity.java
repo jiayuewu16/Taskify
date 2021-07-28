@@ -1,5 +1,6 @@
 package com.example.taskify.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -39,6 +42,7 @@ import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,10 +51,18 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     private ActivityMainBinding binding;
     public final static List<Task> tasks = new ArrayList<>();
-    public final static List<Reward> rewards = new ArrayList<>();
+    public final static List<Reward> rewards = new ArrayList<>(); // Also contains redeemed rewards.
+    public final static List<TaskifyUser> associatedUsers = new ArrayList<>();
     private TaskifyUser user;
     private int selectedItem;
+    private NavController navController;
+    public TestInterface testInterface;
 
+    public void setActivityListener(TestInterface testInterface) {
+        this.testInterface = testInterface;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         // Tutorial: https://medium.com/@freedom.chuks7/how-to-use-jet-pack-components-bottomnavigationview-with-navigation-ui-19fb120e3fb9
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
-        NavController navController = navHostFragment.getNavController();
+        navController = navHostFragment.getNavController();
         //NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
@@ -148,8 +160,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        rewards.clear();
-        ParseUtil.queryRewards(this, user, rewards, null);
+        populateData();
     }
 
     @Override
@@ -198,6 +209,26 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Query intent stopped.");
     }
 
+    /**
+     * Populates all tasks, rewards, redeemed rewards, and children upon startup to reduce calls
+     * to the database.
+     */
+    private void populateData() {
+        tasks.clear();
+        ParseUtil.queryTasks(this, user, tasks, null, testInterface);
+
+        rewards.clear();
+        ParseUtil.queryRewards(this, user, rewards, null);
+
+        associatedUsers.clear();
+        if (user.isParent()) {
+            associatedUsers.addAll(user.queryChildren());
+        }
+        else {
+            associatedUsers.add(user.getParent());
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -211,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
         textViewPointsTotal.setTypeface(ResourcesCompat.getFont(this, R.font.soon_font));
-        
+
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         if (user != null && !user.isParent()) {
             textViewPointsTotal.setText(GeneralUtil.getPointsValueString(user.getPointsTotal()));
@@ -224,5 +255,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public interface TestInterface {
+        public void setNetworkCallCompleted();
     }
 }

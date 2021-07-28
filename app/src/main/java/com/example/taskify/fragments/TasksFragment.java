@@ -28,7 +28,7 @@ import com.parse.ParseUser;
 import java.util.Collections;
 import java.util.List;
 
-public class TasksFragment extends Fragment {
+public class TasksFragment extends Fragment implements MainActivity.TestInterface{
 
     private final static String TAG = "TasksFragment";
     private FragmentStreamBinding binding;
@@ -49,6 +49,8 @@ public class TasksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((MainActivity)getActivity()).setActivityListener(this);
+
         tasks = MainActivity.tasks;
         adapter = new TaskAdapter(getActivity(), binding, tasks);
 
@@ -59,8 +61,6 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewStream.addItemDecoration(dividerItemDecoration);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        tasks.clear();
-        ParseUtil.queryTasks(getContext(), user, tasks, adapter);
 
         if (!user.isParent()) {
             binding.floatingActionButtonCreate.setVisibility(View.GONE);
@@ -73,12 +73,15 @@ public class TasksFragment extends Fragment {
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLayout.setRefreshing(true);
             tasks.clear();
-            ParseUtil.queryTasks(getContext(), user, tasks, adapter);
+            ParseUtil.queryTasks(getContext(), user, tasks, adapter, this);
             binding.swipeRefreshLayout.setRefreshing(false);
         });
 
+        //
+
+        // Tutorial: https://developer.android.com/guide/navigation/navigation-programmatic
+        // Get return value from TaskCreateFragment.
         NavController navController = NavHostFragment.findNavController(this);
-        // We use a String here, but any type that can be put in a Bundle is supported
         MutableLiveData<Task> liveData = navController.getCurrentBackStackEntry()
                 .getSavedStateHandle()
                 .getLiveData("task");
@@ -92,5 +95,11 @@ public class TasksFragment extends Fragment {
             adapter.notifyDataSetChanged();
             binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
         });
+    }
+
+    @Override
+    public void setNetworkCallCompleted() {
+        Log.i(TAG, "On complete network call");
+        adapter.notifyDataSetChanged();
     }
 }
