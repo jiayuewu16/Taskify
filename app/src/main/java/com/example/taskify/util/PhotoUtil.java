@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
@@ -72,5 +76,16 @@ public class PhotoUtil {
         // CodePath
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
+    }
+
+    public static Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
+        // Tutorial: https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 }

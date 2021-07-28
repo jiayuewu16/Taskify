@@ -2,6 +2,7 @@
     <string name="app_name">Taskify</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
     <string name="uri_fileprovider_authority">com.taskify.fileprovider</string>
+    <string name="facebook_content_provider_authority">com.facebook.app.FacebookContentProvider260152822115027</string>
 
     <string name="facebook_app_id">260152822115027</string>
     <string name="fb_login_protocol_scheme">fb260152822115027</string>
