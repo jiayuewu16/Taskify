@@ -1,5 +1,6 @@
 package com.example.taskify.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,6 +20,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.taskify.R;
 import com.example.taskify.adapters.OnSwipeTouchListener;
+import com.example.taskify.adapters.RewardAdapter;
+import com.example.taskify.adapters.TaskAdapter;
+import com.example.taskify.adapters.UserAdapter;
 import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
@@ -34,13 +38,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final List<Task> tasks = new ArrayList<>();
+    public final List<Reward> rewards = new ArrayList<>();
+    public final List<TaskifyUser> associatedUsers = new ArrayList<>();
+    public TaskAdapter taskAdapter;
     private final static String TAG = "MainActivity";
     private ActivityMainBinding binding;
-    public final static List<Task> tasks = new ArrayList<>();
-    public final static List<Reward> rewards = new ArrayList<>();
     private TaskifyUser user;
     private int selectedItem;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +144,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        populateData();
+    }
+
+    private void populateData() {
+        associatedUsers.clear();
+        if (user.isParent()) {
+            associatedUsers.addAll(user.queryChildren());
+        }
+        else {
+            associatedUsers.add(user.getParent());
+        }
+
+        taskAdapter = new TaskAdapter(this, null, tasks);
+        tasks.clear();
+        ParseUtil.queryTasks(this, user, tasks, taskAdapter);
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);

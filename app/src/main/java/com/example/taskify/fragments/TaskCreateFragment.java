@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.AssignChildAdapter;
 import com.example.taskify.databinding.FragmentTaskCreateBinding;
 import com.example.taskify.models.Alarm;
@@ -60,12 +61,10 @@ public class TaskCreateFragment extends DialogFragment {
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
-        List<TaskifyUser> children = new ArrayList<>();
+        List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
         binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
         binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
-        children.addAll(user.queryChildren());
-        assignChildAdapter.notifyDataSetChanged();
 
         binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener((buttonView, isChecked) ->
                 binding.layoutCheckBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE));

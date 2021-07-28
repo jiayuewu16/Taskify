@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskify.R;
 import com.example.taskify.activities.LoginActivity;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.UserAdapter;
 import com.example.taskify.databinding.FragmentProfileBinding;
 import com.example.taskify.models.TaskifyUser;
@@ -90,14 +91,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        List<TaskifyUser> users;
+        List<TaskifyUser> users = ((MainActivity)requireActivity()).associatedUsers;
         if (user.isParent()) {
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
-            users = user.queryChildren();
         }
         else {
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
-            users = Collections.singletonList(user.getParent());
         }
         binding.textViewAssociatedUserHeader.setTextColor(ColorUtil.getTextColor(context));
         UserAdapter adapter = new UserAdapter(context, users);

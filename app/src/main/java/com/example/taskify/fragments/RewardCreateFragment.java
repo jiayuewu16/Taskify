@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.adapters.AssignChildAdapter;
 import com.example.taskify.databinding.FragmentRewardCreateBinding;
 import com.example.taskify.models.Reward;
@@ -92,12 +93,10 @@ public class RewardCreateFragment extends DialogFragment {
         binding.buttonCancel.setOnClickListener(v -> dismiss());
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        List<TaskifyUser> children = new ArrayList<>();
+        List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
         binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
         binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
-        children.addAll(user.queryChildren());
-        assignChildAdapter.notifyDataSetChanged();
 
         binding.buttonConfirm.setOnClickListener(v -> {
             String rewardName = binding.editTextRewardName.getText().toString();

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskify.R;
+import com.example.taskify.activities.MainActivity;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
@@ -113,7 +114,7 @@ public class ParseUtil {
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
         if (user.isParent()) {
-            List<TaskifyUser> children = user.queryChildren();
+            List<TaskifyUser> children = ((MainActivity)context).associatedUsers;
             List<ParseQuery<Reward>> queries = new ArrayList<>();
             for (TaskifyUser child : children) {
                 ParseQuery<Reward> tempQuery = ParseQuery.getQuery(Reward.class);
@@ -154,7 +155,7 @@ public class ParseUtil {
             Log.e(TAG, context.getString(R.string.error_default_message));
         }
         if (user.isParent()) {
-            List<TaskifyUser> children = user.queryChildren();
+            List<TaskifyUser> children = ((MainActivity)context).associatedUsers;
             List<ParseQuery<Task>> queries = new ArrayList<>();
             for (TaskifyUser child : children) {
                 ParseQuery<Task> tempQuery = ParseQuery.getQuery(Task.class);

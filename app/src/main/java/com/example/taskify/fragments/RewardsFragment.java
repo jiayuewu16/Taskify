@@ -49,8 +49,7 @@ public class RewardsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rewards = MainActivity.rewards;
-
+        rewards = ((MainActivity)requireActivity()).rewards;
         adapter = new RewardAdapter(getActivity(), binding, rewards);
 
         binding.recyclerViewStream.setAdapter(adapter);

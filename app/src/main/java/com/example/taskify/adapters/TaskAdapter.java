@@ -46,6 +46,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         this.tasks = tasks;
     }
 
+    public void setFragmentStreamBinding(FragmentStreamBinding fragmentStreamBinding) {
+        this.fragmentStreamBinding = fragmentStreamBinding;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -174,7 +178,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         int prevPointsValue = user.getPointsTotal();
         user.addPointsValue(pointsValue);
         ParseUtil.save(user, fragmentActivity, TAG, null, fragmentActivity.getString(R.string.error_save_user_points));
-        for (Reward reward : MainActivity.rewards) {
+        for (Reward reward : ((MainActivity)fragmentActivity).rewards) {
             if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
                 Toast.makeText(fragmentActivity, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
             }

@@ -49,8 +49,10 @@ public class TasksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tasks = MainActivity.tasks;
-        adapter = new TaskAdapter(getActivity(), binding, tasks);
+        tasks = ((MainActivity)requireActivity()).tasks;
+        adapter = ((MainActivity)requireActivity()).taskAdapter;
+        adapter.setFragmentStreamBinding(binding);
+        //adapter = new TaskAdapter(getActivity(), binding, tasks);
 
         binding.recyclerViewStream.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -59,9 +61,6 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewStream.addItemDecoration(dividerItemDecoration);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        tasks.clear();
-        ParseUtil.queryTasks(getContext(), user, tasks, adapter);
-
         if (!user.isParent()) {
             binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
