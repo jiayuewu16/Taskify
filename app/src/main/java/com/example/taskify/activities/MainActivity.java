@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
@@ -160,13 +161,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        stopBackgroundTaskQuery();
+        //stopBackgroundTaskQuery();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        stopBackgroundTaskQuery();
+        //stopBackgroundTaskQuery();
     }
 
     private void startBackgroundTaskQuery() {
@@ -209,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         TextView textViewPointsTotal = (TextView) menu.findItem(R.id.textViewPointsTotal).getActionView();
+        textViewPointsTotal.setTypeface(ResourcesCompat.getFont(this, R.font.soon_font));
+        
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         if (user != null && !user.isParent()) {
             textViewPointsTotal.setText(GeneralUtil.getPointsValueString(user.getPointsTotal()));
