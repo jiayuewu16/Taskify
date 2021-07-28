@@ -31,10 +31,7 @@
 
         <receiver android:name=".network.AlarmBroadcastReceiver" />
 
-        <receiver android:name=".network.TaskQueryBroadcastReceiver"/>
-
         <service android:name=".network.AlarmPlayingService"/>
-        <service android:name=".network.TaskQueryService"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -13,25 +13,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.taskify.R;
 import com.example.taskify.adapters.OnSwipeTouchListener;
 import com.example.taskify.databinding.ActivityMainBinding;
-import com.example.taskify.fragments.ProfileFragment;
-import com.example.taskify.fragments.RewardsFragment;
-import com.example.taskify.fragments.TasksFragment;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
-import com.example.taskify.network.TaskQueryBroadcastReceiver;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.ParseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,7 +34,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int REQUEST_CODE_QUERY = 16;
     private final static String TAG = "MainActivity";
     private ActivityMainBinding binding;
     public final static List<Task> tasks = new ArrayList<>();
@@ -150,52 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //startBackgroundTaskQuery();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //stopBackgroundTaskQuery();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //stopBackgroundTaskQuery();
-    }
-
-    private void startBackgroundTaskQuery() {
-        // Tutorial: https://stackoverflow.com/questions/32138061/how-to-run-a-parse-query-in-background-or-schedule-it-in-android
-        // and https://www.thepolyglotdeveloper.com/2014/10/use-broadcast-receiver-background-services-android/
-        Log.i(TAG, "Query intent started.");
-
-        int MILLISECONDS = 1000;
-        int INTERVAL_SECONDS = 60;
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent receiverIntent = new Intent(this, TaskQueryBroadcastReceiver.class);
-        // Tutorial: https://stackoverflow.com/questions/67094131/broadcast-receiver-not-receiving-extras
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("user", user);
-        receiverIntent.putExtra("bundle", bundle);
-        //requestCode is always 16, so only one query pendingIntent is ever running.
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_CODE_QUERY, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), INTERVAL_SECONDS * MILLISECONDS, pendingIntent);
-    }
-
-    private void stopBackgroundTaskQuery() {
-        Intent receiverIntent = new Intent(this, TaskQueryBroadcastReceiver.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("user", user);
-        receiverIntent.putExtra("bundle", bundle);
-        PendingIntent.getBroadcast(this, REQUEST_CODE_QUERY, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT).cancel();
-        Log.i(TAG, "Query intent stopped.");
     }
 
     @Override
