@@ -132,6 +132,10 @@ public class RewardDetailsFragment extends DialogFragment {
                 binding.textViewPointsProgress.setText(String.format(getString(R.string.reward_details_progress_plural_points), pointsLeft));
             }
         }
+
+        if (user.isParent()) {
+            binding.shareButtonFacebook.setVisibility(View.GONE);
+        }
     }
 
     @Override
