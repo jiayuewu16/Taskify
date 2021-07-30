@@ -9,10 +9,13 @@
 
     <TextView
         android:id="@+id/textViewTaskName"
-        android:transitionName="textViewTaskName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/imageButtonEdit"
         android:textSize="24sp"
+        android:transitionName="textViewTaskName"
         tools:text="Wash Dishes" />
 
     <ImageView
@@ -80,5 +83,15 @@
         android:layout_below="@+id/textViewAssignedToText"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"/>
+
+
+    <ImageButton
+        android:id="@+id/imageButtonEdit"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@android:drawable/ic_menu_edit"
+        android:backgroundTint="?attr/backgroundColor"/>
 
 </RelativeLayout>

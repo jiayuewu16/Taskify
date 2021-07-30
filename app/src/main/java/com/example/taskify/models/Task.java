@@ -88,6 +88,10 @@ public class Task extends ParseObject implements Comparable<Task> {
     public boolean equals(Object o) {
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        if (this.getObjectId() == null || task.getObjectId() == null) {
+            return this == task;
+        }
         return this.getObjectId().equals(((Task)o).getObjectId());
     }
 }

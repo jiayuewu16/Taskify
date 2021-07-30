@@ -86,7 +86,9 @@ public class TasksFragment extends Fragment {
                 Log.i(TAG, "No task returned");
                 return;
             }
-            tasks.add(task);
+            if (!tasks.contains(task)) {
+                tasks.add(task);
+            }
             Collections.sort(tasks);
             adapter.notifyDataSetChanged();
             binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);

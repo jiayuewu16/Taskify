@@ -37,7 +37,7 @@ public class TaskDetailsFragment extends DialogFragment {
     private final static String TAG = "TaskDetailsFragment";
     private FragmentTaskDetailsBinding binding;
     private Task task;
-    private Activity activity;
+    private FragmentActivity fragmentActivity;
 
     // Required empty public constructor.
     public TaskDetailsFragment() {}
@@ -70,10 +70,10 @@ public class TaskDetailsFragment extends DialogFragment {
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         Alarm alarm = task.getAlarm();
 
-        int primaryColor = ColorUtil.getPrimaryColor(activity);
+        int primaryColor = ColorUtil.getPrimaryColor(fragmentActivity);
         List<TextView> list = Arrays.asList(binding.textViewTaskName, binding.textViewAlarmTime,
                 binding.textViewRecurring, binding.textViewPointsValue, binding.textViewAssignedToText);
-        ColorUtil.alternateTextViewColors(list, ColorUtil.getTextColor(activity), primaryColor);
+        ColorUtil.alternateTextViewColors(list, ColorUtil.getTextColor(fragmentActivity), primaryColor);
         binding.imageViewClock.setColorFilter(primaryColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.textViewTaskName.setText(task.getTaskName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(task.getPointsValue()));
@@ -84,13 +84,25 @@ public class TaskDetailsFragment extends DialogFragment {
             binding.textViewAssignedToText.setVisibility(View.VISIBLE);
             binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
             List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) task.getUsers();
-            AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(activity, children);
+            AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(fragmentActivity, children);
             binding.recyclerViewAssignedChild.setAdapter(assignedChildAdapter);
-            binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(activity));
+            binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
+
+            binding.imageButtonEdit.setVisibility(View.VISIBLE);
+            binding.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Go to edit task dialog fragment.
+                    TaskEditFragment taskEditFragment = TaskEditFragment.newInstance(task);
+                    taskEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_task_edit");
+                    dismiss();
+                }
+            });
         }
         else {
             binding.textViewAssignedToText.setVisibility(View.GONE);
             binding.recyclerViewAssignedChild.setVisibility(View.GONE);
+            binding.imageButtonEdit.setVisibility(View.GONE);
         }
     }
 
@@ -98,7 +110,7 @@ public class TaskDetailsFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
-            activity = (FragmentActivity)context;
+            fragmentActivity = (FragmentActivity)context;
         }
     }
 }
