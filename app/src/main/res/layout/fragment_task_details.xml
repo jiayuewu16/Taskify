@@ -87,6 +87,7 @@
 
     <ImageButton
         android:id="@+id/imageButtonEdit"
+        android:contentDescription="@string/content_description_edit_button"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"

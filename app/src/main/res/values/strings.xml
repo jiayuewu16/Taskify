@@ -70,7 +70,7 @@
     <string name="success_save_task_message">Task saved successfully!</string>
     <string name="error_save_task_message">Error while saving text.</string>
     <string name="success_parent_remove_task_message">Deleted task.</string>
-    <string name="success_link_facebook_message">Sucessfully linked with Facebook!</string>
+    <string name="success_link_facebook_message">Successfully linked with Facebook!</string>
     <string name="error_link_facebook_message">Error linking with facebook.</string>
 
     <string name="reward_details_progress_complete">Congratulations! You earned this reward.</string>
@@ -91,4 +91,8 @@
     <string name="display_full_username_format">%s %s \@%s</string>
 
     <string name="alarm_new_task_alert">You have a new task!</string>
+    <string name="sign_up_user_is_parent_text">I am a Parent</string>
+    <string name="sign_up_user_is_child_text">I am a Child</string>
+    <string name="sign_up_parent_username_text">Parent\'s username:</string>
+    <string name="content_description_edit_button">edit button</string>
 </resources>

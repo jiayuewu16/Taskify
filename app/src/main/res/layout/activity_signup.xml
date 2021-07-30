@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="I am a Parent"
+                android:text="@string/sign_up_user_is_parent_text"
                 android:checked="true"
                 android:textSize="18sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="I am a Child"
+                android:text="@string/sign_up_user_is_child_text"
                 android:checked="false"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -120,13 +120,15 @@
                 android:id="@+id/textViewChildEnterParentUsernamePrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Parent's username: "
+                android:text="@string/sign_up_parent_username_text"
                 android:textSize="18sp"/>
             <EditText
                 android:id="@+id/editTextChildEnterParentUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"/>
+                android:labelFor="@id/editTextChildEnterParentUsername"
+                android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
+                android:inputType="text" />
         </LinearLayout>
 
     </LinearLayout>
