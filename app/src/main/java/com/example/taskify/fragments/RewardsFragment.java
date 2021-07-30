@@ -27,6 +27,7 @@ import com.parse.ParseUser;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class RewardsFragment extends Fragment {
 
@@ -77,7 +78,7 @@ public class RewardsFragment extends Fragment {
 
         NavController navController = NavHostFragment.findNavController(this);
         // We use a String here, but any type that can be put in a Bundle is supported
-        MutableLiveData<Reward> createRewardLiveData = navController.getCurrentBackStackEntry()
+        MutableLiveData<Reward> createRewardLiveData = Objects.requireNonNull(navController.getCurrentBackStackEntry())
                 .getSavedStateHandle()
                 .getLiveData("reward");
         createRewardLiveData.observe(getViewLifecycleOwner(), reward -> {

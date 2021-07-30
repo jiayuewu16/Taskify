@@ -38,8 +38,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RewardCreateFragment extends DialogFragment {
 
@@ -52,19 +52,12 @@ public class RewardCreateFragment extends DialogFragment {
     // Required empty public constructor
     public RewardCreateFragment() {}
 
-    public static RewardCreateFragment newInstance() {
-        RewardCreateFragment fragment = new RewardCreateFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRewardCreateBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
@@ -92,7 +85,6 @@ public class RewardCreateFragment extends DialogFragment {
 
         binding.buttonCancel.setOnClickListener(v -> dismiss());
 
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
         binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
@@ -154,7 +146,7 @@ public class RewardCreateFragment extends DialogFragment {
     }
 
     private void returnReward() {
-        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("reward", reward);
+        Objects.requireNonNull(NavHostFragment.findNavController(this).getPreviousBackStackEntry()).getSavedStateHandle().set("reward", reward);
         dismiss();
     }
 

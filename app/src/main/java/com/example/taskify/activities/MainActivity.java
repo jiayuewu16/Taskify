@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.NavController;
@@ -63,45 +61,42 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
         NavController navController = navHostFragment.getNavController();
-        //NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.tasks:
-                    if (selectedItem == R.id.rewards){
-                        // Go to tasks from rewards
-                        navController.navigate(R.id.action_rewards_to_tasks);
-                    }
-                    else if (selectedItem == R.id.profile){
-                        // Go to tasks from profile
-                        navController.navigate(R.id.action_profile_to_tasks);
-                    }
-                    selectedItem = R.id.tasks;
-                    break;
-                case R.id.rewards:
-                    if (selectedItem == R.id.tasks) {
-                        // Go to rewards from tasks
-                        navController.navigate(R.id.action_tasks_to_rewards);
-                    }
-                    else if (selectedItem == R.id.profile) {
-                        // Go to rewards from tasks
-                        navController.navigate(R.id.action_profile_to_rewards);
-                    }
-                    selectedItem = R.id.rewards;
-                    break;
-                case R.id.profile:
-                    if (selectedItem == R.id.tasks) {
-                        // Go to profile from tasks
-                        navController.navigate(R.id.action_tasks_to_profile);
-                    }
-                    else if (selectedItem == R.id.rewards) {
-                        // Go to profile from rewards
-                        navController.navigate(R.id.action_rewards_to_profile);
-                    }
-                    selectedItem = R.id.profile;
-                    break;
+            if (item.getItemId() == R.id.rewards) {
+                if (selectedItem == R.id.tasks) {
+                    // Go to rewards from tasks
+                    navController.navigate(R.id.action_tasks_to_rewards);
+                }
+                else if (selectedItem == R.id.profile) {
+                    // Go to rewards from tasks
+                    navController.navigate(R.id.action_profile_to_rewards);
+                }
+                selectedItem = R.id.rewards;
+            }
+            else if (item.getItemId() == R.id.profile) {
+                if (selectedItem == R.id.tasks) {
+                    // Go to profile from tasks
+                    navController.navigate(R.id.action_tasks_to_profile);
+                }
+                else if (selectedItem == R.id.rewards) {
+                    // Go to profile from rewards
+                    navController.navigate(R.id.action_rewards_to_profile);
+                }
+                selectedItem = R.id.profile;
+            }
+            else {
+                if (selectedItem == R.id.rewards){
+                    // Go to tasks from rewards
+                    navController.navigate(R.id.action_rewards_to_tasks);
+                }
+                else if (selectedItem == R.id.profile){
+                    // Go to tasks from profile
+                    navController.navigate(R.id.action_profile_to_tasks);
+                }
+                selectedItem = R.id.tasks;
             }
             return true;
         });

@@ -15,7 +15,6 @@ import com.example.taskify.activities.MainActivity;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
-import com.example.taskify.network.ParseApplication;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -112,6 +111,7 @@ public class ParseUtil {
         if (user == null) {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
+            return;
         }
         if (user.isParent()) {
             List<TaskifyUser> children = ((MainActivity)context).associatedUsers;
@@ -153,6 +153,7 @@ public class ParseUtil {
         if (user == null) {
             Toast.makeText(context, context.getString(R.string.error_default_message), Toast.LENGTH_SHORT).show();
             Log.e(TAG, context.getString(R.string.error_default_message));
+            return;
         }
         if (user.isParent()) {
             List<TaskifyUser> children = ((MainActivity)context).associatedUsers;

@@ -1,18 +1,14 @@
 package com.example.taskify.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +27,10 @@ import com.parse.ParseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskDetailsFragment extends DialogFragment {
 
-    private final static String TAG = "TaskDetailsFragment";
     private FragmentTaskDetailsBinding binding;
     private Task task;
     private FragmentActivity fragmentActivity;
@@ -59,7 +55,7 @@ public class TaskDetailsFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskDetailsBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
@@ -89,14 +85,11 @@ public class TaskDetailsFragment extends DialogFragment {
             binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
 
             binding.imageButtonEdit.setVisibility(View.VISIBLE);
-            binding.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Go to edit task dialog fragment.
-                    TaskEditFragment taskEditFragment = TaskEditFragment.newInstance(task);
-                    taskEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_task_edit");
-                    dismiss();
-                }
+            binding.imageButtonEdit.setOnClickListener(v -> {
+                // Go to edit task dialog fragment.
+                TaskEditFragment taskEditFragment = TaskEditFragment.newInstance(task);
+                taskEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_task_edit");
+                dismiss();
             });
         }
         else {

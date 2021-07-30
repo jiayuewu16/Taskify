@@ -11,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -41,6 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class RewardEditFragment extends DialogFragment {
 
@@ -78,11 +77,11 @@ public class RewardEditFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRewardCreateBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
@@ -114,7 +113,7 @@ public class RewardEditFragment extends DialogFragment {
         binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
         binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
 
-        setCurrentRewardValues(user, children, assignChildAdapter);
+        setCurrentRewardValues(user, assignChildAdapter);
 
         binding.buttonConfirm.setOnClickListener(v -> {
             String rewardName = binding.editTextRewardName.getText().toString();
@@ -174,11 +173,11 @@ public class RewardEditFragment extends DialogFragment {
     }
 
     private void returnReward() {
-        NavHostFragment.findNavController(this).getCurrentBackStackEntry().getSavedStateHandle().set("reward", reward);
+        Objects.requireNonNull(NavHostFragment.findNavController(this).getCurrentBackStackEntry()).getSavedStateHandle().set("reward", reward);
         dismiss();
     }
 
-    private void setCurrentRewardValues(TaskifyUser user, List<TaskifyUser> children, AssignChildAdapter adapter) {
+    private void setCurrentRewardValues(TaskifyUser user, AssignChildAdapter adapter) {
         binding.editTextRewardName.setText(reward.getRewardName());
         binding.editTextPoints.setText(String.valueOf(reward.getPointsValue()));
         if (reward.getRewardPhoto() != null) {

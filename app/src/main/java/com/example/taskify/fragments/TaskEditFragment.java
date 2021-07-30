@@ -2,7 +2,6 @@ package com.example.taskify.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import com.parse.ParseUser;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskEditFragment extends DialogFragment {
 
@@ -56,7 +56,7 @@ public class TaskEditFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskCreateBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
@@ -64,13 +64,12 @@ public class TaskEditFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
         binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
         binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
 
-        setCurrentTaskValues(user, children, assignChildAdapter);
+        setCurrentTaskValues(assignChildAdapter);
 
         binding.checkBoxSetRecurringTrue.setOnCheckedChangeListener((buttonView, isChecked) ->
                 binding.layoutCheckBoxSetRecurringWeekdays.setVisibility(isChecked? View.VISIBLE : View.GONE));
@@ -132,12 +131,12 @@ public class TaskEditFragment extends DialogFragment {
             task.setUsers(selectedChildren);
             ParseUtil.save(task, activity, TAG, getString(R.string.success_save_task_message), getString(R.string.error_save_task_message));
 
-            NavHostFragment.findNavController(this).getCurrentBackStackEntry().getSavedStateHandle().set("task", task);
+            Objects.requireNonNull(NavHostFragment.findNavController(this).getCurrentBackStackEntry()).getSavedStateHandle().set("task", task);
             dismiss();
         });
     }
 
-    private void setCurrentTaskValues(TaskifyUser user, List<TaskifyUser> children, AssignChildAdapter adapter) {
+    private void setCurrentTaskValues(AssignChildAdapter adapter) {
         binding.editTextTaskName.setText(task.getTaskName());
         binding.editTextPoints.setText(String.valueOf(task.getPointsValue()));
         Alarm alarm = task.getAlarm();

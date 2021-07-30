@@ -40,12 +40,6 @@ public class ColorUtil {
         return typedValue.data;
     }
 
-    public static int getSecondaryColor(Context context) {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorSecondary, typedValue, true);
-        return typedValue.data;
-    }
-
     public static int getBackgroundColor(Context context) {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.backgroundColor, typedValue, true);

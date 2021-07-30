@@ -27,6 +27,7 @@ import com.parse.ParseUser;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class TasksFragment extends Fragment {
 
@@ -77,8 +78,9 @@ public class TasksFragment extends Fragment {
         });
 
         NavController navController = NavHostFragment.findNavController(this);
+
         // We use a String here, but any type that can be put in a Bundle is supported
-        MutableLiveData<Task> liveData = navController.getCurrentBackStackEntry()
+        MutableLiveData<Task> liveData = Objects.requireNonNull(navController.getCurrentBackStackEntry())
                 .getSavedStateHandle()
                 .getLiveData("task");
         liveData.observe(getViewLifecycleOwner(), task -> {

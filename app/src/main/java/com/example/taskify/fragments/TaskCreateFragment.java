@@ -25,10 +25,10 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskCreateFragment extends DialogFragment {
 
@@ -39,27 +39,18 @@ public class TaskCreateFragment extends DialogFragment {
     // Required empty public constructor
     public TaskCreateFragment() {}
 
-    public static TaskCreateFragment newInstance() {
-        TaskCreateFragment fragment = new TaskCreateFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaskCreateBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
         List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
@@ -121,7 +112,7 @@ public class TaskCreateFragment extends DialogFragment {
             Task task = new Task(taskName, pointsValue, alarm, selectedChildren);
             ParseUtil.save(task, activity, TAG, getString(R.string.success_save_task_message), getString(R.string.error_save_task_message));
 
-            NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("task", task);
+            Objects.requireNonNull(NavHostFragment.findNavController(this).getPreviousBackStackEntry()).getSavedStateHandle().set("task", task);
             dismiss();
         });
     }

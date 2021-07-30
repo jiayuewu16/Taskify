@@ -43,6 +43,7 @@ public class Reward extends ParseObject implements Comparable<Reward> {
 
     public List<ParseUser> getUsers() {
         List<ParseUser> list = getList(KEY_USERS);
+        assert list != null;
         for (ParseUser user : list) {
             try {
                 user.fetchIfNeeded();

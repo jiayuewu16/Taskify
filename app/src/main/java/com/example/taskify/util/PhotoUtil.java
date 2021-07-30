@@ -1,21 +1,19 @@
 package com.example.taskify.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
 
-import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class PhotoUtil {
     public final static String APP_TAG = "Taskify";
@@ -53,7 +51,7 @@ public class PhotoUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        String orientString = Objects.requireNonNull(exif).getAttribute(ExifInterface.TAG_ORIENTATION);
         int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
         int rotationAngle = 0;
         if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
@@ -65,12 +63,6 @@ public class PhotoUtil {
         return Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
     }
 
-    public static Bitmap cropSquare(Bitmap bitmap) {
-        // Tutorial: https://stackoverflow.com/questions/6908604/android-crop-center-of-bitmap
-        int minLength = Math.min(bitmap.getHeight(), bitmap.getWidth());
-        return Bitmap.createBitmap(bitmap, 0, 0, minLength, minLength);
-    }
-
     // scale and keep aspect ratio
     public static Bitmap scaleToFitWidth(Bitmap b, int width) {
         // CodePath
@@ -78,7 +70,7 @@ public class PhotoUtil {
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
     }
 
-    public static Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
+    public static Bitmap getBitmapFromVectorDrawable(Drawable drawable) {
         // Tutorial: https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
                 drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);

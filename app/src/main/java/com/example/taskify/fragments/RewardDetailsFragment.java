@@ -1,12 +1,9 @@
 package com.example.taskify.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,18 +27,15 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.GeneralUtil;
 import com.example.taskify.util.PhotoUtil;
-import com.facebook.share.model.ShareContent;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class RewardDetailsFragment extends DialogFragment {
 
@@ -49,7 +43,6 @@ public class RewardDetailsFragment extends DialogFragment {
     private FragmentRewardDetailsBinding binding;
     private Reward reward;
     private FragmentActivity fragmentActivity;
-    private ShareDialog shareDialog;
 
     // Required empty public constructor.
     public RewardDetailsFragment() {}
@@ -67,11 +60,11 @@ public class RewardDetailsFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRewardDetailsBinding.inflate(inflater, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded);
         return binding.getRoot();
     }
 
@@ -156,14 +149,11 @@ public class RewardDetailsFragment extends DialogFragment {
         if (user.isParent()) {
             binding.shareButtonFacebook.setVisibility(View.GONE);
             binding.imageButtonEdit.setVisibility(View.VISIBLE);
-            binding.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Go to edit reward dialog fragment.
-                    RewardEditFragment rewardEditFragment = RewardEditFragment.newInstance(reward);
-                    rewardEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_reward_edit");
-                    dismiss();
-                }
+            binding.imageButtonEdit.setOnClickListener(v -> {
+                // Go to edit reward dialog fragment.
+                RewardEditFragment rewardEditFragment = RewardEditFragment.newInstance(reward);
+                rewardEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_reward_edit");
+                dismiss();
             });
         }
         else {
@@ -181,7 +171,7 @@ public class RewardDetailsFragment extends DialogFragment {
     }
 
     private void setShareContent(Drawable drawable) {
-        Bitmap bitmap = PhotoUtil.getBitmapFromVectorDrawable(fragmentActivity, drawable);
+        Bitmap bitmap = PhotoUtil.getBitmapFromVectorDrawable(drawable);
         setShareContent(bitmap);
     }
 
