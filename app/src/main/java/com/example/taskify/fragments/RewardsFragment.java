@@ -77,15 +77,17 @@ public class RewardsFragment extends Fragment {
 
         NavController navController = NavHostFragment.findNavController(this);
         // We use a String here, but any type that can be put in a Bundle is supported
-        MutableLiveData<Reward> liveData = navController.getCurrentBackStackEntry()
+        MutableLiveData<Reward> createRewardLiveData = navController.getCurrentBackStackEntry()
                 .getSavedStateHandle()
                 .getLiveData("reward");
-        liveData.observe(getViewLifecycleOwner(), reward -> {
+        createRewardLiveData.observe(getViewLifecycleOwner(), reward -> {
             if (reward == null) {
                 Log.i(TAG, "No reward returned");
                 return;
             }
-            rewards.add(reward);
+            if (!rewards.contains(reward)) {
+                rewards.add(reward);
+            }
             Collections.sort(rewards);
             adapter.notifyDataSetChanged();
             binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);

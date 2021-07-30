@@ -79,6 +79,10 @@ public class Reward extends ParseObject implements Comparable<Reward> {
     public boolean equals(Object o) {
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
+        Reward r = (Reward) o;
+        if (r.getObjectId() == null || this.getObjectId() == null) {
+            return this == r;
+        }
         return this.getObjectId().equals(((Reward)o).getObjectId());
     }
 }

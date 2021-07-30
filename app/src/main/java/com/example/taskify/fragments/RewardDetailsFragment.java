@@ -40,6 +40,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class RewardDetailsFragment extends DialogFragment {
@@ -47,7 +48,7 @@ public class RewardDetailsFragment extends DialogFragment {
     private final static String TAG = "RewardDetailsFragment";
     private FragmentRewardDetailsBinding binding;
     private Reward reward;
-    private Activity activity;
+    private FragmentActivity fragmentActivity;
     private ShareDialog shareDialog;
 
     // Required empty public constructor.
@@ -79,23 +80,23 @@ public class RewardDetailsFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        int primaryColor = ColorUtil.getPrimaryColor(activity);
+        int primaryColor = ColorUtil.getPrimaryColor(fragmentActivity);
         List<TextView> list = Arrays.asList(binding.textViewRewardName, binding.textViewPointsValue, binding.textViewPointsProgress);
-        ColorUtil.alternateTextViewColors(list, ColorUtil.getTextColor(activity), primaryColor);
+        ColorUtil.alternateTextViewColors(list, ColorUtil.getTextColor(fragmentActivity), primaryColor);
         binding.textViewRewardName.setText(reward.getRewardName());
         binding.textViewPointsValue.setText(GeneralUtil.getPointsValueString(reward.getPointsValue()));
         ParseFile rewardPhoto = reward.getRewardPhoto();
 
         if (rewardPhoto == null) {
             binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
-            setShareContent(AppCompatResources.getDrawable(activity, R.drawable.ic_taskify_logo_transparent));
+            setShareContent(AppCompatResources.getDrawable(fragmentActivity, R.drawable.ic_taskify_logo_transparent));
         }
         else {
             rewardPhoto.getDataInBackground((data, e) -> {
                 if (e != null) {
                     Log.e(TAG, "Image load unsuccessful.", e);
                     binding.imageViewRewardPhoto.setImageResource(R.drawable.ic_baseline_star_24);
-                    setShareContent(AppCompatResources.getDrawable(activity, R.drawable.ic_taskify_logo_transparent));
+                    setShareContent(AppCompatResources.getDrawable(fragmentActivity, R.drawable.ic_taskify_logo_transparent));
                 } else {
                     Bitmap rewardImageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     binding.imageViewRewardPhoto.setImageBitmap(rewardImageBitmap);
@@ -112,8 +113,8 @@ public class RewardDetailsFragment extends DialogFragment {
             binding.recyclerViewNotEarnedChild.setVisibility(View.VISIBLE);
             binding.textViewPointsProgress.setVisibility(View.GONE);
 
-            binding.textViewEarnedText.setTextColor(ColorUtil.getTextColor(activity));
-            binding.textViewNotEarnedText.setTextColor(ColorUtil.getTextColor(activity));
+            binding.textViewEarnedText.setTextColor(ColorUtil.getTextColor(fragmentActivity));
+            binding.textViewNotEarnedText.setTextColor(ColorUtil.getTextColor(fragmentActivity));
             List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) reward.getUsers();
             List<TaskifyUser> earned = new ArrayList<>();
             List<TaskifyUser> notEarned = new ArrayList<>();
@@ -125,12 +126,12 @@ public class RewardDetailsFragment extends DialogFragment {
                     notEarned.add(child);
                 }
             }
-            AssignedChildAdapter earnedChildAdapter = new AssignedChildAdapter(activity, earned);
-            AssignedChildAdapter notEarnedChildAdapter = new AssignedChildAdapter(activity, notEarned);
+            AssignedChildAdapter earnedChildAdapter = new AssignedChildAdapter(fragmentActivity, earned);
+            AssignedChildAdapter notEarnedChildAdapter = new AssignedChildAdapter(fragmentActivity, notEarned);
             binding.recyclerViewEarnedChild.setAdapter(earnedChildAdapter);
-            binding.recyclerViewEarnedChild.setLayoutManager(new LinearLayoutManager(activity));
+            binding.recyclerViewEarnedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
             binding.recyclerViewNotEarnedChild.setAdapter(notEarnedChildAdapter);
-            binding.recyclerViewNotEarnedChild.setLayoutManager(new LinearLayoutManager(activity));
+            binding.recyclerViewNotEarnedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
         }
         else {
             binding.shareButtonFacebook.setVisibility(View.VISIBLE);
@@ -154,6 +155,20 @@ public class RewardDetailsFragment extends DialogFragment {
 
         if (user.isParent()) {
             binding.shareButtonFacebook.setVisibility(View.GONE);
+            binding.imageButtonEdit.setVisibility(View.VISIBLE);
+            binding.imageButtonEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Go to edit reward dialog fragment.
+                    RewardEditFragment rewardEditFragment = RewardEditFragment.newInstance(reward);
+                    rewardEditFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_reward_edit");
+                    dismiss();
+                }
+            });
+        }
+        else {
+            binding.shareButtonFacebook.setVisibility(View.VISIBLE);
+            binding.imageButtonEdit.setVisibility(View.GONE);
         }
     }
 
@@ -161,12 +176,12 @@ public class RewardDetailsFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof FragmentActivity){
-            activity = (FragmentActivity)context;
+            fragmentActivity = (FragmentActivity)context;
         }
     }
 
     private void setShareContent(Drawable drawable) {
-        Bitmap bitmap = PhotoUtil.getBitmapFromVectorDrawable(activity, drawable);
+        Bitmap bitmap = PhotoUtil.getBitmapFromVectorDrawable(fragmentActivity, drawable);
         setShareContent(bitmap);
     }
 

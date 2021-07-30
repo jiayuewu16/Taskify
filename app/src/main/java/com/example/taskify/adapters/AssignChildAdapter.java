@@ -23,12 +23,16 @@ public class AssignChildAdapter extends RecyclerView.Adapter<AssignChildAdapter.
 
     private final Context context;
     private final List<TaskifyUser> users;
-    private final List<ParseUser> selectedChildren;
+    private List<ParseUser> selectedChildren;
 
     public AssignChildAdapter(Context context, List<TaskifyUser> users) {
         this.context = context;
         this.users = users;
         selectedChildren = new ArrayList<>();
+    }
+
+    public void setSelectedChildren(List<ParseUser> selectedChildren) {
+        this.selectedChildren = selectedChildren;
     }
 
     public List<ParseUser> getSelectedChildren() {
@@ -66,6 +70,7 @@ public class AssignChildAdapter extends RecyclerView.Adapter<AssignChildAdapter.
             ParseUtil.setPhoto(binding.imageViewProfilePhoto, user, AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24));
             binding.textViewFullUsername.setText(String.format(context.getString(R.string.display_full_username_format), user.getFirstName(), user.getLastName(), user.getUsername()));
             binding.textViewFullUsername.setTextColor(ColorUtil.getTextColor(context));
+            binding.checkBoxAssignChild.setChecked(selectedChildren.contains(user));
             binding.checkBoxAssignChild.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedChildren.add(user);
