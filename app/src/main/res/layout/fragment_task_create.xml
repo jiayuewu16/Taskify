@@ -17,8 +17,9 @@
             android:ems="10"
             android:hint="@string/task_name_hint_text"
             android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
-            android:inputType="textMultiLine"
-            android:maxLines="1" />
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="actionNext" />
 
         <RelativeLayout
             android:id="@+id/layoutAlarmPicker"
@@ -129,7 +130,8 @@
                 android:hint="@string/points_value_hint_text"
                 android:autofillHints=".AUTOFILL_HINT_NOT_APPLICABLE"
                 android:inputType="number"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:imeOptions="actionDone" />
 
             <TextView
                 android:id="@+id/textViewPointsSuffix"

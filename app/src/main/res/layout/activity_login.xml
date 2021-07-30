@@ -28,8 +28,9 @@
         android:gravity="start|top"
         android:hint="@string/username_hint_text"
         android:autofillHints=".AUTOFILL_HINT_USERNAME"
-        android:inputType="textMultiLine"
-        android:maxLines="1" />
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionNext" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -42,8 +43,9 @@
         android:gravity="start|top"
         android:hint="@string/password_hint_text"
         android:autofillHints=".AUTOFILL_HINT_PASSWORD"
-        android:inputType="textMultiLine|textPassword"
-        android:maxLines="1" />
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:imeOptions="actionDone" />
 
     <Button
         android:id="@+id/buttonLogin"
