@@ -54,12 +54,12 @@ public class SignupActivity extends LoginActivity {
             TaskifyUser user = new TaskifyUser();
             // Set core properties
             if (binding.editTextFirstName.getText().toString().isEmpty()) {
-                Toast.makeText(this, "You must enter a first name.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_empty_first_name_text), Toast.LENGTH_SHORT).show();
                 return;
             }
             user.setFirstName(binding.editTextFirstName.getText().toString());
             if (binding.editTextLastName.getText().toString().isEmpty()) {
-                Toast.makeText(this, "You must enter a last name.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_empty_last_name_text), Toast.LENGTH_SHORT).show();
                 return;
             }
             user.setLastName(binding.editTextLastName.getText().toString());
