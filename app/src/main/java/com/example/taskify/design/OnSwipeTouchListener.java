@@ -1,4 +1,4 @@
-package com.example.taskify.adapters;
+package com.example.taskify.design;
 
 import android.content.Context;
 import android.view.GestureDetector;

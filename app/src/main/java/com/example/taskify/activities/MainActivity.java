@@ -13,7 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.taskify.R;
-import com.example.taskify.adapters.OnSwipeTouchListener;
+import com.example.taskify.design.OnSwipeTouchListener;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.ActivityMainBinding;
 import com.example.taskify.models.Reward;
