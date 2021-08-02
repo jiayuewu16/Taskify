@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taskify">
         <activity android:name=".activities.SignupActivity" />
+        <activity android:name=".activities.AdditionalSignupActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +50,8 @@
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:launchMode = "singleTask" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

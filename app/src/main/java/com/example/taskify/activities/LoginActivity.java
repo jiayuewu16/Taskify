@@ -31,7 +31,12 @@ public class LoginActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         TaskifyUser currentUser = (TaskifyUser) ParseUser.getCurrentUser();
         if (currentUser != null || (accessToken != null && !accessToken.isExpired())) {
-            goToMainActivity();
+            if (currentUser.getFirstName() == null) {
+                goToAdditionalSignup();
+            }
+            else {
+                goToMainActivity();
+            }
         }
 
         int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -47,9 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                             binding.editTextPassword.getText().toString(), (user, e) -> {
                                 if (user != null) {
                                     // The user is logged in.
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    goToMainActivity();
                                 } else {
                                     // Log in didn't succeed. Show returned error message to user.
                                     Toast.makeText(this, ParseUtil.parseExceptionToErrorText(e), Toast.LENGTH_SHORT).show();
@@ -61,12 +64,14 @@ public class LoginActivity extends AppCompatActivity {
             //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
             ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, null, (user, err) -> {
                 if (user == null) {
-                    Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
-                } else if (user.isNew()) {
-                    Log.d(TAG, "User signed up and logged in through Facebook!");
-                    goToMainActivity();
+                    Log.d(TAG, "The user cancelled the Facebook login.");
+                    return;
+                }
+                Log.d(TAG, "User logged in through Facebook!");
+                if (((TaskifyUser) user).getFirstName() == null) {
+                    // User has not completed signup yet.
+                    goToAdditionalSignup();
                 } else {
-                    Log.d(TAG, "User logged in through Facebook!");
                     goToMainActivity();
                 }
             });
@@ -83,6 +88,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void goToAdditionalSignup() {
+        Intent intent = new Intent(LoginActivity.this, AdditionalSignupActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void goToMainActivity() {

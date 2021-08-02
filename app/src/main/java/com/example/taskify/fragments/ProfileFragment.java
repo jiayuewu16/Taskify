@@ -106,7 +106,6 @@ public class ProfileFragment extends Fragment {
         }
         else {
             binding.buttonFacebookLink.setOnClickListener(v -> {
-                Log.i(TAG, "User: " + user.toString());
                 if (!ParseFacebookUtils.isLinked(user)) {
                     ParseFacebookUtils.linkWithReadPermissionsInBackground(user, requireActivity(), null, e -> {
                         if (ParseFacebookUtils.isLinked(user)) {

@@ -2,6 +2,7 @@ package com.example.taskify.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,30 +12,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.taskify.R;
-import com.example.taskify.models.TaskifyUser;
+import com.example.taskify.databinding.ActivityAdditionalSignupBinding;
 import com.example.taskify.databinding.ActivitySignupBinding;
+import com.example.taskify.models.Reward;
+import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
+import com.example.taskify.util.PhotoUtil;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
 
-public class SignupActivity extends AppCompatActivity {
+import org.json.JSONObject;
 
-    private static final String TAG = "SignupActivity";
-    private ActivitySignupBinding binding;
+import java.io.File;
+
+public class AdditionalSignupActivity extends AppCompatActivity {
+
+    private static final String TAG = "AdditionalSignupActivity";
+    private ActivityAdditionalSignupBinding binding;
+    private TaskifyUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        binding = ActivityAdditionalSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (nightMode == Configuration.UI_MODE_NIGHT_YES) {
-            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent_white));
-        }
-        else {
-            binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_taskify_logo_transparent));
-        }
+        user = (TaskifyUser) ParseUser.getCurrentUser();
+        setCurrentValues();
 
         binding.checkBoxIsParent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.checkBoxIsChild.setChecked(!isChecked);
@@ -46,14 +57,9 @@ public class SignupActivity extends AppCompatActivity {
             binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.VISIBLE : View.GONE);
         });
 
-        binding.buttonLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
         binding.buttonSignup.setOnClickListener(v -> {
-            TaskifyUser user = new TaskifyUser();
+            TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
+
             // Set core properties
             if (binding.editTextFirstName.getText().toString().isEmpty()) {
                 Toast.makeText(this, getString(R.string.error_empty_first_name_text), Toast.LENGTH_SHORT).show();
@@ -62,6 +68,14 @@ public class SignupActivity extends AppCompatActivity {
             user.setFirstName(binding.editTextFirstName.getText().toString());
             if (binding.editTextLastName.getText().toString().isEmpty()) {
                 Toast.makeText(this, getString(R.string.error_empty_last_name_text), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (binding.editTextUsername.getText().toString().isEmpty()) {
+                Toast.makeText(this, getString(R.string.error_empty_username_message), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (binding.editTextPassword.getText() .toString().isEmpty()) {
+                Toast.makeText(this, getString(R.string.error_empty_password_message), Toast.LENGTH_SHORT).show();
                 return;
             }
             user.setLastName(binding.editTextLastName.getText().toString());
@@ -93,7 +107,7 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             // Invoke signUpInBackground
-            user.signUpInBackground(e -> {
+            user.saveInBackground(e -> {
                 if (e == null) {
                     goToMainActivity();
                 } else {
@@ -103,34 +117,34 @@ public class SignupActivity extends AppCompatActivity {
                 }
             });
         });
+    }
 
-        binding.buttonFacebookLogin.setOnClickListener(v -> {
-            //Tutorial: https://docs.parseplatform.org/android/guide/#facebook-users
-            ParseFacebookUtils.logInWithReadPermissionsInBackground(SignupActivity.this, null, (user, err) -> {
-                if (user == null) {
-                    Log.d(TAG, "The user cancelled the Facebook login.");
+    private void setCurrentValues() {
+        // Tutorial: https://stackoverflow.com/questions/36740409/parsefacebookutil-using-android-not-giving-user-information
+        // Fills in first and last name from Facebook.
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject json, GraphResponse response) {
+                // Application code
+                if (response.getError() != null) {
+                    Log.e(TAG, "Error retrieving Facebook values");
                     return;
                 }
-                Log.d(TAG, "User logged in through Facebook!");
-                if (((TaskifyUser)user).getFirstName() == null) {
-                    // User has not completed signup yet.
-                    goToAdditionalSignup();
-                }
-                else {
-                    goToMainActivity();
-                }
-            });
+                String fbUserFirstName = json.optString("first_name");
+                String fbUserLastName = json.optString("last_name");
+                binding.editTextFirstName.setText(fbUserFirstName);
+                binding.editTextLastName.setText(fbUserLastName);
+            }
         });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void goToAdditionalSignup() {
-        Intent intent = new Intent(SignupActivity.this, AdditionalSignupActivity.class);
+        Intent intent = new Intent(AdditionalSignupActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

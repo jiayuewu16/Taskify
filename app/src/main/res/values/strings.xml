@@ -48,6 +48,7 @@
     <string name="profile_children_header">Children:</string>
     <string name="profile_parent_header">Parent:</string>
     <string name="link_facebook_button_text">Link with Facebook</string>
+    <string name="link_facebook_existing_user_button_text">Link with existing user</string>
     <string name="points_value_suffix_text">Point(s)</string>
     <string name="assign_to_text">Assign to:</string>
     <string name="assigned_to_text">Assigned to:</string>
@@ -97,4 +98,9 @@
     <string name="display_full_username_format">%s %s \@%s</string>
 
     <string name="alarm_new_task_alert">You have a new task!</string>
+    <string name="complete_your_signup_label">Complete your signup!</string>
+    <string name="error_empty_username_message">Username cannot be empty</string>
+    <string name="error_empty_password_message">Password cannot be empty</string>
+    <string name="log_in_with_facebook_button">Log in with Facebook</string>
+    <string name="sign_up_with_facebook_button">Sign up with Facebook</string>
 </resources>
