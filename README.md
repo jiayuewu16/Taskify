@@ -1,22 +1,18 @@
 # Taskify - Chores Management for Parents and Kids
 
-## Table of Contents
-1. [Overview](#Overview)
-1. [Product Spec](#Product-Spec)
-1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
-
 ## Overview
+<img src="https://github.com/jiayuewu16/Taskify/blob/main/app/src/main/res/drawable/ic_taskify_logo_transparent.png" width=100>
+
 ### Description
 Allows parents to set chores for their children, and for the children to mark those chores as complete and receive points that can be redeemed for real life rewards.
-Features: allows the user to log in as a designated "parent" or "child" account from different devices. "Parent" accounts are able to set one-time or recurring daily, weekly, monthly, yearly, or every x hours/days chores. "Child" accounts are able to mark these chores as complete, receiving in-game points. Parent accounts can designate point thresholds that correspond to real life rewards for the child.
+Features: allows the user to log in as a designated "parent" or "child" account from different devices. "Parent" accounts are able to set one-time or recurring weekly chores. "Child" accounts are able to mark these chores as complete, receiving in-game points. Parent accounts can designate point thresholds that correspond to real life rewards for the child.
 
 ### App Evaluation
 - **Category:** Productivity
 - **Mobile:** Mobile is essential for being able to input chores at any time, and also mark chores complete at any time, anywhere. Push notifications reminding people of chores are real-time.
 - **Story:** Helps children associate chores with reward, creating better habits and a more positive outlook on mandatory tasks. Also helps the child build a schedule. Allows parents to assign chores to their children in a fun way.
 - **Market:** Parents who wish to make chores rewarding for their children, as well as help their children build good habits and good routine. As well, children who wish to make their chores more fun can suggest the app to their parents.
-- **Habit:** Parents use it often, perhaps daily, to check if their children completed their required chores. Children use the app every time they complete a chore to mark it complete. The app also sends push notifications when it is time to do a chore, so the child is reminded to check it often. Once a routine is built around the app, both parents and children will check the app consistently.
+- **Habit:** Parents use it often, perhaps daily, to check if their children completed their required chores. Children use the app every time they complete a chore to mark it complete. The app also sends push notifications when it is time to do a chore, so the child is reminded to check it often. The graphics are also dynamic and engaging, Once a routine is built around the app, both parents and children will check the app consistently.
 - **Scope:** V1 allows a single user account to set and complete their own chores. The account can create and assign one-time or recurring chores and assign it to themselves, as well as upload a photo of a reward for specified point thresholds. They can mark their own chores complete and gain points. V2 uses a database to allow parent and child accounts to be on different devices. The parent account can create and assign chores and assign them to a specific child, as well as set points rewards and upload an image of that reward. The app shows the parent the chores each child has, as well as every child's point total. It also shows them points thresholds. The children accounts can mark their specific chores complete and gain personal in-game points. The app shows the child the chores they have been assigned, as well as their own points and the upcoming points thresholds.
 
 ## Product Spec
@@ -31,9 +27,9 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * User can see all their task items.
 * User can mark that task complete and earn a specified number of points.
 * User can set that task to give a push notification at a specific time.
-* User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
+* User can set rewards at specific point threshholds that, when reached, displays a message that informs them that they have earned that reward.
 * User can see all their rewards.
-* User can upload images of rewards and tasks.
+* User can upload images of rewards.
 * Accounts are split between "parent" and "child" accounts, where parent accounts can assign tasks/points thresholds, and children cannot assign tasks or change points thresholds.
 * Parent can be associated with a specific child account.
 
@@ -50,6 +46,9 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 * User can view details of rewards.
 * Parents can edit rewards.
 * Rewards splash screen for the child when a child reaches a points threshold.
+* User can log in with Facebook.
+* User can link their existing account with Facebook.
+* User can post earned rewards to Facebook.
 
 ### 2. Screen Archetypes
 
@@ -67,7 +66,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
     * User can create a task item with a title, description, and points (assigned to themselves by default)
     * User can set that task to give a push notification at a specific time.
 * Rewards creation
-    * User can set rewards at specific point threshholds that, when reached, displays a simple message (such as a Toast) that informs them that they have earned that reward.
+    * User can set rewards at specific point threshholds that, when reached, displays a message that informs them that they have earned that reward.
     * User can upload images of rewards.
 * Profile
     * Parent can be associated with a specific child account.
@@ -79,7 +78,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 
 * Tasks
 * Rewards
-* Account
+* Profile
 
 **Flow Navigation** (Screen to Screen)
 
@@ -102,15 +101,7 @@ Features: allows the user to log in as a designated "parent" or "child" account 
 
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
 <img src="https://github.com/jiayuewu16/Taskify/blob/main/Wireframe.jpg" width=600>
-
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
-
-## Schema 
-[TBD]
 
 ## Models
 
@@ -119,10 +110,17 @@ Task
 |--------------------------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |     objectId             |     String                                              |     Unique id for the task (default field)                                                                                                                                                                                                                                                      |
 |     taskName             |     String                                              |     The user-set name for the task, such as “wash   dishes.”                                                                                                                                                                                                                                    |
-|     alarmTime            |     DateTime                                            |     The time a push notification goes out,   alerting the child to start the task.     Note: there is no “due time” because that   would disincentivize doing the chore after the due time has passed. If a due   time is necessary, the parent could put it in the title/description field.    |
+|     alarm            |     Alarm                                            |     The time a push notification goes out and whether the task is repeating or not.     Note: there is no “due time” because that   would disincentivize doing the chore after the due time has passed. If a due   time is necessary, the parent could put it in the title field or manually delete the task.    |
 |     pointsValue          |     int                                                 |     The number of points the task is worth once   completed.                                                                                                                                                                                                                                    |
-|     associatedUser(s)    |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this   task.                                                                                                                                                                                                                                             |
-|     isComplete           |     Boolean                                             |     Stores whether the task has been marked   complete.                                                                                                                                                                                                                                         |
+|     users    |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this   task.                                                                                                                                                                                                                                             |
+
+Alarm
+|      Property            |      Type                                               |      Description                                                                      |
+|--------------------------|---------------------------------------------------------|---------------------------------------------------------------------------------------|
+|     objectId             |     String                                              |     Unique id for the alarm (default field)                                           |
+|     date                 |     DateTime                                            |     The date on which the alarm should be first played.                        |
+|     recurringFlag        |     Boolean                                             |     Whether the alarm should be recurring weekly.                                     |
+|     recurringWeekdays    |     List of Boolean                                     |     The days of the week the alarm should recur on.                 |
 
 Reward
 |      Property            |      Type                                               |      Description                                                                      |
@@ -131,23 +129,15 @@ Reward
 |     rewardName           |     String                                              |     The user-set name for the reward, such as “ice   cream cone.”                     |
 |     rewardImage          |     File                                                |     The user-set image of the reward.                                                 |
 |     pointsThreshold      |     int                                                 |     The points threshold that must be reached to   award this reward.                 |
-|     associatedUser(s)    |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this reward.                                   |
-|     isComplete           |     Boolean                                             |     Stores whether the points threshold has been   reached by the associated User.    |
-
+|     users                |     Pointer to User     (array of User for optional)    |     The user(s) who have been assigned this reward.                                   |
 
 User
 |      Property            |      Type                                                          |      Description                                                                                                            |
 |--------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-|     userId               |     String                                                         |     The unique user id, such as “MZHjOacmrx”   (default field)                                                              |
+|     objectId               |     String                                                         |     The unique user id, such as “MZHjOacmrx”   (default field)                                                              |
 |     username             |     String                                                         |     The user-set unique username.                                                                                           |
+|     password             |     String                                                         |     The user-set password.                                                                                           |
 |     isParent             |     Boolean                                                        |     Notes whether the account is a parent   account or not.                                                                 |
-|     associatedUser(s)    |     Pointer to User     (array of Pointer to User for optional)    |     If parent account, pointer to its associated   child(ren).     If child account, pointer to its associated   parent.    |
+|     parent    |     Pointer to User         |     Only for child account; pointer to its associated   parent.    |
 |     profileImage         |     File                                                           |     The user-set profile image.                                                                                             |
 |     pointsTotal          |     int                                                            |     The number of points the user has   accumulated.                                                                        |
-|     tasks                |     Array of Pointer to Task                                       |     The tasks that have been assigned to this user.                                                                         |
-|     rewards              |     Array of Pointer to Reward                                     |     The rewards that have been assigned to this   user.                                                                     |
-
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
