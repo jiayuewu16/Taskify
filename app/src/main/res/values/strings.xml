@@ -86,6 +86,12 @@
     <string name="reward_details_progress_complete">Congratulations! You earned this reward.</string>
     <string name="reward_details_progress_1_point">1 point to go!</string>
     <string name="reward_details_progress_plural_points">%d points to go!</string>
+    <string name="reward_splash_earned_reward_format">Congratulations!\nYou earned \"%s\"!</string>
+    <string name="reward_splash_confirmation_button_0">Stellar!</string>
+    <string name="reward_splash_confirmation_button_1">Awesome!</string>
+    <string name="reward_splash_confirmation_button_2">Radical!</string>
+    <string name="reward_splash_confirmation_button_3">Amazing!</string>
+    <string name="reward_splash_confirmation_button_4">Cool!</string>
 
     <string name="content_description_taskify_logo">Taskify logo</string>
     <string name="content_description_profile_photo">Profile photo</string>

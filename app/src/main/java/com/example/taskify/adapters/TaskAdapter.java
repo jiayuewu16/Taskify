@@ -17,6 +17,7 @@ import com.example.taskify.R;
 import com.example.taskify.activities.MainActivity;
 import com.example.taskify.databinding.FragmentStreamBinding;
 import com.example.taskify.databinding.ItemTaskBinding;
+import com.example.taskify.design.SplashDialogFragment;
 import com.example.taskify.fragments.TaskDetailsFragment;
 import com.example.taskify.models.Alarm;
 import com.example.taskify.models.Reward;
@@ -178,8 +179,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         user.addPointsValue(pointsValue);
         ParseUtil.save(user, fragmentActivity, TAG, null, fragmentActivity.getString(R.string.error_save_user_points));
         for (Reward reward : ((MainActivity)fragmentActivity).rewards) {
-            if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() < prevPointsValue + pointsValue) {
-                Toast.makeText(fragmentActivity, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
+            if (reward.getPointsValue() > prevPointsValue && reward.getPointsValue() <= prevPointsValue + pointsValue) {
+                Log.i(TAG, "Earned a new reward");
+                //Toast.makeText(fragmentActivity, String.format("Congratulations! You've earned a reward: %s!", reward.getRewardName()), Toast.LENGTH_SHORT).show();
+                SplashDialogFragment splashDialogFragment = SplashDialogFragment.newInstance(reward);
+                splashDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "fragment_splash_dialog");
             }
         }
     }
