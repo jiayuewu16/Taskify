@@ -28,15 +28,19 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Persist login
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         TaskifyUser currentUser = (TaskifyUser) ParseUser.getCurrentUser();
-        if (currentUser != null || (accessToken != null && !accessToken.isExpired())) {
+        if (currentUser != null) {
             if (currentUser.getFirstName() == null) {
                 goToAdditionalSignup();
             }
             else {
                 goToMainActivity();
             }
+        }
+        else if (accessToken != null && !accessToken.isExpired()) {
+            goToAdditionalSignup();
         }
 
         int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

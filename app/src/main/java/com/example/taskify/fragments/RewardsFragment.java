@@ -51,7 +51,7 @@ public class RewardsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rewards = ((MainActivity)requireActivity()).rewards;
-        adapter = new RewardAdapter(getActivity(), binding, rewards);
+        adapter = new RewardAdapter(getActivity(), rewards);
 
         binding.recyclerViewStream.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

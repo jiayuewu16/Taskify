@@ -1,42 +1,26 @@
 package com.example.taskify.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.taskify.R;
 import com.example.taskify.databinding.ActivityAdditionalSignupBinding;
-import com.example.taskify.databinding.ActivitySignupBinding;
-import com.example.taskify.models.Reward;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
-import com.example.taskify.util.PhotoUtil;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
-
-import org.json.JSONObject;
-
-import java.io.File;
 
 public class AdditionalSignupActivity extends AppCompatActivity {
 
     private static final String TAG = "AdditionalSignupActivity";
     private ActivityAdditionalSignupBinding binding;
-    private TaskifyUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +28,6 @@ public class AdditionalSignupActivity extends AppCompatActivity {
         binding = ActivityAdditionalSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        user = (TaskifyUser) ParseUser.getCurrentUser();
         setCurrentValues();
 
         binding.checkBoxIsParent.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -122,19 +105,16 @@ public class AdditionalSignupActivity extends AppCompatActivity {
     private void setCurrentValues() {
         // Tutorial: https://stackoverflow.com/questions/36740409/parsefacebookutil-using-android-not-giving-user-information
         // Fills in first and last name from Facebook.
-        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject json, GraphResponse response) {
-                // Application code
-                if (response.getError() != null) {
-                    Log.e(TAG, "Error retrieving Facebook values");
-                    return;
-                }
-                String fbUserFirstName = json.optString("first_name");
-                String fbUserLastName = json.optString("last_name");
-                binding.editTextFirstName.setText(fbUserFirstName);
-                binding.editTextLastName.setText(fbUserLastName);
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (json, response) -> {
+            // Application code
+            if (response.getError() != null) {
+                Log.e(TAG, "Error retrieving Facebook values");
+                return;
             }
+            String fbUserFirstName = json.optString("first_name");
+            String fbUserLastName = json.optString("last_name");
+            binding.editTextFirstName.setText(fbUserFirstName);
+            binding.editTextLastName.setText(fbUserLastName);
         });
 
         Bundle parameters = new Bundle();

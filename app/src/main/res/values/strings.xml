@@ -7,15 +7,14 @@
     <string name="facebook_app_id">260152822115027</string>
     <string name="fb_login_protocol_scheme">fb260152822115027</string>
 
-    <string name="login_screen_dividing_line_text">OR</string>
-    <string name="sign_up_button">Sign Up</string>
-    <string name="log_in_button">Log In</string>
-
     <string name="menu_points_title">Points</string>
     <string name="bottom_navigation_bar_tasks">Tasks</string>
     <string name="bottom_navigation_bar_rewards">Rewards</string>
     <string name="bottom_navigation_bar_profile">Profile</string>
 
+    <string name="login_screen_dividing_line_text">OR</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="log_in_button">Log In</string>
     <string name="username_hint_text">Username</string>
     <string name="last_name_hint_text">Last name</string>
     <string name="first_name_hint_text">First name</string>
@@ -26,6 +25,9 @@
     <string name="sign_up_user_is_parent_text">I am a Parent</string>
     <string name="sign_up_user_is_child_text">I am a Child</string>
     <string name="sign_up_parent_username_text">Parent\'s username:</string>
+    <string name="complete_your_signup_label">Complete your signup!</string>
+    <string name="log_in_with_facebook_button">Log in with Facebook</string>
+    <string name="sign_up_with_facebook_button">Sign up with Facebook</string>
 
     <string name="task_name_hint_text">Task Name</string>
     <string name="points_value_hint_text">0</string>
@@ -78,6 +80,8 @@
     <string name="error_link_facebook_message">Error linking with facebook.</string>
     <string name="error_empty_first_name_text">You must enter a first name.</string>
     <string name="error_empty_last_name_text">You must enter a last name.</string>
+    <string name="error_empty_username_message">Username cannot be empty</string>
+    <string name="error_empty_password_message">Password cannot be empty</string>
 
     <string name="reward_details_progress_complete">Congratulations! You earned this reward.</string>
     <string name="reward_details_progress_1_point">1 point to go!</string>
@@ -96,11 +100,4 @@
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
     <string name="display_full_username_format">%s %s \@%s</string>
-
-    <string name="alarm_new_task_alert">You have a new task!</string>
-    <string name="complete_your_signup_label">Complete your signup!</string>
-    <string name="error_empty_username_message">Username cannot be empty</string>
-    <string name="error_empty_password_message">Password cannot be empty</string>
-    <string name="log_in_with_facebook_button">Log in with Facebook</string>
-    <string name="sign_up_with_facebook_button">Sign up with Facebook</string>
 </resources>

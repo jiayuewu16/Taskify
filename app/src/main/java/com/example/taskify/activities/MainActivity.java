@@ -13,9 +13,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.taskify.R;
-import com.example.taskify.design.OnSwipeTouchListener;
 import com.example.taskify.adapters.TaskAdapter;
 import com.example.taskify.databinding.ActivityMainBinding;
+import com.example.taskify.design.OnSwipeTouchListener;
 import com.example.taskify.models.Reward;
 import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
@@ -27,6 +27,7 @@ import com.parse.facebook.ParseFacebookUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // Tutorial: https://medium.com/@freedom.chuks7/how-to-use-jet-pack-components-bottomnavigationview-with-navigation-ui-19fb120e3fb9
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
-        NavController navController = navHostFragment.getNavController();
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
 
