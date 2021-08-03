@@ -64,7 +64,7 @@ public class ParseUtil {
 
     public static void setPhoto(ImageView imageView, TaskifyUser user, Drawable defaultPhoto) {
         try {
-            ParseFile photoFile = ((TaskifyUser) user.fetchIfNeeded()).getProfilePhoto();
+            ParseFile photoFile = ((TaskifyUser) user.fetch()).getProfilePhoto();
             if (photoFile != null) {
                 photoFile.getDataInBackground((data, e) -> {
                     if (e != null) {

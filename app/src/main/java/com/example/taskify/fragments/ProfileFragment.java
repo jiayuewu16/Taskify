@@ -89,7 +89,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        List<TaskifyUser> users = ((MainActivity)requireActivity()).associatedUsers;
+        List<TaskifyUser> users = ((MainActivity)context).associatedUsers;
         if (user.isParent()) {
             binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
         }
@@ -100,6 +100,20 @@ public class ProfileFragment extends Fragment {
         UserAdapter adapter = new UserAdapter(context, users);
         binding.recyclerViewParentDisplayChild.setAdapter(adapter);
         binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(context));
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeRefreshLayout.setRefreshing(true);
+            if (user.isParent()) {
+                ((MainActivity) context).associatedUsers.clear();
+                ((MainActivity) context).associatedUsers.addAll(user.queryChildren());
+                adapter.notifyDataSetChanged();
+            }
+            else {
+                ((MainActivity) context).associatedUsers.clear();
+                ((MainActivity) context).associatedUsers.add(user.getParent());
+                adapter.notifyDataSetChanged();
+            }
+            binding.swipeRefreshLayout.setRefreshing(false);
+        });
 
         if (ParseFacebookUtils.isLinked(user)) {
             binding.buttonFacebookLink.setVisibility(View.GONE);
