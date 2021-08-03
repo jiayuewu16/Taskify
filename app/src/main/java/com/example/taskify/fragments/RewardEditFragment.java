@@ -47,6 +47,7 @@ public class RewardEditFragment extends DialogFragment {
     private FragmentRewardCreateBinding binding;
     private Reward reward;
     private FragmentActivity activity;
+    private boolean changedPhoto;
 
     // Required empty public constructor.
     public RewardEditFragment() {}
@@ -56,11 +57,16 @@ public class RewardEditFragment extends DialogFragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.setReward(reward);
+        fragment.setChangedPhoto(false);
         return fragment;
     }
 
     private void setReward(Reward reward) {
         this.reward = reward;
+    }
+
+    private void setChangedPhoto(boolean changedPhoto) {
+        this.changedPhoto = changedPhoto;
     }
 
     @Override
@@ -143,7 +149,7 @@ public class RewardEditFragment extends DialogFragment {
             reward.setRewardName(rewardName);
             reward.setPointsValue(pointsValue);
             reward.setUsers(selectedChildren);
-            if (binding.imageViewPhoto.getDrawable() == null) {
+            if (binding.imageViewPhoto.getDrawable() == null || !changedPhoto) {
                 // Does not require a photo to be uploaded.
                 ParseUtil.save(reward, activity, TAG, getString(R.string.success_save_reward_message), getString(R.string.error_save_reward_message));
                 returnReward();
@@ -190,6 +196,8 @@ public class RewardEditFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RewardCreateFragment.REQUEST_IMAGE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK) {
+                setChangedPhoto(true);
+
                 // Codepath tutorial
                 File photoFile = PhotoUtil.getPhotoFileUri(activity, PhotoUtil.DEFAULT_PHOTO_FILE_NAME);
                 // by this point we have the camera photo on disk
