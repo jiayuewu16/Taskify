@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageViewProfilePhoto"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -66,7 +66,7 @@
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewAssociatedUserHeader">
+            android:layout_below="@id/textViewAssociatedUserHeader" >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewParentDisplayChild"
                 android:layout_width="match_parent"
@@ -74,48 +74,7 @@
                 android:layout_marginTop="5dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
-<!--
-    <LinearLayout
-        android:id="@+id/layoutChangeTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/buttonFacebookLink"
-        android:layout_marginBottom="5dp">
-        <ImageButton
-            android:id="@+id/buttonPurpleYellow"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/gradient_purple_yellow"
-            android:contentDescription="@string/content_description_change_color_theme_purple_yellow_button" />
-        <ImageButton
-            android:id="@+id/buttonBlueCyan"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/gradient_blue_cyan"
-            android:contentDescription="@string/content_description_change_color_theme_blue_cyan_button"/>
-        <ImageButton
-            android:id="@+id/buttonMaroonPeach"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/gradient_maroon_peach"
-            android:contentDescription="@string/content_description_change_color_theme_maroon_peach_button"/>
-        <ImageButton
-            android:id="@+id/buttonPinkOrange"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/gradient_pink_orange"
-            android:contentDescription="@string/content_description_change_color_theme_pink_orange_button"/>
-    </LinearLayout>
--->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/changeThemeBar"
         android:layout_width="match_parent"
@@ -125,15 +84,7 @@
         app:menu="@menu/menu_change_theme"
         app:labelVisibilityMode="unlabeled"
         app:itemIconSize="40dp"
-        app:elevation="0dp"/>
-
-    <Button
-        android:id="@+id/buttonSignout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/sign_out_button" />
+        app:elevation="0dp" />
 
     <Button
         android:id="@+id/buttonFacebookLink"
@@ -143,5 +94,14 @@
         android:layout_above="@id/buttonSignout"
         android:layout_marginBottom="5dp"
         android:text="@string/link_facebook_button_text"/>
+
+    <Button
+        android:id="@+id/buttonSignout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/sign_out_button" />
+
 
 </RelativeLayout>
