@@ -122,6 +122,9 @@ public class ProfileFragment extends Fragment {
             else if (item.getItemId() == R.id.themePinkOrange) {
                 mainActivity.theme = R.style.Theme_pink_orange_Taskify;
             }
+            else if (item.getItemId() == R.id.themeBrownGreen) {
+                mainActivity.theme = R.style.Theme_brown_green_Taskify;
+            }
             else {
                 mainActivity.theme = R.style.Theme_Taskify;
             }

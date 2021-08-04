@@ -25,4 +25,10 @@
         android:icon="@drawable/gradient_pink_orange"
         android:title="@string/content_description_change_color_theme_pink_orange_button"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/themeBrownGreen"
+        android:enabled="true"
+        android:icon="@drawable/gradient_brown_green"
+        android:title="@string/content_description_change_color_theme_brown_green_button"
+        app:showAsAction="ifRoom" />
 </menu>

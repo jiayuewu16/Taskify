@@ -107,6 +107,7 @@
     <string name="content_description_change_color_theme_blue_cyan_button">Change theme colors to blue and cyan</string>
     <string name="content_description_change_color_theme_maroon_peach_button">Change theme colors to maroon and peach</string>
     <string name="content_description_change_color_theme_pink_orange_button">Change theme colors to pink and orange</string>
+    <string name="content_description_change_color_theme_brown_green_button">Change theme colors to brown and green</string>
 
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>
