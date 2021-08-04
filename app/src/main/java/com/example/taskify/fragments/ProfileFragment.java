@@ -126,6 +126,7 @@ public class ProfileFragment extends Fragment {
                 mainActivity.theme = R.style.Theme_Taskify;
             }
             mainActivity.setTheme(mainActivity.theme);
+            setTheme();
             // Manually set current theme colors
             mainActivity.binding.bottomNavigationBar.setItemIconTintList(ColorStateList.valueOf(ColorUtil.getPrimaryColor(mainActivity)));
             mainActivity.binding.bottomNavigationBar.setItemTextColor(ColorStateList.valueOf(ColorUtil.getPrimaryColor(mainActivity)));
@@ -203,11 +204,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    private void setTheme() {
         user.setTheme(mainActivity.theme);
-        ParseUtil.save(user, mainActivity, TAG, null, null);
+        ParseUtil.save(user, mainActivity, TAG, null, getString(R.string.error_save_theme));
     }
 
     @Override
