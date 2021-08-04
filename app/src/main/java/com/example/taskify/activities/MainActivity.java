@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
-        selectedItem = R.id.tasks;
+        setCurrentSelectedItem();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.rewards) {
@@ -163,22 +163,30 @@ public class MainActivity extends AppCompatActivity {
         ParseUtil.queryRewards(this, user, rewards, null);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        int curId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
-        if (curId == R.id.rewards) {
-            selectedItem = R.id.rewards;
-            binding.bottomNavigationBar.setSelectedItemId(R.id.rewards);
-        }
-        else if (curId == R.id.profile) {
-            selectedItem = R.id.profile;
-            binding.bottomNavigationBar.setSelectedItemId(R.id.profile);
-        }
-        else {
+    private void setCurrentSelectedItem() {
+        if (navController.getCurrentDestination() == null) {
             selectedItem = R.id.tasks;
             binding.bottomNavigationBar.setSelectedItemId(R.id.tasks);
         }
+        else {
+            int curId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+            if (curId == R.id.rewards) {
+                selectedItem = R.id.rewards;
+                binding.bottomNavigationBar.setSelectedItemId(R.id.rewards);
+            } else if (curId == R.id.profile) {
+                selectedItem = R.id.profile;
+                binding.bottomNavigationBar.setSelectedItemId(R.id.profile);
+            } else {
+                selectedItem = R.id.tasks;
+                binding.bottomNavigationBar.setSelectedItemId(R.id.tasks);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setCurrentSelectedItem();
     }
 
     @Override
