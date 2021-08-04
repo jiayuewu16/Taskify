@@ -44,6 +44,21 @@ public class TimeUtil {
         }
     }
 
+    public static void cancelSingleAlarm(Context context, Task task) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent receiverIntent = new Intent(context, AlarmBroadcastReceiver.class);
+        Bundle bundle = new Bundle();
+        receiverIntent.putExtra("bundle", bundle);
+
+        int pendingIntentRequestCode = getRequestCode(task.getTaskName(), task.getAlarm());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, pendingIntentRequestCode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
+
+        List<Integer> requestCodes = getPendingIntentRequestCodes(context);
+        requestCodes.remove((Integer)pendingIntentRequestCode);
+        savePendingIntentRequestCodes(context, requestCodes);
+    }
+
     public static void startAlarms(Context context, List<Task> tasks) {
         List<Integer> requestCodes = new ArrayList<>();
         for (Task task : tasks) {

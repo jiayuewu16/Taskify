@@ -167,6 +167,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     private void removeTaskFromList(int position) {
+        TimeUtil.cancelSingleAlarm(fragmentActivity, tasks.get(position));
         tasks.remove(position);
         notifyDataSetChanged();
     }
