@@ -51,4 +51,10 @@ public class ColorUtil {
         context.getTheme().resolveAttribute(android.R.attr.textColor, typedValue, true);
         return typedValue.data;
     }
+
+    public static int getSecondaryColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorSecondary, typedValue, true);
+        return typedValue.data;
+    }
 }

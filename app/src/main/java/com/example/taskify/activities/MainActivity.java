@@ -36,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
     public final List<TaskifyUser> associatedUsers = new ArrayList<>();
     public TaskAdapter taskAdapter;
     private final static String TAG = "MainActivity";
-    private ActivityMainBinding binding;
+    public ActivityMainBinding binding;
     private TaskifyUser user;
     private int selectedItem;
+    public int theme;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -53,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        theme = user.getTheme();
+        if (theme == 0) {
+            theme = R.style.Theme_Taskify;
+        }
+        setTheme(theme);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.rewards) {
                 if (selectedItem == R.id.tasks) {
                     // Go to rewards from tasks

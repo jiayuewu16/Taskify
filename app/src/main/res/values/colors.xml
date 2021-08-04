@@ -6,9 +6,9 @@
     <color name="yellow_dark">#FFFFC800</color>
 
     <color name="pink_light">#FFED85E1</color>
-    <color name="pink_dark">#FFC406AE</color>
-    <color name="orange_light">#FFFFB96E</color>
-    <color name="orange_dark">#FFC7732E</color>
+    <color name="pink_dark">#FFDD00AE</color>
+    <color name="orange_light">#FFFFB95E</color>
+    <color name="orange_dark">#FFFF732E</color>
 
     <color name="blue_light">#FF8FA2FF</color>
     <color name="blue_dark">#FF132DAD</color>
@@ -17,8 +17,8 @@
 
     <color name="maroon_light">#FF3B042D</color>
     <color name="maroon_dark">#FF8F0B6E</color>
-    <color name="peach_light">#FFF2DAF1</color>
-    <color name="peach_dark">#FFC48BC1</color>
+    <color name="peach_light">#FFFFE3EE</color>
+    <color name="peach_dark">#FFFF9EC3</color>
 
     <color name="black">#FF000000</color>
     <color name="dark_grey">#FF444444</color>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/themePurpleYellow"
+        android:enabled="true"
+        android:icon="@drawable/gradient_purple_yellow"
+        android:title="@string/content_description_change_color_theme_purple_yellow_button"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/themeBlueCyan"
+        android:enabled="true"
+        android:icon="@drawable/gradient_blue_cyan"
+        android:title="@string/content_description_change_color_theme_blue_cyan_button"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/themeMaroonPeach"
+        android:enabled="true"
+        android:icon="@drawable/gradient_maroon_peach"
+        android:title="@string/content_description_change_color_theme_maroon_peach_button"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/themePinkOrange"
+        android:enabled="true"
+        android:icon="@drawable/gradient_pink_orange"
+        android:title="@string/content_description_change_color_theme_pink_orange_button"
+        app:showAsAction="ifRoom" />
+</menu>

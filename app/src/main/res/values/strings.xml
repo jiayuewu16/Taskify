@@ -102,6 +102,10 @@
     <string name="content_description_launch_task_reward">Launch task creation screen</string>
     <string name="content_description_alarm_clock_icon">Alarm clock icon</string>
     <string name="content_description_edit_button">edit button</string>
+    <string name="content_description_change_color_theme_purple_yellow_button">Change theme colors to purple and yellow</string>
+    <string name="content_description_change_color_theme_blue_cyan_button">Change theme colors to blue and cyan</string>
+    <string name="content_description_change_color_theme_maroon_peach_button">Change theme colors to maroon and peach</string>
+    <string name="content_description_change_color_theme_pink_orange_button">Change theme colors to pink and orange</string>
 
     <string name="display_full_name_format">%s %s</string>
     <string name="display_username_format">\@%s</string>

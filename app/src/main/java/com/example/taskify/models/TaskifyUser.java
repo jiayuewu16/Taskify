@@ -20,6 +20,7 @@ public class TaskifyUser extends ParseUser {
     public static final String KEY_PROFILE_PHOTO_FILE = "profilePhoto";
     public static final String KEY_PARENT = "parent";
     public static final String KEY_USERNAME = "username";
+    public static final String KEY_THEME = "theme";
 
     public TaskifyUser() {
         super();
@@ -49,6 +50,10 @@ public class TaskifyUser extends ParseUser {
         return (TaskifyUser) getParseUser(KEY_PARENT);
     }
 
+    public int getTheme() {
+        return getInt(KEY_THEME);
+    }
+
     public void setIsParent(boolean isParent) {
         put(KEY_IS_PARENT, isParent);
     }
@@ -71,6 +76,10 @@ public class TaskifyUser extends ParseUser {
 
     public void setParent(ParseUser user) {
         put(KEY_PARENT, user);
+    }
+
+    public void setTheme(int theme) {
+        put(KEY_THEME, theme);
     }
 
     public List<TaskifyUser> queryChildren() {
