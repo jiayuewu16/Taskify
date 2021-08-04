@@ -35,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
     public final List<Reward> rewards = new ArrayList<>();
     public final List<TaskifyUser> associatedUsers = new ArrayList<>();
     public TaskAdapter taskAdapter;
-    private final static String TAG = "MainActivity";
     public ActivityMainBinding binding;
+    public int theme;
+    private final static String TAG = "MainActivity";
     private TaskifyUser user;
     private int selectedItem;
-    public int theme;
+    private NavController navController;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // Tutorial: https://medium.com/@freedom.chuks7/how-to-use-jet-pack-components-bottomnavigationview-with-navigation-ui-19fb120e3fb9
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerDisplayFragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = binding.bottomNavigationBar;
         selectedItem = R.id.tasks;
 
@@ -160,6 +161,24 @@ public class MainActivity extends AppCompatActivity {
 
         rewards.clear();
         ParseUtil.queryRewards(this, user, rewards, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        int curId = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+        if (curId == R.id.rewards) {
+            selectedItem = R.id.rewards;
+            binding.bottomNavigationBar.setSelectedItemId(R.id.rewards);
+        }
+        else if (curId == R.id.profile) {
+            selectedItem = R.id.profile;
+            binding.bottomNavigationBar.setSelectedItemId(R.id.profile);
+        }
+        else {
+            selectedItem = R.id.tasks;
+            binding.bottomNavigationBar.setSelectedItemId(R.id.tasks);
+        }
     }
 
     @Override
