@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme_pink_orange.Taskify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pink_dark</item>
+        <item name="colorPrimaryVariant">@color/pink_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/orange_dark</item>
+        <item name="colorSecondaryVariant">@color/orange_light</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
+        <item name="hintTextColor">@color/pink_light</item>
+        <item name="fontFamily">@font/soon_font</item>
+    </style>
+</resources>

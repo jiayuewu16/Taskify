@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme_blue_cyan.Taskify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="backgroundColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/cyan_dark</item>
+        <item name="colorPrimaryVariant">@color/cyan_light</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_dark</item>
+        <item name="colorSecondaryVariant">@color/blue_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <!-- Customize your theme here. -->
+        <item name="hintTextColor">@color/cyan_light</item>
+        <item name="fontFamily">@font/soon_font</item>
+    </style>
+</resources>

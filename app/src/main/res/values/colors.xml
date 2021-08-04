@@ -5,6 +5,21 @@
     <color name="yellow_light">#FFFFE89C</color>
     <color name="yellow_dark">#FFFFC800</color>
 
+    <color name="pink_light">#FFED85E1</color>
+    <color name="pink_dark">#FFC406AE</color>
+    <color name="orange_light">#FFFFB96E</color>
+    <color name="orange_dark">#FFC7732E</color>
+
+    <color name="blue_light">#FF8FA2FF</color>
+    <color name="blue_dark">#FF132DAD</color>
+    <color name="cyan_light">#FF8FFFF8</color>
+    <color name="cyan_dark">#FF0FDBB9</color>
+
+    <color name="maroon_light">#FF3B042D</color>
+    <color name="maroon_dark">#FF8F0B6E</color>
+    <color name="peach_light">#FFF2DAF1</color>
+    <color name="peach_dark">#FFC48BC1</color>
+
     <color name="black">#FF000000</color>
     <color name="dark_grey">#FF444444</color>
     <color name="light_grey">#FFAAAAAA</color>
