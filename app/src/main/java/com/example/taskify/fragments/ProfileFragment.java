@@ -30,6 +30,7 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ColorUtil;
 import com.example.taskify.util.ParseUtil;
 import com.example.taskify.util.PhotoUtil;
+import com.example.taskify.util.TimeUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
@@ -163,6 +164,7 @@ public class ProfileFragment extends Fragment {
         }
 
         binding.buttonSignout.setOnClickListener(v -> {
+            TimeUtil.cancelAlarms(mainActivity);
             ParseUser.logOut();
             Intent intent = new Intent(mainActivity, LoginActivity.class);
             startActivity(intent);
