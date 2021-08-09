@@ -38,6 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,13 +83,21 @@ public class RewardCreateFragment extends DialogFragment {
 
         binding.imageViewPhoto.setOnClickListener(onClickListener);
         binding.floatingActionButtonCamera.setOnClickListener(onClickListener);
-
         binding.buttonCancel.setOnClickListener(v -> dismiss());
 
-        List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
+        TaskifyUser user = (TaskifyUser)ParseUser.getCurrentUser();
+        List<TaskifyUser> children = ((MainActivity) activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
-        binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
-        binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        if (user.isSolo()) {
+            binding.textViewAssignToText.setVisibility(View.GONE);
+            binding.recyclerViewAssignChild.setVisibility(View.GONE);
+        }
+        else {
+            binding.textViewAssignToText.setVisibility(View.VISIBLE);
+            binding.recyclerViewAssignChild.setVisibility(View.VISIBLE);
+            binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
+            binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        }
 
         binding.buttonConfirm.setOnClickListener(v -> {
             String rewardName = binding.editTextRewardName.getText().toString();
@@ -109,10 +118,17 @@ public class RewardCreateFragment extends DialogFragment {
                 Toast.makeText(activity, getString(R.string.error_negative_points_message), Toast.LENGTH_SHORT).show();
                 return;
             }
-            List<ParseUser> selectedChildren = assignChildAdapter.getSelectedChildren();
-            if (selectedChildren.isEmpty()) {
-                Toast.makeText(activity, getString(R.string.error_empty_child_message), Toast.LENGTH_SHORT).show();
-                return;
+            List<ParseUser> selectedChildren;
+            if (user.isSolo()) {
+                selectedChildren = new ArrayList<>();
+                selectedChildren.add(user);
+            }
+            else {
+                selectedChildren = assignChildAdapter.getSelectedChildren();
+                if (selectedChildren.isEmpty()) {
+                    Toast.makeText(activity, getString(R.string.error_empty_child_message), Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
 
             if (binding.imageViewPhoto.getDrawable() == null) {

@@ -23,6 +23,7 @@ import com.example.taskify.models.Task;
 import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.design.VerticalSpaceItemDecoration;
 import com.example.taskify.util.ParseUtil;
+import com.example.taskify.util.TimeUtil;
 import com.parse.ParseUser;
 
 import java.util.Collections;
@@ -62,12 +63,13 @@ public class TasksFragment extends Fragment {
         binding.recyclerViewStream.addItemDecoration(dividerItemDecoration);
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-        if (!user.isParent()) {
-            binding.floatingActionButtonCreate.setVisibility(View.GONE);
-        }
-        else {
+        if (user.isParent() || user.isSolo()) {
+            binding.floatingActionButtonCreate.setVisibility(View.VISIBLE);
             binding.floatingActionButtonCreate.setOnClickListener(v ->
                     Navigation.findNavController(v).navigate(R.id.action_tasks_to_taskCreateFragment));
+        }
+        else {
+            binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -93,6 +95,9 @@ public class TasksFragment extends Fragment {
             }
             Collections.sort(tasks);
             adapter.notifyDataSetChanged();
+            if (user.isSolo()) {
+                TimeUtil.startSingleAlarm(requireContext(), task);
+            }
             binding.recyclerViewStream.smoothScrollToPosition(adapter.getItemCount()-1);
         });
     }

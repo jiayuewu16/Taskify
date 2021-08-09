@@ -21,6 +21,7 @@ public class TaskifyUser extends ParseUser {
     public static final String KEY_PARENT = "parent";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_THEME = "theme";
+    public static final String KEY_IS_SOLO = "isSolo";
 
     public TaskifyUser() {
         super();
@@ -54,6 +55,10 @@ public class TaskifyUser extends ParseUser {
         return getInt(KEY_THEME);
     }
 
+    public boolean isSolo() {
+        return getBoolean(KEY_IS_SOLO);
+    }
+
     public void setIsParent(boolean isParent) {
         put(KEY_IS_PARENT, isParent);
     }
@@ -80,6 +85,10 @@ public class TaskifyUser extends ParseUser {
 
     public void setTheme(int theme) {
         put(KEY_THEME, theme);
+    }
+
+    public void setIsSolo(boolean isSolo) {
+        put(KEY_IS_SOLO, isSolo);
     }
 
     public List<TaskifyUser> queryChildren() {

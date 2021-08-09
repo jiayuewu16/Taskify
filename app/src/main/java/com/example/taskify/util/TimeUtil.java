@@ -70,6 +70,15 @@ public class TimeUtil {
         savePendingIntentRequestCodes(context, requestCodes);
     }
 
+    public static void startSingleAlarm(Context context, Task task) {
+        int requestCode = startAlarm(context, task);
+        List<Integer> requestCodes = getPendingIntentRequestCodes(context);
+        if (requestCode != 0) {
+            requestCodes.add(requestCode);
+        }
+        savePendingIntentRequestCodes(context, requestCodes);
+    }
+
     public static String dateToAlarmTimeString(Date date) {
         String newDateFormat = "hh:mm aa";
         SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat(newDateFormat, Locale.ENGLISH);

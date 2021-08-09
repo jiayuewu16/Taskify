@@ -146,8 +146,7 @@ public class RewardDetailsFragment extends DialogFragment {
             }
         }
 
-        if (user.isParent()) {
-            binding.shareButtonFacebook.setVisibility(View.GONE);
+        if (user.isParent() || user.isSolo()) {
             binding.imageButtonEdit.setVisibility(View.VISIBLE);
             binding.imageButtonEdit.setOnClickListener(v -> {
                 // Go to edit reward dialog fragment.
@@ -157,8 +156,14 @@ public class RewardDetailsFragment extends DialogFragment {
             });
         }
         else {
-            binding.shareButtonFacebook.setVisibility(View.VISIBLE);
             binding.imageButtonEdit.setVisibility(View.GONE);
+        }
+
+        if (user.isParent()) {
+            binding.shareButtonFacebook.setVisibility(View.GONE);
+        }
+        else {
+            binding.shareButtonFacebook.setVisibility(View.VISIBLE);
         }
     }
 

@@ -24,6 +24,7 @@ import com.example.taskify.models.TaskifyUser;
 import com.example.taskify.util.ParseUtil;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -64,10 +65,18 @@ public class TaskEditFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
         List<TaskifyUser> children = ((MainActivity)activity).associatedUsers;
         AssignChildAdapter assignChildAdapter = new AssignChildAdapter(activity, children);
-        binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
-        binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        if (user.isSolo()) {
+            binding.textViewAssignToText.setVisibility(View.GONE);
+            binding.recyclerViewAssignChild.setVisibility(View.GONE);
+        }
+        else {
+            binding.textViewAssignToText.setVisibility(View.VISIBLE);
+            binding.recyclerViewAssignChild.setAdapter(assignChildAdapter);
+            binding.recyclerViewAssignChild.setLayoutManager(new LinearLayoutManager(activity));
+        }
 
         setCurrentTaskValues(assignChildAdapter);
 
@@ -96,11 +105,19 @@ public class TaskEditFragment extends DialogFragment {
                 return;
             }
 
-            List<ParseUser> selectedChildren = assignChildAdapter.getSelectedChildren();
-            if (selectedChildren.isEmpty()) {
-                Toast.makeText(activity, getString(R.string.error_empty_child_message), Toast.LENGTH_SHORT).show();
-                return;
+            List<ParseUser> selectedChildren;
+            if (user.isSolo()) {
+                selectedChildren = new ArrayList<>();
+                selectedChildren.add(user);
             }
+            else {
+                selectedChildren = assignChildAdapter.getSelectedChildren();
+                if (selectedChildren.isEmpty()) {
+                    Toast.makeText(activity, getString(R.string.error_empty_child_message), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
             Alarm alarm;
             Date date = new Date();
             date.setHours(binding.timePicker.getHour());

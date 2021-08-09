@@ -76,14 +76,7 @@ public class TaskDetailsFragment extends DialogFragment {
         binding.textViewAlarmTime.setText(TimeUtil.dateToAlarmTimeString(alarm.getDate()));
         binding.textViewRecurring.setText(TimeUtil.getRecurringText(alarm));
 
-        if (user.isParent()) {
-            binding.textViewAssignedToText.setVisibility(View.VISIBLE);
-            binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
-            List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) task.getUsers();
-            AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(fragmentActivity, children);
-            binding.recyclerViewAssignedChild.setAdapter(assignedChildAdapter);
-            binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
-
+        if (user.isParent() || user.isSolo()) {
             binding.imageButtonEdit.setVisibility(View.VISIBLE);
             binding.imageButtonEdit.setOnClickListener(v -> {
                 // Go to edit task dialog fragment.
@@ -93,9 +86,20 @@ public class TaskDetailsFragment extends DialogFragment {
             });
         }
         else {
+            binding.imageButtonEdit.setVisibility(View.GONE);
+        }
+
+        if (user.isParent()) {
+            binding.textViewAssignedToText.setVisibility(View.VISIBLE);
+            binding.recyclerViewAssignedChild.setVisibility(View.VISIBLE);
+            List<TaskifyUser> children = (List<TaskifyUser>) (List<?>) task.getUsers();
+            AssignedChildAdapter assignedChildAdapter = new AssignedChildAdapter(fragmentActivity, children);
+            binding.recyclerViewAssignedChild.setAdapter(assignedChildAdapter);
+            binding.recyclerViewAssignedChild.setLayoutManager(new LinearLayoutManager(fragmentActivity));
+        }
+        else {
             binding.textViewAssignedToText.setVisibility(View.GONE);
             binding.recyclerViewAssignedChild.setVisibility(View.GONE);
-            binding.imageButtonEdit.setVisibility(View.GONE);
         }
     }
 

@@ -36,13 +36,27 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         binding.checkBoxIsParent.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            binding.checkBoxIsChild.setChecked(!isChecked);
-            binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.GONE : View.VISIBLE);
+            if (isChecked) {
+                binding.layoutChildEnterParentUsername.setVisibility(View.GONE);
+                binding.checkBoxIsSolo.setChecked(false);
+                binding.checkBoxIsChild.setChecked(false);
+            }
         });
 
         binding.checkBoxIsChild.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            binding.checkBoxIsParent.setChecked(!isChecked);
-            binding.layoutChildEnterParentUsername.setVisibility(isChecked? View.VISIBLE : View.GONE);
+            if (isChecked) {
+                binding.layoutChildEnterParentUsername.setVisibility(View.VISIBLE);
+                binding.checkBoxIsSolo.setChecked(false);
+                binding.checkBoxIsParent.setChecked(false);
+            }
+        });
+
+        binding.checkBoxIsSolo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.layoutChildEnterParentUsername.setVisibility(View.GONE);
+                binding.checkBoxIsParent.setChecked(false);
+                binding.checkBoxIsChild.setChecked(false);
+            }
         });
 
         binding.buttonLogin.setOnClickListener(view -> {
@@ -87,8 +101,16 @@ public class SignupActivity extends AppCompatActivity {
                 //Parent is a valid parent to be linked to this child.
                 user.setParent(parent);
             }
-            else {
+            else if (binding.checkBoxIsParent.isChecked()) {
                 user.setIsParent(true);
+            }
+            else if (binding.checkBoxIsSolo.isChecked()) {
+                user.setIsParent(false);
+                user.setIsSolo(true);
+            }
+            else {
+                Toast.makeText(this, getString(R.string.error_sign_up_no_user_type), Toast.LENGTH_SHORT).show();
+                return;
             }
 
             // Invoke signUpInBackground

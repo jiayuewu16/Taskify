@@ -85,8 +85,17 @@ public class AdditionalSignupActivity extends AppCompatActivity {
                 //Parent is a valid parent to be linked to this child.
                 user.setParent(parent);
             }
-            else {
+
+            else if (binding.checkBoxIsParent.isChecked()) {
                 user.setIsParent(true);
+            }
+            else if (binding.checkBoxIsSolo.isChecked()) {
+                user.setIsParent(false);
+                user.setIsSolo(true);
+            }
+            else {
+                Toast.makeText(this, getString(R.string.error_sign_up_no_user_type), Toast.LENGTH_SHORT).show();
+                return;
             }
 
             // Invoke signUpInBackground

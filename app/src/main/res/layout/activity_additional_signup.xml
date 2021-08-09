@@ -89,15 +89,21 @@
         android:inputType="textPassword"
         android:maxLines="1"
         android:imeOptions="actionDone" />
+    <TextView
+        android:id="@+id/textViewIsParentLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I am a:"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"/>
 
     <LinearLayout
         android:id="@+id/layoutIsParentChecks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="10dp">
-
+        android:layout_below="@id/textViewIsParentLabel">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,12 +111,21 @@
             android:layout_marginEnd="20dp"
             android:orientation="horizontal">
             <CheckBox
+                android:id="@+id/checkBoxIsSolo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sign_up_user_is_solo_text"
+                android:checked="true"
+                android:textSize="18sp" />
+
+            <CheckBox
                 android:id="@+id/checkBoxIsParent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/sign_up_user_is_parent_text"
-                android:checked="true"
+                android:checked="false"
                 android:textSize="18sp" />
 
             <CheckBox

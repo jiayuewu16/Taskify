@@ -86,30 +86,34 @@ public class ProfileFragment extends Fragment {
         });
 
         List<TaskifyUser> users = mainActivity.associatedUsers;
-        if (user.isParent()) {
-            binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
+        UserAdapter adapter = new UserAdapter(mainActivity, users);
+        if (user.isSolo()) {
+            binding.textViewAssociatedUserHeader.setVisibility(View.GONE);
+            binding.layoutAssociatedUsers.setVisibility(View.GONE);
         }
         else {
-            binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
-        }
-        binding.textViewAssociatedUserHeader.setTextColor(ColorUtil.getTextColor(mainActivity));
-        UserAdapter adapter = new UserAdapter(mainActivity, users);
-        binding.recyclerViewParentDisplayChild.setAdapter(adapter);
-        binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(mainActivity));
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            binding.swipeRefreshLayout.setRefreshing(true);
             if (user.isParent()) {
-                mainActivity.associatedUsers.clear();
-                mainActivity.associatedUsers.addAll(user.queryChildren());
-                adapter.notifyDataSetChanged();
+                binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_children_header));
+            } else {
+                binding.textViewAssociatedUserHeader.setText(getString(R.string.profile_parent_header));
             }
-            else {
-                mainActivity.associatedUsers.clear();
-                mainActivity.associatedUsers.add(user.getParent());
-                adapter.notifyDataSetChanged();
-            }
-            binding.swipeRefreshLayout.setRefreshing(false);
-        });
+            binding.textViewAssociatedUserHeader.setTextColor(ColorUtil.getTextColor(mainActivity));
+            binding.recyclerViewParentDisplayChild.setAdapter(adapter);
+            binding.recyclerViewParentDisplayChild.setLayoutManager(new LinearLayoutManager(mainActivity));
+            binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+                binding.swipeRefreshLayout.setRefreshing(true);
+                if (user.isParent()) {
+                    mainActivity.associatedUsers.clear();
+                    mainActivity.associatedUsers.addAll(user.queryChildren());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    mainActivity.associatedUsers.clear();
+                    mainActivity.associatedUsers.add(user.getParent());
+                    adapter.notifyDataSetChanged();
+                }
+                binding.swipeRefreshLayout.setRefreshing(false);
+            });
+        }
 
         binding.changeThemeBar.setItemIconTintList(null);
         binding.changeThemeBar.setSelectedItemId(mainActivity.theme);
@@ -136,7 +140,9 @@ public class ProfileFragment extends Fragment {
             mainActivity.binding.bottomNavigationBar.setItemTextColor(ColorStateList.valueOf(ColorUtil.getPrimaryColor(mainActivity)));
             binding.textViewFullName.setTextColor(ColorUtil.getTextColor(mainActivity));
             binding.textViewUsername.setTextColor(ColorUtil.getPrimaryColor(mainActivity));
-            adapter.notifyDataSetChanged();
+            if (!user.isSolo()) {
+                adapter.notifyDataSetChanged();
+            }
             binding.textViewAssociatedUserHeader.setTextColor(ColorUtil.getTextColor(mainActivity));
             binding.floatingActionButtonCamera.setBackgroundTintList(ColorStateList.valueOf(ColorUtil.getSecondaryColor(mainActivity)));
             binding.buttonSignout.setBackgroundColor(ColorUtil.getPrimaryColor(mainActivity));

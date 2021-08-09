@@ -61,12 +61,13 @@ public class RewardsFragment extends Fragment {
 
         TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
 
-        if (!user.isParent()) {
-            binding.floatingActionButtonCreate.setVisibility(View.GONE);
-        }
-        else {
+        if (user.isParent() || user.isSolo()) {
+            binding.floatingActionButtonCreate.setVisibility(View.VISIBLE);
             binding.floatingActionButtonCreate.setOnClickListener(v ->
                     Navigation.findNavController(v).navigate(R.id.action_rewards_to_rewardCreateFragment));
+        }
+        else {
+            binding.floatingActionButtonCreate.setVisibility(View.GONE);
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
