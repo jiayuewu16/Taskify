@@ -119,7 +119,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         public boolean onLongClick(View v) {
             // Remove reward.
             TaskifyUser user = (TaskifyUser) ParseUser.getCurrentUser();
-            if (!user.isParent()) {
+            if (!user.isParent() && !user.isSolo()) {
                 return true;
             }
             Log.i(TAG, "onLongClick");
