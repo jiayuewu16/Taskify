@@ -1,4 +1,7 @@
-# Taskify - Chores Management for Parents and Kids
+# Taskify
+
+## About
+A gamified chores management app for parents and kids.
 
 ## Overview
 <img src="https://github.com/jiayuewu16/Taskify/blob/main/app/src/main/res/drawable/ic_taskify_logo_transparent.png" width=100>
