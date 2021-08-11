@@ -5,7 +5,28 @@
 
 ### Description
 Allows parents to set chores for their children, and for the children to mark those chores as complete and receive points that can be redeemed for real life rewards.
-Features: allows the user to log in as a designated "parent" or "child" account from different devices. "Parent" accounts are able to set one-time or recurring weekly chores. "Child" accounts are able to mark these chores as complete, receiving in-game points. Parent accounts can designate point thresholds that correspond to real life rewards for the child.
+
+**Features:** allows the user to log in as a designated "parent" or "child" account from different devices. "Parent" accounts are able to set one-time or recurring weekly chores. "Child" accounts are able to mark these chores as complete, receiving in-game points. Parent accounts can designate point thresholds that correspond to real life rewards for the child.
+
+**Child earning a reward:**
+
+<img src="https://user-images.githubusercontent.com/85655773/129068778-eddcfdfb-c775-4d3a-90f9-7a51d0f904fb.gif" alt="child earn reward" width="600"/>
+
+**Parent creating a task:**
+
+<img src="https://user-images.githubusercontent.com/85655773/129068817-0d623ee5-8b19-41f8-af8b-ad70740ba00b.gif" alt="create task" width="600"/>
+
+**Switching theme colors:**
+
+<img src="https://user-images.githubusercontent.com/85655773/129068838-5612f40c-b5fd-42fb-b105-6ccab7ab9828.gif" alt="theme switching" width="600"/>
+
+**Signing up:**
+
+<img src="https://user-images.githubusercontent.com/85655773/129068868-e7242174-21f1-441f-8b6f-0bb32539da62.gif" alt="sign up" width="600"/>
+
+**Share to Facebook:**
+
+<img src="https://user-images.githubusercontent.com/85655773/129068891-2acf3809-3036-4581-8ac7-482ac597dc82.gif" alt="share to facebook" width="600"/>
 
 ### App Evaluation
 - **Category:** Productivity
